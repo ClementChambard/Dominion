@@ -1,0 +1,66 @@
+@startuml
+
+class Game {
+  - currentPlayer: Player
+  - players: List<Player>
+  - supplyPiles: Map<Card, Integer>
+  - trash: List<Card>
+  - kingdomCards: List<Card>
+  - victoryCards: List<Card>
+  - treasureCards: List<Card>
+  - actionCards: List<Card>
+  
+  + playTurn(): void
+  + getWinner(): Player
+}
+
+class Player {
+  - hand: List<Card>
+  - deck: List<Card>
+  - discard: List<Card>
+  - actions: Integer
+  - buys: Integer
+  - coins: Integer
+  - victoryPoints: Integer
+  
+  + draw(numCards: Integer): List<Card>
+  + playCard(card: Card): void
+  + buyCard(card: Card): void
+  + endTurn(): void
+}
+
+
+abstract class Card {
+  - name: String
+  - cost: Integer
+  - types: List<String>
+  - actions: Integer
+  - buys: Integer
+  - coins: Integer
+  - victoryPoints: Integer
+  
+  + play(player: Player): void
+  + canBuy(player: Player): Boolean
+}
+
+class ActionCard extends Card {
+  + play(player: Player): void
+}
+
+class TreasureCard extends Card {
+  + play(player: Player): void
+}
+
+class VictoryCard extends Card {
+  + play(player: Player): void
+}
+
+class CurseCard extends Card {
+  + play(player: Player): void
+}
+
+Player "1" -- "*" Card
+Player "1" -- "*" Game
+
+@enduml
+

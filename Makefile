@@ -6,7 +6,7 @@ LIBFLAGS=-lSDL2 -lGL -lGLEW -lSDL2_image
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
 dominion: main.o Shader.o Texture.o VertexBatch.o
-	$(CXX) $(LIBFLAGS) $^ -o $@
+	$(CXX) $^ -o $@ $(LIBFLAGS) 
 
 .PHONY: run clean
 

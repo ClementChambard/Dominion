@@ -104,6 +104,8 @@ int main() {
             // other events
         }
         batch->clear_vertices();
+        shader->use();
+
         draw_rectangle(0, 0, 0, 5, 5, batch);
         batch->finish_adding();
         batch->render(textureBG);
@@ -115,9 +117,10 @@ int main() {
         draw_rectangle(mwp.x-0.3, mwp.y+0.5, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), 0.15f, glm::vec3(0,0,1)));
         draw_rectangle(mwp.x+0.3, mwp.y+0.5, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), -0.15f, glm::vec3(0,0,1)));
         draw_rectangle(mwp.x+0.9, mwp.y+0.3, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), -0.45f, glm::vec3(0,0,1)));
+
         batch->finish_adding();
 
-        shader->use();
+        
         batch->render(texture);
         shader->unuse();
 
