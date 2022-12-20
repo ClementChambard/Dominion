@@ -106,7 +106,7 @@ int main() {
         batch->clear_vertices();
         shader->use();
 
-        draw_rectangle(0, 0, 0, 5, 5, batch);
+        draw_rectangle(0, 0, 0, 8, 6, batch);
         batch->finish_adding();
         batch->render(textureBG);
         glm::vec2 mwp = mouseToWorld(x, y, 0, inv_p_v, glm::vec3{0.f,-1.f,5.f});

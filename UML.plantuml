@@ -1,23 +1,15 @@
-@startuml
+@startuml header
 
 class Game {
   - currentPlayer: Player
-  - players: List<Player>
   - supplyPiles: Map<Card, Integer>
   - trash: List<Card>
-  - kingdomCards: List<Card>
-  - victoryCards: List<Card>
-  - treasureCards: List<Card>
-  - actionCards: List<Card>
-  
   + playTurn(): void
   + getWinner(): Player
 }
 
 class Player {
-  - hand: List<Card>
-  - deck: List<Card>
-  - discard: List<Card>
+  
   - actions: Integer
   - buys: Integer
   - coins: Integer
@@ -30,37 +22,28 @@ class Player {
 }
 
 
-abstract class Card {
-  - name: String
+class Card {
+  - position : vec3
+}
+
+class Type {
+  - uvs : vec4
   - cost: Integer
-  - types: List<String>
-  - actions: Integer
-  - buys: Integer
-  - coins: Integer
-  - victoryPoints: Integer
-  
-  + play(player: Player): void
-  + canBuy(player: Player): Boolean
+  - name: String
+  + onDraw(player: Player): void
+  + onAddToDeck(player: Player): void
+  + onPlay(player: Player) void
+  + onDiscard(player: Player): void
+  + onTrash(player: Player): void
 }
 
-class ActionCard extends Card {
-  + play(player: Player): void
-}
+Player "1" -- "*" Card : hand,deck,discard
+Player "1..*" -- "1" Game : players
+Card "*" -- "1" Type : type
 
-class TreasureCard extends Card {
-  + play(player: Player): void
-}
 
-class VictoryCard extends Card {
-  + play(player: Player): void
-}
 
-class CurseCard extends Card {
-  + play(player: Player): void
-}
 
-Player "1" -- "*" Card
-Player "1" -- "*" Game
 
 @enduml
 

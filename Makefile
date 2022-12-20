@@ -1,11 +1,11 @@
 CXX=g++
-CXXFLAGS=-Wall -Wextra -Werror
+CXXFLAGS=-Wall -Wextra 
 LIBFLAGS=-lSDL2 -lGL -lGLEW -lSDL2_image
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-dominion: main.o Shader.o Texture.o VertexBatch.o
+dominion: main.o Shader.o Texture.o VertexBatch.o Game.o Player.o Card.o Type.o
 	$(CXX) $^ -o $@ $(LIBFLAGS) 
 
 .PHONY: run clean
