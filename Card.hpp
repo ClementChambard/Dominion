@@ -10,7 +10,7 @@ private:
     Type type;
     glm::vec3 position;
 public:
-    Card();
+    Card(Type type);
     ~Card();
 };
 

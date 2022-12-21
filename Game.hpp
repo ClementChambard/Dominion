@@ -14,7 +14,7 @@ private:
     std::vector<Player> players;
     std::map<Type, int> SupplyPiles;
 public:
-    Game();
+    Game(std::vector<Player> players);
     ~Game();
     void start();
     void playTurn(Player player);

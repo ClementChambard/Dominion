@@ -15,13 +15,15 @@ private:
 
 
 public:
-    Type();
+    Type(std::string name, int cost, glm::vec4 uvs);
     ~Type();
-    void onDraw(Player* player);
-    void onPlay(Player* player);
-    void onAddToDeck(Player* player);
-    void onDiscard(Player* player);
-    void onTrash(Player* player);
+
+    virtual void onDraw(Player* player) const {} // quand on pioche et on l ajoute a la main
+    virtual void onPlay(Player* player)const {}// quand on joue la carte et on l'active
+    virtual void onAddToDeck(Player* player)const {} // quand on achete une ou on resoit une malediction et elle part au deck du joueur 
+    virtual void onDiscard(Player* player)const {}// quand le joueur defausse une carte depuis sa main 
+    virtual void onTrash(Player* player)const {} // quand le joueur jette une carte dans la poubelle permanente
+
 
 };
 

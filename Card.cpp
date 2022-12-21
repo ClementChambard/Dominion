@@ -1,6 +1,6 @@
 #include "Card.hpp"
 
-Card::Card()
+Card::Card(Type type) : type(type)
 {
 }
 Card::~Card(){

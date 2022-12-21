@@ -22,6 +22,21 @@ class Player {
     void playCard(Card card);
     void buyCard(Card card);
     void endTurn();
+
+    // Getters and setter for the attributes
+    void addActions(int numActions){
+        this->actions+=numActions;
+    }
+    void addBuys(int numBuys){
+        this->buys+=numBuys;
+    }
+    void addCoins(int numCoins){
+        this->coins+=numCoins;
+    }
+    void addVictoryPoints(int numVictoryPoints){
+        this->Victorypoints+=numVictoryPoints;
+    }
+    
 };
 
 

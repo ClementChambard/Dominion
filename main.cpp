@@ -9,6 +9,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
+#include "ActionSimple.hpp"
+#include "Tresor.hpp"
+#include "Victoire.hpp"
 
 const int WINDOW_WIDTH = 1500;
 const int WINDOW_HEIGHT = 900;
@@ -63,6 +66,8 @@ int main() {
     Shader* shader = new Shader("shaders/vertex.glsl", "shaders/fragment.glsl");
     Texture* texture = new Texture("textures/st01a.png");
     Texture* textureBG = new Texture("textures/stage05a.png");
+    Texture* textureCard = new Texture("textures/Carte.png");
+
     VertexBatch* batch = new VertexBatch();
 
     GLuint projMatrixLocation = shader->getUniformLocation("projectionMatrix");
@@ -78,6 +83,22 @@ int main() {
     shader->loadMat4(viewMatrixLocation, view);
 
     shader->unuse();
+
+
+    ActionSimple Smithy = ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f});
+    ActionSimple Village = ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f});//uv faux
+    ActionSimple Laboratory = ActionSimple(1,0,0,2,"Laboratory",5,{3.f/7.f,0.4f,4/7.f,0.6f});
+    ActionSimple Market = ActionSimple(1,1,1,1,"Market",5,{1/7.f,0.6f,2/7.f,0.8f});
+    ActionSimple Festival = ActionSimple(2,1,2,0,"Festival",5,{2.f/7.f,0.4f,3/7.f,0.6f});
+    ActionSimple Woodcutter = ActionSimple(0,1,2,0,"Woodcutter",3,{5.f/7.f,0.8f,6/7.f,1.0f});
+
+    Tresor Copper = Tresor(1,"Copper",0,{2/7.f,0.f,3/7.f,0.2f});
+    Tresor Silver = Tresor(2,"Silver",3,{1/7.f,0.f,2/7.f,0.2f});
+    Tresor Gold = Tresor(3,"Gold",6,{1/7.f,0.4f,2/7.f,0.6f});
+    Victoire Estate = Victoire(1,"Estate",2,{0.f,0.4f,1/7.f,0.6f});
+    Victoire Duchy = Victoire(2,"Duchy",5,{4/7.f,0.2f,5/7.f,0.4f});
+    Victoire Province = Victoire(3,"Province",8,{3/7.f,0.2f,4/7.f,0.4f});
+    Victoire Curse = Victoire(-1,"Curse",0,{2/7.f,0.2f,3/7.f,0.4f});
 
     float x = 0.f, y = 0.f, z = 0.f, t = 0.f;
     bool running = true;
@@ -132,9 +153,24 @@ int main() {
     delete batch;
     delete texture;
     delete shader;
+    delete textureBG;
+    delete textureCard;
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
+
+    
+
+    
+
+    
+
+
+
+
+    
+
+
 
     return 0;
 }

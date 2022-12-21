@@ -1,31 +1,11 @@
 #include "Type.hpp"
 #include "Player.hpp"
 
-Type::Type()
-{
-}
-
-Type::~Type()
-{
-}
+Type::Type(std::string name, int cost, glm::vec4 uvs) : name(name), cost(cost), uvs(uvs){}
 
 
-void Type::onDraw(Player* player)
-{
-}
+Type::~Type(){}
 
-void Type::onPlay(Player* player)
-{
-}
+// jette la carte dans la poubelle permanente
 
-void Type::onAddToDeck(Player* player)
-{
-}
 
-void Type::onDiscard(Player* player)
-{
-}
-
-void Type::onTrash(Player* player)
-{
-}

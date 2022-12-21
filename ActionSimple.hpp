@@ -1,0 +1,24 @@
+#include <iostream> 
+#include <vector>
+
+#ifndef Action_H
+#define Action_H
+
+#include "Type.hpp"
+
+class ActionSimple : public Type 
+{
+private:
+    int action;
+    int buy;
+    int coin;
+    int card;
+public:
+    ActionSimple(int action, int buy, int coin, int card, std::string name, int cost, glm::vec4 uvs);
+    ~ActionSimple();
+    void onPlay(Player* player) const override ;
+
+};
+
+
+#endif // Action_H
