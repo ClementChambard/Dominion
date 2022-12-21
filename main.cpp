@@ -32,18 +32,18 @@ glm::vec2 mouseToWorld(float x, float y, float h, glm::mat4 const& inv_p_v, glm:
     return {x, y};
 }
 
-void draw_rectangle(float x, float y, float z, float w, float h, VertexBatch* batch, glm::mat4 const& transf = glm::mat4(1.f))
+void draw_rectangle(float x, float y, float z, float w, float h, VertexBatch* batch, glm::mat4 const& transf = glm::mat4(1.f), glm::vec4 uvs = glm::vec4(0,0,1,1))
 {
     static const float hw = 0.4f;
     static const float hh = 0.5f;
     if (w <= 0) w = hw*2;
     if (h <= 0) h = hh*2;
-    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {0, 1}});
-    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {1, 1}});
-    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {1, 0}});
-    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {0, 1}});
-    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {1, 0}});
-    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {0, 0}});
+    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.x, uvs.w}});
+    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.z, uvs.w}});
+    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.z, uvs.y}});
+    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.x, uvs.w}});
+    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.z, uvs.y}});
+    batch->add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.x, uvs.y}});
 }
 
 int main() {
@@ -132,7 +132,7 @@ int main() {
         batch->render(textureBG);
         glm::vec2 mwp = mouseToWorld(x, y, 0, inv_p_v, glm::vec3{0.f,-1.f,5.f});
         batch->clear_vertices();
-        draw_rectangle(mwp.x, mwp.y, z+0.25f, 0, 0, batch, glm::rotate(glm::mat4(1.f), sin(t/2)/4, glm::vec3(0,0,1)));
+        draw_rectangle(mwp.x, mwp.y, z+0.25f, 0, 0, batch, glm::rotate(glm::mat4(1.f), sin(t/2)/4, glm::vec3(0,0,1)),{4.f/7.f,0.f,5/7.f,0.2f});
         mwp = mouseToWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, 0.5, inv_p_v, glm::vec3{0.f,-1.f,5.f});
         draw_rectangle(mwp.x-0.9, mwp.y+0.3, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), 0.45f, glm::vec3(0,0,1)));
         draw_rectangle(mwp.x-0.3, mwp.y+0.5, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), 0.15f, glm::vec3(0,0,1)));
@@ -142,7 +142,7 @@ int main() {
         batch->finish_adding();
 
         
-        batch->render(texture);
+        batch->render(textureCard);
         shader->unuse();
 
         SDL_GL_SwapWindow(window);
