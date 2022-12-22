@@ -7,13 +7,13 @@ Game::Game(std::vector<Player> players)
 Game::~Game()
 {
 }
-void Game::Attack(Player* player,std::function<void(Player*)> attack )
+void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cancelable )
 {
     for (Player &p : players)
     {
         if (&p!=player)
         {
-            // check si ya une carte de reaction
+            
             attack(&p);
 
         }

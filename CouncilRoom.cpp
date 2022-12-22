@@ -12,13 +12,8 @@ CouncilRoom::~CouncilRoom(){
 
 void CouncilRoom::onPlay(Player* player) const
 {
-    player->draw(4);
-    
-    for ( Player& p : player->getGame()->getPlayers())
-    {
-        if (&p != player)
-        {
-            p.draw(1);
-        }
-    }
+    ActionSimple::onPlay(player);
+    player->getGame()->Attack(player, [](Player* p){
+        p->draw(1);
+    },false);
 }

@@ -52,7 +52,7 @@ public:
     ~Game();
     void start();
     void DistributeCard(Player* player,CardType cardType, Pile pile);
-    void Attack(Player* player,std::function<void(Player*)> attack );
+    void Attack(Player* player,std::function<void(Player*)> attack ,bool cancelable = true);
 
     void playTurn(Player* player);
     void getWinner();

@@ -11,6 +11,6 @@ Chancelor::~Chancelor(){
 
 void Chancelor::onPlay(Player* player) const 
 {
-    player->addCoins(this->getCoin());
+    ActionSimple::onPlay(player);
     player->discardDeck();
 }

@@ -15,6 +15,8 @@
 #include "Witch.hpp"
 #include "CouncilRoom.hpp"
 #include "Chancelor.hpp"
+#include "Feast.hpp"
+#include "Mine.hpp"
 
 const int WINDOW_WIDTH = 1500;
 const int WINDOW_HEIGHT = 900;
@@ -98,10 +100,16 @@ int main() {
     Witch witch = Witch();
     CouncilRoom councilRoom = CouncilRoom();
     Chancelor chancelor =Chancelor();
+    Feast feast = Feast();
+    Mine mine = Mine();
+    
+
+
 
     Tresor Copper = Tresor(1,"Copper",0,{2/7.f,0.f,3/7.f,0.2f});
     Tresor Silver = Tresor(2,"Silver",3,{1/7.f,0.f,2/7.f,0.2f});
     Tresor Gold = Tresor(3,"Gold",6,{1/7.f,0.4f,2/7.f,0.6f});
+
 
     Victoire Estate = Victoire(1,"Estate",2,{0.f,0.4f,1/7.f,0.6f});
     Victoire Duchy = Victoire(2,"Duchy",5,{4/7.f,0.2f,5/7.f,0.4f});
