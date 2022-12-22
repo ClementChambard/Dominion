@@ -12,6 +12,9 @@
 #include "ActionSimple.hpp"
 #include "Tresor.hpp"
 #include "Victoire.hpp"
+#include "Witch.hpp"
+#include "CouncilRoom.hpp"
+#include "Chancelor.hpp"
 
 const int WINDOW_WIDTH = 1500;
 const int WINDOW_HEIGHT = 900;
@@ -92,9 +95,14 @@ int main() {
     ActionSimple Festival = ActionSimple(2,1,2,0,"Festival",5,{2.f/7.f,0.4f,3/7.f,0.6f});
     ActionSimple Woodcutter = ActionSimple(0,1,2,0,"Woodcutter",3,{5.f/7.f,0.8f,6/7.f,1.0f});
 
+    Witch witch = Witch();
+    CouncilRoom councilRoom = CouncilRoom();
+    Chancelor chancelor =Chancelor();
+
     Tresor Copper = Tresor(1,"Copper",0,{2/7.f,0.f,3/7.f,0.2f});
     Tresor Silver = Tresor(2,"Silver",3,{1/7.f,0.f,2/7.f,0.2f});
     Tresor Gold = Tresor(3,"Gold",6,{1/7.f,0.4f,2/7.f,0.6f});
+
     Victoire Estate = Victoire(1,"Estate",2,{0.f,0.4f,1/7.f,0.6f});
     Victoire Duchy = Victoire(2,"Duchy",5,{4/7.f,0.2f,5/7.f,0.4f});
     Victoire Province = Victoire(3,"Province",8,{3/7.f,0.2f,4/7.f,0.4f});
@@ -132,7 +140,7 @@ int main() {
         batch->render(textureBG);
         glm::vec2 mwp = mouseToWorld(x, y, 0, inv_p_v, glm::vec3{0.f,-1.f,5.f});
         batch->clear_vertices();
-        draw_rectangle(mwp.x, mwp.y, z+0.25f, 0, 0, batch, glm::rotate(glm::mat4(1.f), sin(t/2)/4, glm::vec3(0,0,1)),{4.f/7.f,0.f,5/7.f,0.2f});
+        draw_rectangle(mwp.x, mwp.y, z+0.25f, 0, 0, batch, glm::rotate(glm::mat4(1.f), sin(t/2)/4, glm::vec3(0,0,1)),{4.f/7.f,0.6f,5/7.f,0.8f});
         mwp = mouseToWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, 0.5, inv_p_v, glm::vec3{0.f,-1.f,5.f});
         draw_rectangle(mwp.x-0.9, mwp.y+0.3, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), 0.45f, glm::vec3(0,0,1)));
         draw_rectangle(mwp.x-0.3, mwp.y+0.5, 0.5f, 0, 0, batch, glm::rotate(glm::mat4(1.f), 0.15f, glm::vec3(0,0,1)));
@@ -147,7 +155,7 @@ int main() {
 
         SDL_GL_SwapWindow(window);
 
-        t+=0.1f;
+        t+=0.05f;
         z = cos(t)/4;
     }
     delete batch;
@@ -158,19 +166,6 @@ int main() {
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
-
-    
-
-    
-
-    
-
-
-
-
-    
-
-
 
     return 0;
 }
