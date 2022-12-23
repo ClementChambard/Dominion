@@ -23,7 +23,7 @@ void Player::draw(int numcards)
         }
         Card* newCard = deck.getOnTop();
         deck.removeOnTop();
-        hand.push_back(newCard); // TODO
+        hand.Add(newCard);
     }
 }
 
