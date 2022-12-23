@@ -1,9 +1,8 @@
 #include "Tresor.hpp"
 #include "Player.hpp"
 
-Tresor::Tresor(int coin, std::string name, int cost, glm::vec4 uvs) : Type(name, cost, uvs), coin(coin)
-{
-}
+Tresor::Tresor(int coin, std::string name, int cost, glm::vec4 uvs) : Type(name, cost, uvs, {CardType::TREASURE}), coin(coin) {}
+
 Tresor::~Tresor(){
     std::cout << "Tresor destructor" << std::endl;
 }

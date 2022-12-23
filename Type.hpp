@@ -1,30 +1,47 @@
-#include <glm/glm.hpp>
-
-#include <iostream>
 #ifndef Type_H
 #define Type_H
 
+#include <glm/glm.hpp>
+#include <iostream>
+#include <vector>
+
 class Player;
+
 
 class Type
 {
+public:
+    enum class CardType {
+        NONE = -1,
+        ACTION,
+        VICTORY,
+        TREASURE,
+        REACTION,
+        ATTACK,
+    };
+
 private:
+    std::vector<CardType> types;
+    std::string name;
     glm::vec4 uvs;
     int cost;
-    std::string name;
-
 
 public:
-    Type(std::string name, int cost, glm::vec4 uvs);
-    ~Type();
 
+    Type(std::string name, int cost, glm::vec4 uvs, std::vector<CardType> const& types) : types(types), name(name), uvs(uvs), cost(cost) {}
+    virtual ~Type() = default;
+
+    bool isType(CardType t) const;
+
+    std::string getName() const { return name; }
+    int getCost() const { return cost; }
     glm::vec4 getUvs() const { return uvs; }
 
-    virtual void onDraw(Player* player) const {} // quand on pioche et on l ajoute a la main
-    virtual void onPlay(Player* player)const {}// quand on joue la carte et on l'active
-    virtual void onAddToDeck(Player* player)const {} // quand on achete une ou on resoit une malediction et elle part au deck du joueur 
-    virtual void onDiscard(Player* player)const {}// quand le joueur defausse une carte depuis sa main 
-    virtual void onTrash(Player* player)const {} // quand le joueur jette une carte dans la poubelle permanente
+    virtual void onDraw(Player* player) const;
+    virtual void onPlay(Player* player) const;
+    virtual void onAddToDeck(Player* player) const;
+    virtual void onDiscard(Player* player) const;
+    virtual void onTrash(Player* player) const;
 
 
 };

@@ -3,7 +3,15 @@
 #include <random>
 #include <algorithm>
 
-#define CARD_PILE_HEIGHT_INCREASE 0.02f
+#define CARD_PILE_HEIGHT_INCREASE 0.01f
+#define CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MIN 10
+#define CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MAX 60
+#define CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MUL 0.0005f
+
+float getHInc(int /* size */) {
+    //float s_in = glm::clamp(size, CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MIN, CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MAX) - CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MIN;
+    return CARD_PILE_HEIGHT_INCREASE;// - s_in * CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MUL;
+}
 
 void CardPile::on_tick() {
     if (m_targetPos != m_pos) {
@@ -14,13 +22,14 @@ void CardPile::on_tick() {
     m_inAnim = false;
     for (Card* c : m_data) m_inAnim = m_inAnim || c->isInAnim();
     float h = 0.f;
+    float hInc = getHInc(m_data.size());
     for (Card* c : m_data) {
         c->moveTo(m_pos+glm::vec3(0.f,0.f,h));
         if (m_faceUp) c->rotateYTo(0.f);
         else          c->rotateYTo(glm::pi<float>());
         c->rotateZTo(0.f);
         c->on_tick();
-        h += CARD_PILE_HEIGHT_INCREASE;
+        h += hInc;
     }
 }
 
@@ -41,13 +50,15 @@ void CardPile::transmitFrom(CardPile& cp) {
 
 void CardPile::fixPos() {
     float h = 0.f;
+    float hInc = getHInc(m_data.size());
+    std::cout << hInc << "\n";
     m_pos = m_targetPos;
     for (Card* c : m_data) {
         c->set_pos(m_pos+glm::vec3(0.f,0.f,h));
         if (m_faceUp) c->set_rotY(0.f);
         else          c->set_rotY(glm::pi<float>());
         c->set_rotZ(0.f);
-        h += CARD_PILE_HEIGHT_INCREASE;
+        h += hInc;
     }
 }
 
@@ -55,7 +66,4 @@ void CardPile::shuffle() {
     static std::random_device rd;
     static auto rng = std::default_random_engine { rd() };
     std::shuffle(m_data.begin(), m_data.end(), rng);
-    for (Card* c : m_data) {
-        c->moveTo(m_pos+glm::vec3((rand()%100)/50.f-1.f,(rand()%100)/50.f-1.f,CARD_PILE_HEIGHT_INCREASE*m_data.size()/2.f));
-    }
 }

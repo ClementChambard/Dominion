@@ -10,8 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
 #include "ActionSimple.hpp"
-#include "Tresor.hpp"
-#include "Victoire.hpp"
+#include "Game.hpp"
 #include "Witch.hpp"
 #include "CouncilRoom.hpp"
 #include "Chancelor.hpp"
@@ -68,54 +67,36 @@ int main() {
 
     shader->unuse();
 
-    ActionSimple Smithy = ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f});
-    ActionSimple Village = ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f});//uv faux
-    ActionSimple Laboratory = ActionSimple(1,0,0,2,"Laboratory",5,{3.f/7.f,0.4f,4/7.f,0.6f});
-    ActionSimple Market = ActionSimple(1,1,1,1,"Market",5,{1/7.f,0.6f,2/7.f,0.8f});
-    ActionSimple Festival = ActionSimple(2,1,2,0,"Festival",5,{2.f/7.f,0.4f,3/7.f,0.6f});
-    ActionSimple Woodcutter = ActionSimple(0,1,2,0,"Woodcutter",3,{5.f/7.f,0.8f,6/7.f,1.0f});
-
-    Witch witch = Witch();
-    CouncilRoom councilRoom = CouncilRoom();
-    Chancelor chancelor =Chancelor();
-    Feast feast = Feast();
-    Mine mine = Mine();
-
-    Tresor Copper = Tresor(1,"Copper",0,{2/7.f,0.f,3/7.f,0.2f});
-    Tresor Silver = Tresor(2,"Silver",3,{1/7.f,0.f,2/7.f,0.2f});
-    Tresor Gold = Tresor(3,"Gold",6,{1/7.f,0.4f,2/7.f,0.6f});
-
-    Victoire Estate = Victoire(1,"Estate",2,{0.f,0.4f,1/7.f,0.6f});
-    Victoire Duchy = Victoire(2,"Duchy",5,{4/7.f,0.2f,5/7.f,0.4f});
-    Victoire Province = Victoire(3,"Province",8,{3/7.f,0.2f,4/7.f,0.4f});
-    Victoire Curse = Victoire(-1,"Curse",0,{2/7.f,0.2f,3/7.f,0.4f});
-
-    Card estateCard {&Estate};
-    Card goldCard {&Gold};
-    Card villageCard {&Village};
-    Card marketCard {&Market};
+    Game game {2, {
+        new ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f}),
+        new ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f}),
+        new ActionSimple(1,0,0,2,"Laboratory",5,{3.f/7.f,0.4f,4/7.f,0.6f}),
+        new ActionSimple(1,1,1,1,"Market",5,{1/7.f,0.6f,2/7.f,0.8f}),
+        new ActionSimple(2,1,2,0,"Festival",5,{2.f/7.f,0.4f,3/7.f,0.6f}),
+        new ActionSimple(0,1,2,0,"Woodcutter",3,{5.f/7.f,0.8f,6/7.f,1.0f}),
+        new Witch(),
+        new CouncilRoom(),
+        new Chancelor(),
+        new Feast()
+    }};
 
     CardFan testMain;
-    testMain.Add(new Card(&Estate));
-    testMain.Add(new Card(&Gold));
-    testMain.Add(new Card(&Village));
-    testMain.Add(new Card(&Market));
-    testMain.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, 0.5, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testMain.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, -0.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testMain.fixPos();
 
     CardPile testDeck {false};
-    for (int i = 0; i < 10; i++) {
-        testDeck.AddOnTop(new Card(&witch));
-        testDeck.AddOnTop(new Card(&Estate));
-        testDeck.AddOnTop(new Card(&Village));
+    for (int i = 0; i < 17; i++) {
+        testDeck.AddOnTop(new Card(game.getType(i)));
+        testDeck.AddOnTop(new Card(game.getType(i)));
     }
+    testDeck.setPos(Mouse::toWorld(130, WINDOW_HEIGHT-150, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testDeck.fixPos();
 
     CardPile testDiscard {true};
-    testDiscard.setPos({2.f, 0.f, 0.f});
+    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130, WINDOW_HEIGHT-150, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testDiscard.fixPos();
 
-    Card* cardInMouse = new Card(&witch);
+    Card* cardInMouse = nullptr;
 
     bool running = true;
     SDL_Event event;
@@ -192,6 +173,7 @@ int main() {
         testDeck.on_render(batch);
         testDiscard.on_render(batch);
         testMain.on_render(batch, true);
+        game.tempRender(batch);
         if (cardInMouse) cardInMouse->on_render(batch);
 
         batch->finish_adding();

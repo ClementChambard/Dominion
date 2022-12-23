@@ -27,14 +27,6 @@ void Player::draw(int numcards)
     }
 }
 
-void Player::playCard(Card* card)
-{
-
-}
-void Player::buyCard(Card* card)
-{
-
-}
 void Player::endTurn()
 {
 

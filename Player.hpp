@@ -6,6 +6,7 @@
 #include "PlayerState.hpp"
 #include "Card.hpp"
 #include "CardPile.hpp"
+#include "CardFan.hpp"
 
 class Game;
 
@@ -34,22 +35,22 @@ class Player {
     PlayerTurnState turnState;
     PlayerState* state;
     PlayerTurnState previousTurnState;
-    std::vector<Card*> hand;
     CardPile deck;
     CardPile discard;
-
+    CardFan hand;
+    CardFan board;
 
     
     public:
     Player();
     ~Player();
     void draw(int numcards );
-    void playCard(Card* card);
-    void buyCard(Card* card);
     void endTurn();
 
     CardPile& getDeck() { return deck; }
     CardPile& getDiscard() { return discard; }
+    CardFan& getHand() { return hand; }
+    CardFan& getBoard() { return board; }
 
     PlayerState* set_state(PlayerState* playerState) { return state = playerState; }
     Game* getGame(){

@@ -14,8 +14,8 @@ class Card
 private:
     Type* m_type;
 
-    glm::vec3 m_position = {};
-    glm::vec3 m_targetPosition = {};
+    glm::vec3 m_position{};
+    glm::vec3 m_targetPosition{};
 
     float m_rotY = 0.f;
     float m_rotZ = 0.f;
@@ -23,12 +23,14 @@ private:
     float m_targetRotZ = 0.f;
     bool m_recalculateRot = false;
     bool m_inAnim = false;
-    glm::mat4 m_rotationMatrix = glm::mat4(1.f);
+    glm::mat4 m_rotationMatrix;
     bool m_hovered = false;
     float m_hoveredAnimTime = 0.f;
 public:
-    Card(Type* type) : m_type(type) {}
+    Card(Type* type) : m_type(type), m_rotationMatrix(1.f) {}
     ~Card() = default;
+
+    Type* getType() const { return m_type; }
 
     void set_pos(glm::vec3 const& p) { m_position = m_targetPosition = p; }
     void set_rotY(float r) { m_rotY = m_targetRotY = r; m_recalculateRot = true; }

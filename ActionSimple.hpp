@@ -14,7 +14,7 @@ private:
     int coin;
     int card;
 public:
-    ActionSimple(int action, int buy, int coin, int card, std::string name, int cost, glm::vec4 uvs);
+    ActionSimple(int action, int buy, int coin, int card, std::string name, int cost, glm::vec4 uvs, std::vector<CardType> const& types = {CardType::ACTION});
     ~ActionSimple();
     void onPlay(Player* player) const override ;
     int getCoin() const {return coin;}

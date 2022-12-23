@@ -6,7 +6,7 @@
 #define CARD_FAN_ANGLE_BETWEEN_MAX 0.3f
 #define CARD_FAN_CENTER_DIST 2.f
 #define CARD_FAN_CENTER_X 0
-#define CARD_FAN_CENTER_Y -1.4f
+#define CARD_FAN_CENTER_Y -1.2f
 
 float angleFromPoint(float x, float y) {
 

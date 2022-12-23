@@ -10,8 +10,8 @@ class CardFan {
         ~CardFan() = default;
 
         void Add(Card* c) { m_data.push_back(c); }
-        Card* get(int i) const { if (i < 0 || i >= m_data.size()) return nullptr; return m_data[i]; }
-        void remove(int i) { if (i < 0 || i >= m_data.size()) return; m_data.erase(std::next(m_data.begin(), i)); }
+        Card* get(size_t i) const { if (i >= m_data.size()) return nullptr; return m_data[i]; }
+        void remove(size_t i) { if (i >= m_data.size()) return; m_data.erase(std::next(m_data.begin(), i)); }
 
         int getHoveredId() { return m_hovered; }
 

@@ -12,10 +12,13 @@ class Player;
 
 class PlayerState {
     public:
-        PlayerState(Player* p, PlayerState* previousState) : m_p(p), m_previousState(previousState) {}
+        PlayerState(Player* p, PlayerState* previousState) : m_p(p), m_previousState(previousState) { on_entry(); }
         ~PlayerState() = default;
 
         PlayerState* then(std::function<void(Player*, PlayerStateResult*)> f) { m_thenFunc = f; return this; }
+
+        virtual void on_entry() {}
+        virtual void on_exit() const {}
 
         virtual void on_tick() = 0;
         virtual void on_render(VertexBatch* batch) = 0;
