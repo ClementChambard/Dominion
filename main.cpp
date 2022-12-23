@@ -135,6 +135,11 @@ int main() {
                     running = false;
                     break;
                 case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_h) {
+                        if (!testMain.get(0)) break;
+                        testDiscard.AddOnTop(testMain.get(0));
+                        testMain.remove(0);
+                    }
                     if (event.key.keysym.sym == SDLK_k) {
                         b = !b;
                     }
