@@ -31,10 +31,10 @@ class CardPile {
         auto end() { return m_data.end(); }
 
     private:
-        bool m_inAnim;
-        const bool m_faceUp;
-        glm::vec3 m_targetPos{};
-        glm::vec3 m_pos{};
+        bool m_inAnim = false;
+        bool m_faceUp;
+        glm::vec3 m_targetPos {};
+        glm::vec3 m_pos {};
 
         std::vector<Card*> m_data;
 

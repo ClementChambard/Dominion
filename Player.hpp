@@ -35,8 +35,8 @@ class Player {
     PlayerState* state;
     PlayerTurnState previousTurnState;
     std::vector<Card*> hand;
-    CardPile deck {false};
-    CardPile discard {false};
+    CardPile deck;
+    CardPile discard;
 
 
     

@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-Player::Player() 
+Player::Player() : deck(false), discard(true)
 {   
     actions = 1;
     buys = 1;
