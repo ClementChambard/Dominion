@@ -1,0 +1,43 @@
+#ifndef CARDPILE_H_
+#define CARDPILE_H_
+
+#include <vector>
+#include "Card.hpp"
+
+class CardPile {
+    public:
+        CardPile(bool faceUp) : m_faceUp(faceUp) {}
+        ~CardPile() = default;
+
+        void AddOnTop(Card* c) { m_data.push_back(c); }
+        Card* getOnTop() const { if (m_data.size() == 0) return nullptr; return m_data.back(); }
+        void removeOnTop() { if (m_data.size() > 0) m_data.pop_back(); }
+
+        void transmitFrom(CardPile& cp);
+        void transmitTo(CardPile& cp) { cp.transmitFrom(*this); }
+
+        void move(glm::vec3 const& pos) { m_targetPos = pos;}
+        void setPos(glm::vec3 const& pos) { m_targetPos = m_pos = pos; }
+
+        bool isInAnim() const { return m_inAnim; }
+
+        void fixPos();
+        void shuffle();
+
+        void on_tick();
+        void on_render(VertexBatch* batch);
+
+        auto begin() { return m_data.begin(); }
+        auto end() { return m_data.end(); }
+
+    private:
+        bool m_inAnim;
+        const bool m_faceUp;
+        glm::vec3 m_targetPos{};
+        glm::vec3 m_pos{};
+
+        std::vector<Card*> m_data;
+
+};
+
+#endif // CARDPILE_H_

@@ -12,5 +12,5 @@ Chancelor::~Chancelor(){
 void Chancelor::onPlay(Player* player) const 
 {
     ActionSimple::onPlay(player);
-    player->discardDeck();
+    player->getDeck().transmitTo(player->getDiscard());
 }

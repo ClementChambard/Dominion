@@ -14,10 +14,19 @@ Player::Player()
 
 Player::~Player(){}
 
-void Player::draw(int numcards )
+void Player::draw(int numcards)
 {
-
+    for (int i = 0; i < numcards; i++) {
+        if (!deck.getOnTop()) {
+            deck.transmitFrom(discard);
+            deck.shuffle();
+        }
+        Card* newCard = deck.getOnTop();
+        deck.removeOnTop();
+        hand.push_back(newCard); // TODO
+    }
 }
+
 void Player::playCard(Card* card)
 {
 
@@ -33,19 +42,17 @@ void Player::endTurn()
 void Player::trashCard(Card* card){
         for (Card* c : hand ) {
             if (c == card){
-                hand.erase(std::remove(hand.begin(), hand.end(), c), hand.end());
+                // TODO
                 return;
             }
         }
         for (Card* c : deck ) {
             if (c == card){
-                deck.erase(std::remove(deck.begin(), deck.end(), c), deck.end());
                 return;
             }
         }
         for (Card* c : discard ) {
             if (c == card){
-                discard.erase(std::remove(discard.begin(), discard.end(), c), discard.end());
                 return;
             }
         }

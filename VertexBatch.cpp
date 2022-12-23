@@ -36,3 +36,17 @@ void VertexBatch::render(Texture *texture)
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     texture->unbind();
 }
+
+void VertexBatch::draw_rectangle(float x, float y, float z, float w, float h, glm::mat4 const& transf, glm::vec4 uvs)
+{
+    static const float hw = 0.8f;
+    static const float hh = 1.f;
+    if (w == 0) w = hw;
+    if (h == 0) h = hh;
+    add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.x, uvs.w}});
+    add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.z, uvs.w}});
+    add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.z, uvs.y}});
+    add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,-h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.x, uvs.w}});
+    add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{+w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.z, uvs.y}});
+    add_vertex({glm::vec4(x,y,z,0) + transf * glm::vec4{-w/2,+h/2, 0, 1.f}, {255, 255, 255, 255}, {uvs.x, uvs.y}});
+}

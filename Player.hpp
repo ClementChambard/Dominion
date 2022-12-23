@@ -3,10 +3,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "PlayerState.hpp"
 #include "Card.hpp"
-class Game;
+#include "CardPile.hpp"
 
-    
+class Game;
 
     enum PlayerTurnState
     {
@@ -31,12 +32,11 @@ class Player {
     Card* lastplayedCard;
    
     PlayerTurnState turnState;
+    PlayerState* state;
     PlayerTurnState previousTurnState;
     std::vector<Card*> hand;
-    std::vector<Card*> deck;
-    std::vector<Card*> discard;
-
-
+    CardPile deck {false};
+    CardPile discard {false};
 
 
     
@@ -47,6 +47,11 @@ class Player {
     void playCard(Card* card);
     void buyCard(Card* card);
     void endTurn();
+
+    CardPile& getDeck() { return deck; }
+    CardPile& getDiscard() { return discard; }
+
+    PlayerState* set_state(PlayerState* playerState) { return state = playerState; }
     Game* getGame(){
         return game;
     }
@@ -64,17 +69,9 @@ class Player {
     void addVictoryPoints(int numVictoryPoints){
         this->Victorypoints+=numVictoryPoints;
     }
-    void discardDeck(){
-        for (int i = 0; i < deck.size(); i++)
-        {
-            discard.push_back(deck[i]);
-        }
-        deck.clear();
-    }
     void allowDiscardCard(int NumberToDiscard){
         turnState = PlayerTurnState::DiscardCard;
         this->NumberToDiscard = NumberToDiscard;
-
     }
     void allowTrashCard( int NumberToTrash){
         turnState = PlayerTurnState::TrashCard;
@@ -102,4 +99,4 @@ class Player {
 };
 
 
-#endif 
+#endif
