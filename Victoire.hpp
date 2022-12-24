@@ -12,7 +12,7 @@ private:
     int VictoryPoint;
 public:
     Victoire(int Victoire, std::string name, int cost, glm::vec4 uvs);
-    ~Victoire();
+
     void onTrash(Player* player) const override ;
     void onAddToDeck(Player* player) const override ;
 

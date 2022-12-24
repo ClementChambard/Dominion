@@ -5,6 +5,8 @@
 #include "VertexBatch.hpp"
 
 struct PlayerStateResult {
+        private:
+    virtual void empty() {}
     // Make subclass for different states
 };
 
@@ -13,7 +15,7 @@ class Player;
 class PlayerState {
     public:
         PlayerState(Player* p, PlayerState* previousState) : m_p(p), m_previousState(previousState) { on_entry(); }
-        ~PlayerState() = default;
+        virtual ~PlayerState() = default;
 
         PlayerState* then(std::function<void(Player*, PlayerStateResult*)> f) { m_thenFunc = f; return this; }
 

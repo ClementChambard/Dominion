@@ -6,9 +6,14 @@ void PlayerStateActions::on_tick() {
 }
 
 void PlayerStateActions::on_render(VertexBatch* batch) {
-    // render cards
+    render_deck(batch);
+    render_discard(batch);
+    render_piles(batch);
+    render_played(batch);
+    // special render hand
 }
 
 void PlayerStateActions::on_renderUI(VertexBatch* batch) {
     // render buy button
+    if (batch) {}
 }

@@ -12,7 +12,7 @@ class CouncilRoom : public ActionSimple
     
 public:
     CouncilRoom();
-    ~CouncilRoom();
+
     void onPlay(Player* player) const override ;
     
 

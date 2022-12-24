@@ -12,7 +12,7 @@ class Chancelor : public ActionSimple
     
 public:
     Chancelor();
-    ~Chancelor();
+
     void onPlay(Player* player) const override ;
     
 

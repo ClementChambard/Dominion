@@ -12,7 +12,7 @@ class MoneyLender : public Type
     
 public:
     MoneyLender();
-    ~MoneyLender();
+
     void onPlay(Player* player) const override ;
     
 

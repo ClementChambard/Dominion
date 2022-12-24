@@ -9,10 +9,8 @@ ActionSimple::ActionSimple(int action, int buy, int coin, int card, std::string 
     this->coin = coin;
     this->card = card;
 }
-ActionSimple::~ActionSimple(){
-    std::cout << "ActionSimple destructor" << std::endl;
-}
-void ActionSimple::onPlay(Player* player) const 
+
+void ActionSimple::onPlay(Player* player) const
 {
     player->addActions(action);
     player->addBuys(buy);

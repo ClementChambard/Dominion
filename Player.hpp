@@ -7,17 +7,10 @@
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
+#include "PlayerStateActions.hpp"
+#include "PlayerStateBuyCards.hpp"
 
 class Game;
-
-    enum PlayerTurnState
-    {
-        Action,
-        Buy,
-        TrashCard,
-        DiscardCard,
-        UpgradeCard,
-    };
 
 class Player {
     int actions; 
@@ -28,23 +21,21 @@ class Player {
 
 
     Game* game;
-    int UpgradeCardCost;
-    int upgradeCardIndex;
-    Card* lastplayedCard;
-   
-    PlayerTurnState turnState;
+
     PlayerState* state;
-    PlayerTurnState previousTurnState;
     CardPile deck;
     CardPile discard;
     CardFan hand;
     CardFan board;
 
+    std::vector<PlayerState*> states_to_cleanup;
     
     public:
     Player();
     ~Player();
     void draw(int numcards );
+    void exit_state(PlayerState* state) { states_to_cleanup.push_back(state); }
+    void startTurn();
     void endTurn();
 
     CardPile& getDeck() { return deck; }
@@ -53,9 +44,14 @@ class Player {
     CardFan& getBoard() { return board; }
 
     PlayerState* set_state(PlayerState* playerState) { return state = playerState; }
+    PlayerState* get_state() const { return state; }
     Game* getGame(){
         return game;
     }
+
+    int getBuys() const { return buys; }
+    int getActions() const { return actions; }
+    int getCoins() const { return coins; }
 
     // Getters and setter for the attributes
     void addActions(int numActions){
@@ -70,30 +66,7 @@ class Player {
     void addVictoryPoints(int numVictoryPoints){
         this->Victorypoints+=numVictoryPoints;
     }
-    void allowDiscardCard(int NumberToDiscard){
-        turnState = PlayerTurnState::DiscardCard;
-        this->NumberToDiscard = NumberToDiscard;
-    }
-    void allowTrashCard( int NumberToTrash){
-        turnState = PlayerTurnState::TrashCard;
-        this->NumberToDiscard = NumberToTrash;
-    }
-    void allowUpgradeCard(int UpgradeCardCost, int upgradeCardIndex){
-        turnState = PlayerTurnState::UpgradeCard;
-        this->UpgradeCardCost = UpgradeCardCost;
-        this->upgradeCardIndex = upgradeCardIndex;
-    }
-    Card* getLastPlayedCard(){
-        return lastplayedCard;
-    }
     void trashCard(Card* card);
-
-    void allowbuyCard(int cost){
-        turnState = PlayerTurnState::Buy;
-        this->UpgradeCardCost = cost;
-    }
-    
- 
 
     
     

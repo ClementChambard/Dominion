@@ -27,6 +27,7 @@ class CardFan {
 
         auto begin() { return m_data.begin(); }
         auto end() { return m_data.end(); }
+        auto size() { return m_data.size(); }
 
     private:
         bool m_inAnim = false;

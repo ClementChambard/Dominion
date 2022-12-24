@@ -4,9 +4,6 @@
 
 Victoire::Victoire(int VictoryPoint, std::string name, int cost, glm::vec4 uvs) : Type(name, cost, uvs, {CardType::VICTORY}), VictoryPoint(VictoryPoint){}
 
-Victoire::~Victoire(){
-    std::cout << "Victoire destructor" << std::endl;
-}
 void Victoire::onTrash(Player* player) const {
     player->addVictoryPoints(-VictoryPoint);
 }

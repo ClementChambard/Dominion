@@ -12,7 +12,7 @@ class Remodel : public Type
     
 public:
     Remodel();
-    ~Remodel();
+
     void onPlay(Player* player) const override ;
     
 

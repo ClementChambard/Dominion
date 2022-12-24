@@ -12,8 +12,8 @@ class Mine : public Type
     
 public:
     Mine();
-    ~Mine();
-    void onPlay(Player* player) const override ;
+
+    void onPlay(Player* player) const override;
     
 
 };

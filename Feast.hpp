@@ -12,7 +12,7 @@ class Feast : public Type
     
 public:
     Feast();
-    ~Feast();
+
     void onPlay(Player* player) const override ;
     
 

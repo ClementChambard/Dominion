@@ -9,10 +9,9 @@
 class Witch : public ActionSimple 
 {
 
-    
 public:
     Witch();
-    ~Witch();
+
     void onPlay(Player* player) const override ;
     
 

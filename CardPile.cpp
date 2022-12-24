@@ -51,7 +51,6 @@ void CardPile::transmitFrom(CardPile& cp) {
 void CardPile::fixPos() {
     float h = 0.f;
     float hInc = getHInc(m_data.size());
-    std::cout << hInc << "\n";
     m_pos = m_targetPos;
     for (Card* c : m_data) {
         c->set_pos(m_pos+glm::vec3(0.f,0.f,h));

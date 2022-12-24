@@ -12,7 +12,7 @@ class Chapel : public Type
     
 public:
     Chapel();
-    ~Chapel();
+
     void onPlay(Player* player) const override ;
     
 

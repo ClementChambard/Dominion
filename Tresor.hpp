@@ -13,7 +13,7 @@ private:
 
 public:
     Tresor(int coin, std::string name, int cost, glm::vec4 uvs);
-    ~Tresor();
+
     void onDiscard(Player* player) const override ;
     void onDraw(Player* player) const override ;
     void onTrash(Player* player)const override;
