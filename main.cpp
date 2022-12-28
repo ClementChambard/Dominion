@@ -9,20 +9,20 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
-#include "ActionSimple.hpp"
+#include "CardsType/ActionSimple.hpp"
 #include "Game.hpp"
-#include "Witch.hpp"
-#include "CouncilRoom.hpp"
-#include "Chancelor.hpp"
-#include "Feast.hpp"
-#include "Mine.hpp"
+#include "CardsType/Witch.hpp"
+#include "CardsType/CouncilRoom.hpp"
+#include "CardsType/Chancelor.hpp"
+#include "CardsType/Feast.hpp"
+#include "CardsType/Mine.hpp"
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
 #include "Mouse.hpp"
 
-const int WINDOW_WIDTH = 1500;
-const int WINDOW_HEIGHT = 900;
+const int WINDOW_WIDTH = 3000;
+const int WINDOW_HEIGHT = 1800;
 const int WINDOW_FLAGS = SDL_WINDOW_OPENGL;
 
 int main() {
@@ -89,11 +89,11 @@ int main() {
         testDeck.AddOnTop(new Card(game.getType(i)));
         testDeck.AddOnTop(new Card(game.getType(i)));
     }
-    testDeck.setPos(Mouse::toWorld(130, WINDOW_HEIGHT-150, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testDeck.setPos(Mouse::toWorld(130*WINDOW_WIDTH/1500, WINDOW_HEIGHT-150*WINDOW_HEIGHT/900, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testDeck.fixPos();
 
     CardPile testDiscard {true};
-    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130, WINDOW_HEIGHT-150, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130*WINDOW_WIDTH/1500, WINDOW_HEIGHT-150*WINDOW_HEIGHT/900, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testDiscard.fixPos();
 
     Card* cardInMouse = nullptr;

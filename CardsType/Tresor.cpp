@@ -1,5 +1,5 @@
 #include "Tresor.hpp"
-#include "Player.hpp"
+#include "../Player.hpp"
 
 Tresor::Tresor(int coin, std::string name, int cost, glm::vec4 uvs) : Type(name, cost, uvs, {CardType::TREASURE}), coin(coin) {}
 

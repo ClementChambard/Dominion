@@ -3,12 +3,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "PlayerState.hpp"
+#include "PlayerState/PlayerState.hpp"
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
-#include "PlayerStateActions.hpp"
-#include "PlayerStateBuyCards.hpp"
+#include "PlayerState/PlayerStateActions.hpp"
+#include "PlayerState/PlayerStateBuyCards.hpp"
+#include <stdexcept>
 
 class Game;
 
@@ -18,6 +19,7 @@ class Player {
     int coins; 
     int Victorypoints; 
     int NumberToDiscard;
+    int ActionMultiplier;
 
 
     Game* game;
@@ -67,7 +69,12 @@ class Player {
         this->Victorypoints+=numVictoryPoints;
     }
     void trashCard(Card* card);
+    int getNumberCards() const { return deck.size() + hand.size() + board.size(); }
 
+    void setActionMultiplier (int multiplier){
+        this->ActionMultiplier=multiplier;
+    }
+    int getActionMultiplier() const { return ActionMultiplier; }
     
     
 };

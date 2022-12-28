@@ -1,6 +1,6 @@
 #include "Victoire.hpp"
 
-#include "Player.hpp"
+#include "../Player.hpp"
 
 Victoire::Victoire(int VictoryPoint, std::string name, int cost, glm::vec4 uvs) : Type(name, cost, uvs, {CardType::VICTORY}), VictoryPoint(VictoryPoint){}
 

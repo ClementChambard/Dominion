@@ -42,8 +42,8 @@ public:
     virtual void onAddToDeck(Player* player) const;
     virtual void onDiscard(Player* player) const;
     virtual void onTrash(Player* player) const;
-
-
+    virtual void onDeckChange(Player* player, int oldCardNumber, int newCardNumber) const;
+    virtual bool onReact(Player* player) const;
 };
 
 

@@ -1,7 +1,7 @@
 #include "Mine.hpp"
-#include "Player.hpp"
-#include "Game.hpp"
-#include "PlayerStateTrashCards.hpp"
+#include "../Player.hpp"
+#include "../Game.hpp"
+#include "../PlayerState/PlayerStateTrashCards.hpp"
 
 
 Mine::Mine() : Type("Mine", 5, glm::vec4(0.f, 0.6f, 1/7.0f, 0.8f), {CardType::ACTION}){}

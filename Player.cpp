@@ -29,7 +29,8 @@ void Player::draw(int numcards)
 
 void Player::startTurn() {
     for (PlayerState* ps : states_to_cleanup) delete ps;
-    set_state(new PlayerStateActions(this, nullptr))
+    states_to_cleanup.clear();
+    set_state(new PlayerStateActions(this, nullptr)) 
         ->then([](Player* p, PlayerStateResult*) {
             p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys))
                 ->then([](Player* p, PlayerStateResult*) {

@@ -2,12 +2,12 @@
 #define PLAYERSTATEDISCARDCARDS_H_
 
 #include "PlayerState.hpp"
-#include "VertexBatch.hpp"
-#include "Type.hpp"
+#include "../CardsType/Type.hpp"
 
 class PlayerStateDiscardCards : public PlayerState {
     public:
-        PlayerStateDiscardCards(Player* p, PlayerState* previousState, int discardsMin, int discardsMax, Type::CardType typeRestriction = Type::CardType::NONE) :
+        PlayerStateDiscardCards(Player* p, PlayerState* previousState, 
+        int discardsMin, int discardsMax, Type::CardType typeRestriction = Type::CardType::NONE) :
             PlayerState(p, previousState), m_discardsMin(discardsMin), m_discardsMax(discardsMax), m_typeRestriction(typeRestriction) {}
 
         void on_tick() override;

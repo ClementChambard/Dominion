@@ -2,7 +2,7 @@
 #define PLAYERSTATE_H_
 
 #include <functional>
-#include "VertexBatch.hpp"
+#include "../VertexBatch.hpp"
 
 struct PlayerStateResult {
         private:

@@ -2,8 +2,7 @@
 #define PLAYERSTATEBUYCARDS_H_
 
 #include "PlayerState.hpp"
-#include "VertexBatch.hpp"
-#include "Type.hpp"
+#include "../CardsType/Type.hpp"
 
 class PlayerStateBuyCards : public PlayerState {
     public:

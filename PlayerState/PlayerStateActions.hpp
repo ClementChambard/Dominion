@@ -2,7 +2,6 @@
 #define PLAYERSTATEACTIONS_H_
 
 #include "PlayerState.hpp"
-#include "VertexBatch.hpp"
 
 class PlayerStateActions : public PlayerState {
     public:

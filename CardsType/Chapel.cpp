@@ -1,7 +1,7 @@
 #include "Chapel.hpp"
-#include "Player.hpp"
-#include "Game.hpp"
-#include "PlayerStateTrashCards.hpp"
+#include "../Player.hpp"
+#include "../Game.hpp"
+#include "../PlayerState/PlayerStateTrashCards.hpp"
 
 Chapel::Chapel() : Type("Chapel", 2, glm::vec4(5/7.f, 0.0f, 6/7.0f, 0.2f), {CardType::ACTION}){}
 

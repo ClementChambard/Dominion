@@ -1,11 +1,13 @@
 CXX=g++
 CXXFLAGS=-Wall -Wextra -g
 LIBFLAGS=-lSDL2 -lGL -lGLEW -lSDL2_image
+PLAYERSTATEOBJECT = PlayerState/PlayerState.o PlayerState/PlayerStateTrashCards.o PlayerState/PlayerStateDiscardCards.o PlayerState/PlayerStateBuyCards.o PlayerState/PlayerStateBool.o PlayerState/PlayerStateActions.o
+CARDTYPEOBJECT = CardsType/ActionSimple.o CardsType/Bureaucrat.o CardsType/Chancelor.o CardsType/CouncilRoom.o CardsType/Gardens.o CardsType/Militia.o CardsType/Moat.o CardsType/Remodel.o CardsType/Thief.o CardsType/Tresor.o CardsType/Victoire.o CardsType/WorkShop.o CardsType/Adventurer.o CardsType/Cellar.o CardsType/Chapel.o CardsType/Feast.o CardsType/Library.o CardsType/Mine.o CardsType/MoneyLender.o CardsType/Spy.o CardsType/ThromeRoom.o CardsType/Type.o CardsType/Witch.o
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-dominion: main.o Shader.o Texture.o VertexBatch.o Game.o Player.o Card.o Type.o ActionSimple.o Victoire.o Tresor.o Witch.o CouncilRoom.o Chancelor.o Mine.o Feast.o CardPile.o CardFan.o Mouse.o PlayerState.o PlayerStateTrashCards.o PlayerStateDiscardCards.o PlayerStateBuyCards.o PlayerStateActions.o
+dominion: main.o Shader.o Texture.o VertexBatch.o Game.o Player.o Card.o CardPile.o CardFan.o Mouse.o $(PLAYERSTATEOBJECT) $(CARDTYPEOBJECT)
 	$(CXX) $^ -o $@ $(LIBFLAGS)
 
 .PHONY: run clean

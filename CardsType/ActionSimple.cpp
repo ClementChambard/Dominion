@@ -1,5 +1,5 @@
 #include "ActionSimple.hpp"
-#include "Player.hpp"
+#include "../Player.hpp"
 
 
 ActionSimple::ActionSimple(int action, int buy, int coin, int card, std::string name, int cost, glm::vec4 uvs, std::vector<CardType> const& types) : Type(name, cost, uvs, types)

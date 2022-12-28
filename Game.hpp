@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include <array>
-#include "Type.hpp"
+#include "CardsType/Type.hpp"
 #include <functional>
 #ifndef GAME_H
 #define GAME_H

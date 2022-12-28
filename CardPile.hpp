@@ -29,6 +29,8 @@ class CardPile {
 
         auto begin() { return m_data.begin(); }
         auto end() { return m_data.end(); }
+        auto size() const { return m_data.size(); }
+        
 
     private:
         bool m_inAnim = false;

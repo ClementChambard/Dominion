@@ -1,7 +1,7 @@
 #include "MoneyLender.hpp"
-#include "Player.hpp"
-#include "Card.hpp"
-#include "PlayerStateTrashCards.hpp"
+#include "../Player.hpp"
+#include "../Card.hpp"
+#include "../PlayerState/PlayerStateTrashCards.hpp"
 
 MoneyLender::MoneyLender() : Type("MoneyLender", 4, glm::vec4(4/7.f, 0.8f, 5/7.0f, 1.0f), {CardType::ACTION}) {}
 

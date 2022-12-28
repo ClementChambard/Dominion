@@ -6,7 +6,7 @@
 #define CARD_MOVEMENT_PROPORTION 4.f
 
 #include "VertexBatch.hpp"
-#include "Type.hpp"
+#include "CardsType/Type.hpp"
 #include <glm/glm.hpp>
 
 class Card

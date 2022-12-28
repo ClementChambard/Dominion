@@ -1,6 +1,6 @@
 #include "Game.hpp"
-#include "Victoire.hpp"
-#include "Tresor.hpp"
+#include "CardsType/Victoire.hpp"
+#include "CardsType/Tresor.hpp"
 
 const int cardCount[] = {
     30, 24, 12, 12,
@@ -76,9 +76,17 @@ void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cance
     {
         if (&p!=player)
         {
-            if (cancelable) {}
-            attack(&p);
-
+            bool cancled = false;
+            if (cancelable) {
+                for  ( Card* c : p.getHand() ){
+                    if (c->getType()->onReact(&p)){ 
+                        cancled = true;
+                    }   
+                }
+            }
+            if (!cancled) {
+                attack(&p);
+            }
         }
     }
 }
