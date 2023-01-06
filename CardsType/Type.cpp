@@ -2,6 +2,7 @@
 #include "../Player.hpp"
 bool Type::isType(CardType t) const
 {
+    if (t == CardType::NONE) return true;
     for (CardType ct : types) if (t == ct) return true;
     return false;
 }

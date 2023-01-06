@@ -77,7 +77,7 @@ void CardFan::on_render(VertexBatch* batch, bool renderHovered)
     for (int i = m_data.size()-1; i >= 0; i--)
     {
         if (renderHovered && i == m_hovered) continue;
-        m_data[i]->on_render(batch);
+        m_data[i]->on_render(batch, false, !m_data[i]->getType()->isType(m_highlighted));
     }
-    if (renderHovered && m_hovered >= 0) m_data[m_hovered]->on_render(batch, true);
+    if (renderHovered && m_hovered >= 0) m_data[m_hovered]->on_render(batch, true, !m_data[m_hovered]->getType()->isType(m_highlighted));
 }

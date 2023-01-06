@@ -45,7 +45,7 @@ public:
     bool isInAnim() const { return m_inAnim; }
 
     void on_tick();
-    void on_render(VertexBatch* batch, bool hovered = false);
+    void on_render(VertexBatch* batch, bool hovered = false, bool lowlight = false);
 };
 
 

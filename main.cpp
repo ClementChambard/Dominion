@@ -19,10 +19,11 @@
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
+#include "CardBoard.hpp"
 #include "Mouse.hpp"
 
-const int WINDOW_WIDTH = 3000;
-const int WINDOW_HEIGHT = 1800;
+const int WINDOW_WIDTH = 1500;
+const int WINDOW_HEIGHT = 900;
 const int WINDOW_FLAGS = SDL_WINDOW_OPENGL;
 
 int main() {
@@ -89,18 +90,23 @@ int main() {
         testDeck.AddOnTop(new Card(game.getType(i)));
         testDeck.AddOnTop(new Card(game.getType(i)));
     }
-    testDeck.setPos(Mouse::toWorld(130*WINDOW_WIDTH/1500, WINDOW_HEIGHT-150*WINDOW_HEIGHT/900, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testDeck.setPos(Mouse::toWorld(130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testDeck.fixPos();
 
     CardPile testDiscard {true};
-    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130*WINDOW_WIDTH/1500, WINDOW_HEIGHT-150*WINDOW_HEIGHT/900, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
     testDiscard.fixPos();
+
+    CardBoard testBoard;
+    testBoard.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f+100.f, -1.f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testBoard.fixPos();
 
     Card* cardInMouse = nullptr;
 
     bool running = true;
     SDL_Event event;
     bool b = false;
+    bool h = false;
     while (running) {
 
         glClearColor(0.3f, 0.6f, 0.1f, 1.f);
@@ -116,6 +122,23 @@ int main() {
                     running = false;
                     break;
                 case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_o) {
+                        if (h) testMain.highlightCard(Type::CardType::NONE);
+                        else testMain.highlightCard(Type::CardType::ACTION);
+                        h = !h;
+                    }
+                    if (event.key.keysym.sym == SDLK_u) {
+                        if (!testMain.get(0)) break;
+                        testBoard.Add(testMain.get(0));
+                        testMain.remove(0);
+                    }
+                    if (event.key.keysym.sym == SDLK_i) {
+                        while (testBoard.get(0))
+                        {
+                            testDiscard.AddOnTop(testBoard.get(0));
+                            testBoard.remove(0);
+                        }
+                    }
                     if (event.key.keysym.sym == SDLK_h) {
                         if (!testMain.get(0)) break;
                         testDiscard.AddOnTop(testMain.get(0));
@@ -161,6 +184,7 @@ int main() {
         testDeck.on_tick();
         testDiscard.on_tick();
         testMain.on_tick();
+        testBoard.on_tick();
 
         // Draw
         batch->clear_vertices();
@@ -172,6 +196,7 @@ int main() {
 
         testDeck.on_render(batch);
         testDiscard.on_render(batch);
+        testBoard.on_render(batch);
         testMain.on_render(batch, true);
         game.tempRender(batch);
         if (cardInMouse) cardInMouse->on_render(batch);

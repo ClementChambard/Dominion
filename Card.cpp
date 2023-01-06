@@ -32,7 +32,7 @@ void Card::on_tick() {
     else m_hoveredAnimTime += 0.1f;
 }
 
-void Card::on_render(VertexBatch* batch, bool hovered) {
+void Card::on_render(VertexBatch* batch, bool hovered, bool lowlight) {
     glm::vec3 pos = m_position;
     glm::mat4 rot = m_rotationMatrix;
     if (hovered) {
@@ -40,6 +40,6 @@ void Card::on_render(VertexBatch* batch, bool hovered) {
         else pos += glm::vec3(0.f,0.2f,1.f);
         rot = glm::rotate(rot, sinf(m_hoveredAnimTime/2.f)/10.f, glm::vec3{0,0,1});
     }
-    batch->draw_rectangle(pos.x, pos.y, pos.z, 0.8f, 1.2f, rot, m_type->getUvs());
+    batch->draw_rectangle(pos.x, pos.y, pos.z, 0.8f, 1.2f, rot, m_type->getUvs(), lowlight ? glm::vec<4, uint8_t>{128,128,128,255} : glm::vec<4, uint8_t>{255,255,255,255});
     batch->draw_rectangle(pos.x, pos.y, pos.z, -0.8f, 1.2f, rot, {6/7.f,0.8f,1.f,1.f});
 }
