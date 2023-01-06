@@ -64,7 +64,9 @@ Game::Game(int nbPlayers, std::array<Type*, 10> actionCardTypes)
     piles[static_cast<int>(CardPileType::ACTION10)].setPos({ 4.5f,2.8f,-3.5f});
     for (size_t i = 0; i < piles.size(); i++) piles[i].fixPos();
 
-    this->players.resize(nbPlayers);
+    this->players.resize(nbPlayers, this);
+    this->currentPlayer= &players[0];
+    this->currentPlayer->startTurn();
 }
 Game::~Game()
 {
@@ -112,10 +114,18 @@ void Game::DistributeCard(Player* p, CardPileType pile, PlayerCards playerPile)
     }
 }
 
-void Game::tempRender(VertexBatch* batch)
+void Game::onDraw(VertexBatch* batch)
 {
     for (size_t i = 0; i < piles.size(); i++)
     {
         piles[i].on_render(batch);
     }
+    currentPlayer->get_state()->on_render(batch);
+}
+
+void Game::onRenderUI(VertexBatch *batch){
+    currentPlayer->get_state()->on_renderUI(batch);
+}
+void Game::onTick(){
+    currentPlayer->update();
 }

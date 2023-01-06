@@ -28,10 +28,8 @@ void CardFan::on_tick()
     float ang_fst = (ang_between * (nb_card-1))/2.f;
     m_inAnim = false;
 
-    static glm::mat4 projection = glm::perspective(3.141592f/4.f, 1500.f/900.f, 0.01f, 1000.f);
-    static glm::mat4 view = glm::lookAt(glm::vec3{0.f,-1.f,5.f}, glm::vec3{0.f,0.f,0.f}, glm::vec3{0.f,0.f,1.f});
-    static glm::mat4 inv_p_v = glm::inverse(projection * view);
-    glm::vec3 mousePosInFan = Mouse::toWorldCurrent(m_pos.z, inv_p_v, {0.f, -1.f, 5.f}) - (m_pos+glm::vec3(CARD_FAN_CENTER_X,CARD_FAN_CENTER_Y,0.f));
+   
+    glm::vec3 mousePosInFan = Mouse::toWorldCurrent(m_pos.z, {0.f, -1.f, 5.f}) - (m_pos+glm::vec3(CARD_FAN_CENTER_X,CARD_FAN_CENTER_Y,0.f));
     bool mouseInRange = (mousePosInFan.x*mousePosInFan.x+mousePosInFan.y*mousePosInFan.y) < (CARD_FAN_CENTER_DIST + 0.5f)*(CARD_FAN_CENTER_DIST + 0.5f);
     float mouseAngle = angleFromPoint(mousePosInFan.x, mousePosInFan.y) - glm::pi<float>()/2.f;
     m_hovered = -1;

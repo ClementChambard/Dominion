@@ -8,6 +8,7 @@ float Mouse::m_screenY = 0.f;
 bool Mouse::m_leftDown = false;
 bool Mouse::m_leftPressed = false;
 bool Mouse::m_leftReleased = false;
+glm::mat4 Mouse::m_inv_p_v = glm::mat4(1.f);
 
 void Mouse::processEvent(SDL_Event &event)
 {
@@ -35,17 +36,17 @@ void Mouse::setWindowSize(float w, float h)
     WINDOW_HEIGHT = h;
 }
 
-glm::vec3 Mouse::toWorldCurrent(float h, glm::mat4 const& inv_p_v, glm::vec3 C)
+glm::vec3 Mouse::toWorldCurrent(float h, glm::vec3 C)
 {
-    return toWorld(m_screenX, m_screenY, h, inv_p_v, C);
+    return toWorld(m_screenX, m_screenY, h, C);
 }
 
-glm::vec3 Mouse::toWorld(float x, float y, float h, glm::mat4 const& inv_p_v, glm::vec3 C)
+glm::vec3 Mouse::toWorld(float x, float y, float h, glm::vec3 C)
 {
     glm::vec4 near = glm::vec4((x - WINDOW_WIDTH/2.f) / (WINDOW_WIDTH/2.f), -1*(y - WINDOW_HEIGHT/2.f) / (WINDOW_HEIGHT/2.f), -1, 1.0);
     glm::vec4 far = glm::vec4((x - WINDOW_WIDTH/2.f) / (WINDOW_WIDTH/2.f), -1*(y - WINDOW_HEIGHT/2.f) / (WINDOW_HEIGHT/2.f), 1, 1.0);
-    glm::vec4 nearResult = inv_p_v*near;
-    glm::vec4 farResult = inv_p_v*far;
+    glm::vec4 nearResult = m_inv_p_v*near;
+    glm::vec4 farResult = m_inv_p_v*far;
     nearResult /= nearResult.w;
     farResult /= farResult.w;
     glm::vec3 T = C + glm::vec3(farResult - nearResult );

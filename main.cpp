@@ -21,6 +21,7 @@
 #include "CardFan.hpp"
 #include "CardBoard.hpp"
 #include "Mouse.hpp"
+#include "Button.hpp"
 
 const int WINDOW_WIDTH = 1500;
 const int WINDOW_HEIGHT = 900;
@@ -45,28 +46,27 @@ int main() {
     SDL_GL_SetSwapInterval(1);
 
     glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glCullFace(GL_BACK);
 
     Shader* shader = new Shader("shaders/vertex.glsl", "shaders/fragment.glsl");
     Texture* texture = new Texture("textures/st01a.png");
     Texture* textureBG = new Texture("textures/stage05a.png");
     Texture* textureCard = new Texture("textures/Carte.png");
+    Texture* textButtons = new Texture("textures/buttons.png");
+    
 
     VertexBatch* batch = new VertexBatch();
 
     GLuint projMatrixLocation = shader->getUniformLocation("projectionMatrix");
     GLuint viewMatrixLocation = shader->getUniformLocation("viewMatrix");
 
+
     glm::mat4 projection = glm::perspective(3.141592f/4.f, (float)WINDOW_WIDTH/(float)WINDOW_HEIGHT, 0.01f, 1000.f);
     glm::mat4 view = glm::lookAt(glm::vec3{0.f,-1.f,5.f}, glm::vec3{0.f,0.f,0.f}, glm::vec3{0.f,0.f,1.f});
     glm::mat4 inv_p_v = glm::inverse(projection * view);
-
-    shader->use();
-
-    shader->loadMat4(projMatrixLocation, projection);
-    shader->loadMat4(viewMatrixLocation, view);
-
-    shader->unuse();
+    Mouse::setInvPV(inv_p_v);
 
     Game game {2, {
         new ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f}),
@@ -79,10 +79,11 @@ int main() {
         new CouncilRoom(),
         new Chancelor(),
         new Feast()
+
     }};
 
     CardFan testMain;
-    testMain.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, -0.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testMain.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, -0.5f, glm::vec3{0.f,-1.f,5.f}));
     testMain.fixPos();
 
     CardPile testDeck {false};
@@ -90,15 +91,15 @@ int main() {
         testDeck.AddOnTop(new Card(game.getType(i)));
         testDeck.AddOnTop(new Card(game.getType(i)));
     }
-    testDeck.setPos(Mouse::toWorld(130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testDeck.setPos(Mouse::toWorld(130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
     testDeck.fixPos();
 
     CardPile testDiscard {true};
-    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
     testDiscard.fixPos();
 
     CardBoard testBoard;
-    testBoard.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f+100.f, -1.f, inv_p_v, glm::vec3{0.f,-1.f,5.f}));
+    testBoard.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f+100.f, -1.f, glm::vec3{0.f,-1.f,5.f}));
     testBoard.fixPos();
 
     Card* cardInMouse = nullptr;
@@ -176,7 +177,7 @@ int main() {
 
         // Update
         if (cardInMouse) {
-            cardInMouse->moveTo(Mouse::toWorldCurrent(0, inv_p_v, glm::vec3{0.f,-1.f,5.f})+glm::vec3(0,0,0.25f));
+            cardInMouse->moveTo(Mouse::toWorldCurrent(0, glm::vec3{0.f,-1.f,5.f})+glm::vec3(0,0,0.25f));
             if (b) cardInMouse->rotateYTo(glm::pi<float>());
             else   cardInMouse->rotateYTo(0.f);
             cardInMouse->on_tick();
@@ -185,24 +186,45 @@ int main() {
         testDiscard.on_tick();
         testMain.on_tick();
         testBoard.on_tick();
+        game.onTick();
 
         // Draw
-        batch->clear_vertices();
+        batch->clear_vertices(); // premiere etapes pour draw un rectangle
         shader->use();
-        batch->draw_rectangle(0, 0, 0, 8, 6);
-        batch->finish_adding();
-        batch->render(textureBG);
+        batch->draw_rectangle(0, 0, 0, 8, 6);  // deuxieme etape 
+        batch->finish_adding(); // troisieme etape 
+
+        shader->loadMat4(projMatrixLocation, projection);
+        shader->loadMat4(viewMatrixLocation, view);
+
+        batch->render(textureBG); // quatrieme etape
         batch->clear_vertices();
 
-        testDeck.on_render(batch);
-        testDiscard.on_render(batch);
-        testBoard.on_render(batch);
-        testMain.on_render(batch, true);
-        game.tempRender(batch);
-        if (cardInMouse) cardInMouse->on_render(batch);
+        // testDeck.on_render(batch);
+        // testDiscard.on_render(batch);
+        // testBoard.on_render(batch);
+        // testMain.on_render(batch, true);
+        game.onDraw(batch);
+        // if (cardInMouse) cardInMouse->on_render(batch);
+        
 
         batch->finish_adding();
         batch->render(textureCard);
+        batch->clear_vertices();
+        
+        game.onRenderUI(batch);
+
+        batch->finish_adding();
+
+        shader->loadMat4(projMatrixLocation, glm::mat4(1.f));
+        shader->loadMat4(viewMatrixLocation, glm::mat4(1.f));
+
+        batch->render(textButtons);
+
+
+
+        
+
         shader->unuse();
 
         SDL_GL_SwapWindow(window);

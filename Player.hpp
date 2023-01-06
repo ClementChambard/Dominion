@@ -7,6 +7,7 @@
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
+#include "CardBoard.hpp"
 #include "PlayerState/PlayerStateActions.hpp"
 #include "PlayerState/PlayerStateBuyCards.hpp"
 #include <stdexcept>
@@ -28,14 +29,15 @@ class Player {
     CardPile deck;
     CardPile discard;
     CardFan hand;
-    CardFan board;
+    CardBoard board;
 
     std::vector<PlayerState*> states_to_cleanup;
     
     public:
-    Player();
+    Player(Game* game);
     ~Player();
     void draw(int numcards );
+    void update();
     void exit_state(PlayerState* state) { states_to_cleanup.push_back(state); }
     void startTurn();
     void endTurn();
@@ -43,8 +45,8 @@ class Player {
     CardPile& getDeck() { return deck; }
     CardPile& getDiscard() { return discard; }
     CardFan& getHand() { return hand; }
-    CardFan& getBoard() { return board; }
-
+    CardBoard& getBoard() { return board; }
+   
     PlayerState* set_state(PlayerState* playerState) { return state = playerState; }
     PlayerState* get_state() const { return state; }
     Game* getGame(){

@@ -17,6 +17,5 @@ void PlayerStateTrashCards::on_render(VertexBatch* batch) {
 }
 
 void PlayerStateTrashCards::on_renderUI(VertexBatch* batch) {
-    // render end trashs button ...
-    if (batch) {}
+    PlayerState::m_button.onUpdate(batch);
 }

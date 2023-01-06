@@ -17,6 +17,5 @@ void PlayerStateDiscardCards::on_render(VertexBatch* batch) {
 }
 
 void PlayerStateDiscardCards::on_renderUI(VertexBatch* batch) {
-    // render end discards button ...
-    if (batch) {}
+    PlayerState::m_button.onUpdate(batch);
 }

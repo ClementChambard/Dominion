@@ -19,6 +19,5 @@ void PlayerStateBuyCards::on_render(VertexBatch* batch) {
 }
 
 void PlayerStateBuyCards::on_renderUI(VertexBatch* batch) {
-    // render end buys button
-    if (batch) {}
+   PlayerState::m_button.onUpdate(batch);
 }

@@ -58,12 +58,14 @@ public:
 
     void playTurn(Player* player);
 
-    void tempRender(VertexBatch* batch);
 
     CardPile& getPile(size_t i) { return piles[i]; }
     CardPile& getPile(CardPileType i) { return piles[static_cast<size_t>(i)]; }
     Type* getType(size_t i) { return types[i]; }
     Type* getType(CardPileType i) { return types[static_cast<size_t>(i)]; }
+    void onDraw(VertexBatch *batch);
+    void onRenderUI(VertexBatch *batch);
+    void onTick();
 
     void getWinner();
     std::vector<Player> getPlayers(){

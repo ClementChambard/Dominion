@@ -3,6 +3,7 @@
 
 #include <functional>
 #include "../VertexBatch.hpp"
+#include "../Button.hpp"
 
 struct PlayerStateResult {
         private:
@@ -37,6 +38,8 @@ class PlayerState {
         virtual void render_played(VertexBatch* batch) const;
         virtual void render_piles(VertexBatch* batch) const;
         virtual void render_discard(VertexBatch* batch) const;
+
+        static Button m_button;
 
     private:
         Player* m_p;

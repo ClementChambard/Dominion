@@ -23,7 +23,7 @@ class CardBoard {
 
         auto begin() { return m_data.begin(); }
         auto end() { return m_data.end(); }
-        auto size() { return m_data.size(); }
+        auto size() const { return m_data.size(); }
 
     private:
         glm::vec3 m_targetPos{};
