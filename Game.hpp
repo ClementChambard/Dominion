@@ -66,6 +66,7 @@ public:
     void onDraw(VertexBatch *batch);
     void onRenderUI(VertexBatch *batch);
     void onTick();
+    void render_piles(VertexBatch* batch);
 
     void getWinner();
     std::vector<Player> getPlayers(){

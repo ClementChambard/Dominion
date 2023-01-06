@@ -182,10 +182,10 @@ int main() {
             else   cardInMouse->rotateYTo(0.f);
             cardInMouse->on_tick();
         }
-        testDeck.on_tick();
-        testDiscard.on_tick();
-        testMain.on_tick();
-        testBoard.on_tick();
+        //testDeck.on_tick();
+        //testDiscard.on_tick();
+        //testMain.on_tick();
+        //testBoard.on_tick();
         game.onTick();
 
         // Draw

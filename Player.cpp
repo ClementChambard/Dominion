@@ -16,10 +16,8 @@ Player::Player(Game* game) : game(game), deck(false), discard(true)
     glm::vec2 winSize = Mouse::getWindowSize();
   
     this->hand.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y, -0.5f, glm::vec3{0.f,-1.f,5.f}));
-    this->hand.fixPos();
 
     this->deck.setPos(Mouse::toWorld(130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
-    this->deck.fixPos();
 
     this->discard.setPos(Mouse::toWorld(winSize.x-130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
     this->discard.fixPos();
@@ -38,9 +36,10 @@ Player::Player(Game* game) : game(game), deck(false), discard(true)
     this->game->DistributeCard(this, CardPileType::ESTATE, PlayerCards::DECK);
     this->game->DistributeCard(this, CardPileType::ESTATE, PlayerCards::DECK);
     this->deck.shuffle();
+    this->deck.fixPos();
     draw(5);
 
-
+    this->hand.fixPos();
 }
 
 Player::~Player(){}

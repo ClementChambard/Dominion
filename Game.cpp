@@ -114,18 +114,22 @@ void Game::DistributeCard(Player* p, CardPileType pile, PlayerCards playerPile)
     }
 }
 
-void Game::onDraw(VertexBatch* batch)
-{
+void Game::render_piles(VertexBatch* batch) {
     for (size_t i = 0; i < piles.size(); i++)
     {
         piles[i].on_render(batch);
     }
-    currentPlayer->get_state()->on_render(batch);
+}
+
+void Game::onDraw(VertexBatch* batch)
+{
+    if (currentPlayer && currentPlayer->get_state()) currentPlayer->get_state()->on_render(batch);
 }
 
 void Game::onRenderUI(VertexBatch *batch){
-    currentPlayer->get_state()->on_renderUI(batch);
+    if (currentPlayer && currentPlayer->get_state()) currentPlayer->get_state()->on_renderUI(batch);
 }
+
 void Game::onTick(){
-    currentPlayer->update();
+    if (currentPlayer) currentPlayer->update();
 }

@@ -28,7 +28,6 @@ void CardFan::on_tick()
     float ang_fst = (ang_between * (nb_card-1))/2.f;
     m_inAnim = false;
 
-   
     glm::vec3 mousePosInFan = Mouse::toWorldCurrent(m_pos.z, {0.f, -1.f, 5.f}) - (m_pos+glm::vec3(CARD_FAN_CENTER_X,CARD_FAN_CENTER_Y,0.f));
     bool mouseInRange = (mousePosInFan.x*mousePosInFan.x+mousePosInFan.y*mousePosInFan.y) < (CARD_FAN_CENTER_DIST + 0.5f)*(CARD_FAN_CENTER_DIST + 0.5f);
     float mouseAngle = angleFromPoint(mousePosInFan.x, mousePosInFan.y) - glm::pi<float>()/2.f;
