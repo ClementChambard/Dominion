@@ -23,7 +23,7 @@ void PlayerStateBuyCards::on_exit() const {
 
 void PlayerStateBuyCards::on_tick() {
     // check buys = 0
-    if (player()->getBuys() <= 0) exit_state(nullptr);
+    if (m_buys <= 0) exit_state(nullptr);
     // check click on pile
     int hoveredPile = player()->getGame()->getHoveredPileId();
     if (hoveredPile >= 0) {
@@ -32,9 +32,10 @@ void PlayerStateBuyCards::on_tick() {
         // check has enough money and click
         if (type->isType(m_typeRestriction) && type->getCost() <= m_money && Mouse::press())
         {
-            player()->addBuys(-1);
-            player()->addCoins(-type->getCost());
+            m_buys--;
+            m_money -= type->getCost();
             player()->getGame()->DistributeCard(player(), hoveredPile, PlayerCards::BOARD);
+            player()->getGame()->highlightPiles(m_typeRestriction, m_money);
         }
     }
     // check press on end buys button

@@ -124,6 +124,7 @@ int Game::getHoveredPileId() {
 
 void Game::highlightPiles(Type::CardType t, int price) {
     for (size_t i = 0; i < piles.size(); i++) {
+        if (piles[i].size() <= 0) continue;
         auto type = piles[i].getOnTop()->getType();
         piles[i].setHighlight(type->getCost() <= price && type->isType(t));
     }
