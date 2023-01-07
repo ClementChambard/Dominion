@@ -8,6 +8,7 @@ void PlayerState::exit_state(PlayerStateResult *result) const
 {
     on_exit();
     m_p->set_state(m_previousState);
+    m_p->exit_state(this);
     if (m_thenFunc) m_thenFunc(m_p, result);
 
 }

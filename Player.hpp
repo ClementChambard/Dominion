@@ -31,14 +31,14 @@ class Player {
     CardFan hand;
     CardBoard board;
 
-    std::vector<PlayerState*> states_to_cleanup;
+    std::vector<const PlayerState*> states_to_cleanup;
     
     public:
     Player(Game* game);
     ~Player();
     void draw(int numcards );
     void update();
-    void exit_state(PlayerState* state) { states_to_cleanup.push_back(state); }
+    void exit_state(const PlayerState* state) { states_to_cleanup.push_back(state); }
     void startTurn();
     void endTurn();
 

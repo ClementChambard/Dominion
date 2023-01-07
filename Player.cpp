@@ -69,7 +69,7 @@ void Player::startTurn() {
     actions = 1;
     buys = 1;
     ActionMultiplier = 1;
-    for (PlayerState* ps : states_to_cleanup) delete ps;
+    for (const PlayerState* ps : states_to_cleanup) delete ps;
     states_to_cleanup.clear();
     set_state(new PlayerStateActions(this, nullptr)) 
         ->then([](Player* p, PlayerStateResult*) {

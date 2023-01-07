@@ -23,7 +23,7 @@ void PlayerStateBuyCards::on_exit() const {
 
 void PlayerStateBuyCards::on_tick() {
     // check buys = 0
-    if (m_buys <= 0) exit_state(nullptr);
+    if (m_buys <= 0) { exit_state(nullptr); return; }
     // check click on pile
     int hoveredPile = player()->getGame()->getHoveredPileId();
     if (hoveredPile >= 0) {
@@ -39,7 +39,7 @@ void PlayerStateBuyCards::on_tick() {
         }
     }
     // check press on end buys button
-    if (m_button.isHovered() && Mouse::press()) exit_state(nullptr);
+    if (m_button.isHovered() && Mouse::press()) { exit_state(nullptr); return; }
 }
 
 void PlayerStateBuyCards::on_render(VertexBatch* batch) {
