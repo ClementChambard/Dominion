@@ -18,8 +18,10 @@ class CardPile {
 
         void move(glm::vec3 const& pos) { m_targetPos = pos;}
         void setPos(glm::vec3 const& pos) { m_targetPos = m_pos = pos; }
+        void setHighlight(bool h) { m_lowlighted = !h; }
 
         bool isInAnim() const { return m_inAnim; }
+        bool isHovered() const;
 
         void fixPos();
         void shuffle();
@@ -30,9 +32,9 @@ class CardPile {
         auto begin() { return m_data.begin(); }
         auto end() { return m_data.end(); }
         auto size() const { return m_data.size(); }
-        
 
     private:
+        bool m_lowlighted = false;
         bool m_inAnim = false;
         bool m_faceUp;
         glm::vec3 m_targetPos {};

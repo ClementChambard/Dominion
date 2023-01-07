@@ -56,18 +56,18 @@ int main() {
     Texture* textureCard = new Texture("textures/Carte.png");
     Texture* textButtons = new Texture("textures/buttons.png");
     
-
     VertexBatch* batch = new VertexBatch();
 
     GLuint projMatrixLocation = shader->getUniformLocation("projectionMatrix");
     GLuint viewMatrixLocation = shader->getUniformLocation("viewMatrix");
 
-
     glm::mat4 projection = glm::perspective(3.141592f/4.f, (float)WINDOW_WIDTH/(float)WINDOW_HEIGHT, 0.01f, 1000.f);
     glm::mat4 view = glm::lookAt(glm::vec3{0.f,-1.f,5.f}, glm::vec3{0.f,0.f,0.f}, glm::vec3{0.f,0.f,1.f});
-    glm::mat4 inv_p_v = glm::inverse(projection * view);
-    Mouse::setInvPV(inv_p_v);
+    Mouse::setInvPV(glm::inverse(projection * view));
+    Mouse::setCamPos(glm::vec3{0.f, -1.f, 5.f});
 
+
+    // TODO: Menu to choose the cards
     Game game {2, {
         new ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f}),
         new ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f}),
@@ -82,8 +82,10 @@ int main() {
 
     }};
 
+
+    // TEST
     CardFan testMain;
-    testMain.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, -0.5f, glm::vec3{0.f,-1.f,5.f}));
+    testMain.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT, -0.5f));
     testMain.fixPos();
 
     CardPile testDeck {false};
@@ -91,29 +93,33 @@ int main() {
         testDeck.AddOnTop(new Card(game.getType(i)));
         testDeck.AddOnTop(new Card(game.getType(i)));
     }
-    testDeck.setPos(Mouse::toWorld(130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
+    testDeck.setPos(Mouse::toWorld(130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f));
     testDeck.fixPos();
 
     CardPile testDiscard {true};
-    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
+    testDiscard.setPos(Mouse::toWorld(WINDOW_WIDTH-130.f*WINDOW_WIDTH/1500.f, WINDOW_HEIGHT-150.f*WINDOW_HEIGHT/900.f, -1.5f));
     testDiscard.fixPos();
 
     CardBoard testBoard;
-    testBoard.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f+100.f, -1.f, glm::vec3{0.f,-1.f,5.f}));
+    testBoard.setPos(Mouse::toWorld(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f+100.f, -1.f));
     testBoard.fixPos();
 
     Card* cardInMouse = nullptr;
 
-    bool running = true;
-    SDL_Event event;
     bool b = false;
     bool h = false;
+    // END TEST
+
+
+    bool running = true;
+    SDL_Event event;
     while (running) {
 
         glClearColor(0.3f, 0.6f, 0.1f, 1.f);
         glClearDepth(1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        Mouse::resetState();
 
         while(SDL_PollEvent(&event))
         {
@@ -177,7 +183,7 @@ int main() {
 
         // Update
         if (cardInMouse) {
-            cardInMouse->moveTo(Mouse::toWorldCurrent(0, glm::vec3{0.f,-1.f,5.f})+glm::vec3(0,0,0.25f));
+            cardInMouse->moveTo(Mouse::toWorldCurrent(0.25f));
             if (b) cardInMouse->rotateYTo(glm::pi<float>());
             else   cardInMouse->rotateYTo(0.f);
             cardInMouse->on_tick();

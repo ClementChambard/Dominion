@@ -1,4 +1,5 @@
 #include "CardPile.hpp"
+#include "Mouse.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <random>
 #include <algorithm>
@@ -35,8 +36,16 @@ void CardPile::on_tick() {
 
 void CardPile::on_render(VertexBatch* batch) {
     for (Card* c : m_data) {
-        c->on_render(batch);
+        c->on_render(batch, false, m_lowlighted);
     }
+}
+
+bool CardPile::isHovered() const {
+    if (m_data.size() == 0) return false;
+    float h = m_pos.z + getHInc(m_data.size()) * m_data.size();
+    glm::vec2 mpos = Mouse::toWorldCurrent(h);
+    glm::vec2 s = m_data.back()->getSize();
+    return mpos.x > m_pos.x - s.x/2 && mpos.x < m_pos.x + s.x/2 && mpos.y > m_pos.y - s.y/2 && mpos.y < m_pos.y + s.y/2;
 }
 
 void CardPile::transmitFrom(CardPile& cp) {

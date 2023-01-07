@@ -15,14 +15,14 @@ Player::Player(Game* game) : game(game), deck(false), discard(true)
     Victorypoints = 0;
     glm::vec2 winSize = Mouse::getWindowSize();
   
-    this->hand.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y, -0.5f, glm::vec3{0.f,-1.f,5.f}));
+    this->hand.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y, -0.5f));
 
-    this->deck.setPos(Mouse::toWorld(130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
+    this->deck.setPos(Mouse::toWorld(130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f));
 
-    this->discard.setPos(Mouse::toWorld(winSize.x-130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f, glm::vec3{0.f,-1.f,5.f}));
+    this->discard.setPos(Mouse::toWorld(winSize.x-130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f));
     this->discard.fixPos();
     
-    this->board.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y/2.f+100.f, -1.f, glm::vec3{0.f,-1.f,5.f}));
+    this->board.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y/2.f+100.f, -1.f));
     this->board.fixPos();
 
     this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
@@ -44,6 +44,13 @@ Player::Player(Game* game) : game(game), deck(false), discard(true)
 
 Player::~Player(){}
 
+void Player::playCard(Card* c) {
+    for (int i = 0; i < ActionMultiplier; i++) {
+        c->getType()->onPlay(this);
+    }
+    actions--;
+}
+
 void Player::draw(int numcards)
 {
     for (int i = 0; i < numcards; i++) {
@@ -54,16 +61,22 @@ void Player::draw(int numcards)
         Card* newCard = deck.getOnTop();
         deck.removeOnTop();
         hand.Add(newCard);
+        newCard->getType()->onDraw(this);
     }
 }
 
 void Player::startTurn() {
+    actions = 1;
+    buys = 1;
+    ActionMultiplier = 1;
     for (PlayerState* ps : states_to_cleanup) delete ps;
     states_to_cleanup.clear();
     set_state(new PlayerStateActions(this, nullptr)) 
         ->then([](Player* p, PlayerStateResult*) {
+            std::cout << "actions done\n";
             p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys))
                 ->then([](Player* p, PlayerStateResult*) {
+                    std::cout << "buys done\n";
                     p->endTurn();
                 });
         });
@@ -73,14 +86,18 @@ void Player::endTurn()
 {
     while (board.get(0)) {
         discard.AddOnTop(board.get(0));
+        board.get(0)->getType()->onDiscard(this);
         board.remove(0);
     }
     while (hand.get(0)) {
         discard.AddOnTop(hand.get(0));
+        hand.get(0)->getType()->onDiscard(this);
         hand.remove(0);
     }
+    coins = 0;
     draw(5);
     // game->nextPlayer();
+    startTurn();
 }
 
 void Player::trashCard(Card* card){

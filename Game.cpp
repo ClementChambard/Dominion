@@ -96,6 +96,7 @@ void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cance
 void Game::DistributeCard(Player* p, CardPileType pile, PlayerCards playerPile)
 {
     Card* c = piles[static_cast<size_t>(pile)].getOnTop();
+    piles[static_cast<size_t>(pile)].removeOnTop();
     c->getType()->onAddToDeck(p);
     switch (playerPile) {
         case PlayerCards::DECK:
@@ -111,6 +112,20 @@ void Game::DistributeCard(Player* p, CardPileType pile, PlayerCards playerPile)
         case PlayerCards::BOARD:
             p->getBoard().Add(c);
             break;
+    }
+}
+
+int Game::getHoveredPileId() {
+    for (size_t i = 0; i < piles.size(); i++) {
+        if (piles[i].isHovered()) return i;
+    }
+    return -1;
+}
+
+void Game::highlightPiles(Type::CardType t, int price) {
+    for (size_t i = 0; i < piles.size(); i++) {
+        auto type = piles[i].getOnTop()->getType();
+        piles[i].setHighlight(type->getCost() <= price && type->isType(t));
     }
 }
 

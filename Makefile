@@ -16,4 +16,4 @@ run: dominion
 	./$<
 
 clean:
-	rm -f *.o *~ *.core
+	rm -f *.o *~ *.core PlayerState/*.o

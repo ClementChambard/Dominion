@@ -1,21 +1,53 @@
 #include "PlayerStateBuyCards.hpp"
+#include "../Player.hpp"
+#include "../Game.hpp"
+#include "../Mouse.hpp"
+
+void PlayerStateBuyCards::on_entry() {
+    // highlight can buy piles
+    player()->getGame()->highlightPiles(m_typeRestriction, m_money);
+    for (size_t i = 0; i < player()->getHand().size(); i++) {
+        if (player()->getHand().get(i)->getType()->isType(Type::CardType::TREASURE))
+        {
+            player()->getBoard().Add(player()->getHand().get(i));
+            player()->getHand().remove(i);
+            i--;
+        }
+    }
+}
+
+void PlayerStateBuyCards::on_exit() const {
+    // un-highlight piles
+    player()->getGame()->highlightPiles(Type::CardType::NONE, 100);
+}
 
 void PlayerStateBuyCards::on_tick() {
-    // check click on pile
-
     // check buys = 0
-    // or
+    if (player()->getBuys() <= 0) exit_state(nullptr);
+    // check click on pile
+    int hoveredPile = player()->getGame()->getHoveredPileId();
+    if (hoveredPile >= 0) {
+        auto p = player()->getGame()->getPile(hoveredPile);
+        auto type = p.getOnTop()->getType();
+        // check has enough money and click
+        if (type->isType(m_typeRestriction) && type->getCost() <= m_money && Mouse::press())
+        {
+            player()->addBuys(-1);
+            player()->addCoins(-type->getCost());
+            player()->getGame()->DistributeCard(player(), hoveredPile, PlayerCards::BOARD);
+        }
+    }
     // check press on end buys button
-    // then
-    // exit_state()
+    if (m_button.isHovered() && Mouse::press()) exit_state(nullptr);
 }
 
 void PlayerStateBuyCards::on_render(VertexBatch* batch) {
     render_deck(batch);
     render_discard(batch);
-    render_hand(batch);
+    render_piles(batch);
+    // Special render piles for hovered ?
     render_played(batch);
-    // Special render piles for hover & money
+    render_hand(batch);
 }
 
 void PlayerStateBuyCards::on_renderUI(VertexBatch* batch) {

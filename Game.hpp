@@ -54,6 +54,7 @@ public:
     ~Game();
     void start();
     void DistributeCard(Player* player,CardPileType cardType, PlayerCards pile);
+    void DistributeCard(Player* player,int cardPileId, PlayerCards pile) { DistributeCard(player, (CardPileType) cardPileId, pile); }
     void Attack(Player* player,std::function<void(Player*)> attack ,bool cancelable = true);
 
     void playTurn(Player* player);
@@ -67,6 +68,9 @@ public:
     void onRenderUI(VertexBatch *batch);
     void onTick();
     void render_piles(VertexBatch* batch);
+
+    int getHoveredPileId();
+    void highlightPiles(Type::CardType t, int price);
 
     void getWinner();
     std::vector<Player> getPlayers(){

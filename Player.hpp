@@ -42,6 +42,8 @@ class Player {
     void startTurn();
     void endTurn();
 
+    void playCard(Card* c);
+
     CardPile& getDeck() { return deck; }
     CardPile& getDiscard() { return discard; }
     CardFan& getHand() { return hand; }

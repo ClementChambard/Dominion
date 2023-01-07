@@ -8,8 +8,10 @@ class PlayerStateTrashCards : public PlayerState {
     public:
         PlayerStateTrashCards(Player* p, PlayerState* previousState, int trashsMin, int trashsMax, Type::CardType typeRestriction = Type::CardType::NONE, int costMin = 0, int costMax = 10) :
             PlayerState(p, previousState), m_trashsMin(trashsMin), m_trashsMax(trashsMax), m_typeRestriction(typeRestriction),
-            m_costMin(costMin), m_costMax(costMax) {}
+            m_costMin(costMin), m_costMax(costMax) { on_entry(); }
 
+        void on_entry() override {}
+        void on_exit() const override {}
         void on_tick() override;
         void on_render(VertexBatch* batch) override;
         void on_renderUI(VertexBatch* batch) override;

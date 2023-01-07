@@ -46,6 +46,9 @@ public:
 
     void on_tick();
     void on_render(VertexBatch* batch, bool hovered = false, bool lowlight = false);
+
+    glm::vec2 getPos() const { return m_position; }
+    glm::vec2 getSize() const { return {0.8f, 1.2f}; }
 };
 
 

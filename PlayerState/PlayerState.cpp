@@ -7,8 +7,9 @@ Button PlayerState::m_button {  {247/600.f,365/500.f,424/600.0f,445/500.f},{247/
 void PlayerState::exit_state(PlayerStateResult *result) const
 {
     on_exit();
-    if (m_thenFunc) m_thenFunc(m_p, result);
     m_p->set_state(m_previousState);
+    if (m_thenFunc) m_thenFunc(m_p, result);
+
 }
 
 // TODO: default renders
@@ -16,7 +17,7 @@ void PlayerState::render_deck(VertexBatch* batch) const {
     m_p->getDeck().on_render(batch);
 }
 void PlayerState::render_hand(VertexBatch* batch) const {
-    m_p->getHand().on_render(batch, true);
+    m_p->getHand().on_render(batch, false);
 }
 void PlayerState::render_played(VertexBatch* batch) const {
     m_p->getBoard().on_render(batch);

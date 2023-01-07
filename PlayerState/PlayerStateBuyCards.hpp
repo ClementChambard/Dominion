@@ -7,8 +7,10 @@
 class PlayerStateBuyCards : public PlayerState {
     public:
         PlayerStateBuyCards(Player* p, PlayerState* previousState, int money, int buys, Type::CardType typeRestriction = Type::CardType::NONE) :
-            PlayerState(p, previousState), m_money(money), m_buys(buys), m_typeRestriction(typeRestriction) {}
+            PlayerState(p, previousState), m_money(money), m_buys(buys), m_typeRestriction(typeRestriction) { on_entry(); }
 
+        void on_entry() override;
+        void on_exit() const override;
         void on_tick() override;
         void on_render(VertexBatch* batch) override;
         void on_renderUI(VertexBatch* batch) override;
