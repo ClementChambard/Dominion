@@ -149,3 +149,46 @@ void Game::onRenderUI(VertexBatch *batch){
 void Game::onTick(){
     if (currentPlayer) currentPlayer->update();
 }
+
+void Game::next_player() { 
+
+    checkEndGame();
+    curPlayerId = (curPlayerId + 1) % players.size();
+     currentPlayer = &players[curPlayerId]; 
+     currentPlayer->startTurn();
+      std::cout << "Player " << curPlayerId << "\n"; 
+}
+
+void printWinner(std::vector<Player> const& players) {
+    int maxScore = 0;
+    int winnerId = 0;
+    for (size_t i = 0; i < players.size(); i++) {
+        int score = players[i].getVictory();
+        if (score > maxScore) {
+            maxScore = score;
+            winnerId = i;
+        }
+    }
+    std::cout << "Player " << winnerId << " wins with " << maxScore << " points\n";
+}
+
+void Game::checkEndGame(){
+    if (piles[static_cast<int>(CardPileType::PROVINCE)].size() <= 0) {
+        std::cout << "Game Over\n";
+        // check winner
+        printWinner(players);
+        endGame = true;
+        return;
+    }
+    int depletedPileCount = 0;
+    for (size_t i = 0; i < piles.size(); i++) {
+        if (piles[i].size() <= 0) depletedPileCount++;
+    }
+    if (depletedPileCount >= 3) {
+        std::cout << "Game Over\n";
+        // check winner
+        printWinner(players);
+        endGame = true;
+    };
+
+}

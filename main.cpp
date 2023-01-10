@@ -69,7 +69,7 @@ int main() {
 
 
     // TODO: Menu to choose the cards
-    Game game {3, {
+    Game game {2, {
         new ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f}),
         new ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f}),
         new ActionSimple(1,0,0,2,"Laboratory",5,{3.f/7.f,0.4f,4/7.f,0.6f}),
@@ -80,6 +80,7 @@ int main() {
         new CouncilRoom(),
         new Chancelor(),
         new Feast()
+        
 
     }};
 
@@ -114,7 +115,7 @@ int main() {
 
     bool running = true;
     SDL_Event event;
-    while (running) {
+    while (running && !game.getEndGame()) {
 
         glClearColor(0.3f, 0.6f, 0.1f, 1.f);
         glClearDepth(1.f);
