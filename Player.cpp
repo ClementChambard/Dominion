@@ -59,9 +59,11 @@ void Player::draw(int numcards)
             deck.shuffle();
         }
         Card* newCard = deck.getOnTop();
-        deck.removeOnTop();
-        hand.Add(newCard);
-        newCard->getType()->onDraw(this);
+        if (newCard) {
+            deck.removeOnTop();
+            hand.Add(newCard);
+            newCard->getType()->onDraw(this);
+        }
     }
 }
 
@@ -96,8 +98,8 @@ void Player::endTurn()
     }
     coins = 0;
     draw(5);
-    // game->nextPlayer();
-    startTurn();
+    game->next_player();
+    //startTurn();
 }
 
 void Player::trashCard(Card* card){

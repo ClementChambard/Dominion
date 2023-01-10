@@ -48,6 +48,7 @@ private:
     std::vector<Card> allCards;
     std::vector<CardPile> piles;
     std::vector<Type*> types;
+    int curPlayerId = 0;
 
 public:
     Game(int nbPlayers, std::array<Type*, 10> actionCardTypes);
@@ -68,6 +69,8 @@ public:
     void onRenderUI(VertexBatch *batch);
     void onTick();
     void render_piles(VertexBatch* batch);
+
+    void next_player() { curPlayerId = (curPlayerId + 1) % players.size(); currentPlayer = &players[curPlayerId]; currentPlayer->startTurn(); std::cout << "Player " << curPlayerId << "\n"; }
 
     int getHoveredPileId();
     void highlightPiles(Type::CardType t, int price);

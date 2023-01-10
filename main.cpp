@@ -16,6 +16,7 @@
 #include "CardsType/Chancelor.hpp"
 #include "CardsType/Feast.hpp"
 #include "CardsType/Mine.hpp"
+#include "CardsType/Moat.hpp"
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
@@ -68,12 +69,12 @@ int main() {
 
 
     // TODO: Menu to choose the cards
-    Game game {2, {
+    Game game {3, {
         new ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f}),
         new ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f}),
         new ActionSimple(1,0,0,2,"Laboratory",5,{3.f/7.f,0.4f,4/7.f,0.6f}),
         new ActionSimple(1,1,1,1,"Market",5,{1/7.f,0.6f,2/7.f,0.8f}),
-        new ActionSimple(2,1,2,0,"Festival",5,{2.f/7.f,0.4f,3/7.f,0.6f}),
+        new Moat(),
         new ActionSimple(0,1,2,0,"Woodcutter",3,{5.f/7.f,0.8f,6/7.f,1.0f}),
         new Witch(),
         new CouncilRoom(),
