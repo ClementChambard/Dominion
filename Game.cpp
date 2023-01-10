@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "CardsType/Victoire.hpp"
 #include "CardsType/Tresor.hpp"
+#include <jsoncpp/json/json.h> 
 
 const int cardCount[] = {
     30, 24, 12, 12,
@@ -9,7 +10,7 @@ const int cardCount[] = {
     10, 10, 10, 10, 10
 };
 
-Game::Game(int nbPlayers, std::array<Type*, 10> actionCardTypes)
+Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes)
 {
     types.resize(static_cast<int>(CardPileType::LENGTH), nullptr);
     piles.resize(static_cast<int>(CardPileType::LENGTH), true);
@@ -21,16 +22,16 @@ Game::Game(int nbPlayers, std::array<Type*, 10> actionCardTypes)
     types[static_cast<int>(CardPileType::COPPER  )] = new Tresor   (1, "Copper"  , 0, { 2/7.f, 0.0f, 3/7.f, 0.2f });
     types[static_cast<int>(CardPileType::SILVER  )] = new Tresor   (2, "Silver"  , 3, { 1/7.f, 0.0f, 2/7.f, 0.2f });
     types[static_cast<int>(CardPileType::GOLD    )] = new Tresor   (3, "Gold"    , 6, { 1/7.f, 0.4f, 2/7.f, 0.6f });
-    types[static_cast<int>(CardPileType::ACTION1 )] = actionCardTypes[0];
-    types[static_cast<int>(CardPileType::ACTION2 )] = actionCardTypes[1];
-    types[static_cast<int>(CardPileType::ACTION3 )] = actionCardTypes[2];
-    types[static_cast<int>(CardPileType::ACTION4 )] = actionCardTypes[3];
-    types[static_cast<int>(CardPileType::ACTION5 )] = actionCardTypes[4];
-    types[static_cast<int>(CardPileType::ACTION6 )] = actionCardTypes[5];
-    types[static_cast<int>(CardPileType::ACTION7 )] = actionCardTypes[6];
-    types[static_cast<int>(CardPileType::ACTION8 )] = actionCardTypes[7];
-    types[static_cast<int>(CardPileType::ACTION9 )] = actionCardTypes[8];
-    types[static_cast<int>(CardPileType::ACTION10)] = actionCardTypes[9];
+    types[static_cast<int>(CardPileType::ACTION1 )] = ActionCards::GetActionCardTypes(actionCardTypes[0]);
+    types[static_cast<int>(CardPileType::ACTION2 )] = ActionCards::GetActionCardTypes(actionCardTypes[1]);
+    types[static_cast<int>(CardPileType::ACTION3 )] = ActionCards::GetActionCardTypes(actionCardTypes[2]);
+    types[static_cast<int>(CardPileType::ACTION4 )] = ActionCards::GetActionCardTypes(actionCardTypes[3]);
+    types[static_cast<int>(CardPileType::ACTION5 )] = ActionCards::GetActionCardTypes(actionCardTypes[4]);
+    types[static_cast<int>(CardPileType::ACTION6 )] = ActionCards::GetActionCardTypes(actionCardTypes[5]);
+    types[static_cast<int>(CardPileType::ACTION7 )] = ActionCards::GetActionCardTypes(actionCardTypes[6]);
+    types[static_cast<int>(CardPileType::ACTION8 )] = ActionCards::GetActionCardTypes(actionCardTypes[7]);
+    types[static_cast<int>(CardPileType::ACTION9 )] = ActionCards::GetActionCardTypes(actionCardTypes[8]);
+    types[static_cast<int>(CardPileType::ACTION10)] = ActionCards::GetActionCardTypes(actionCardTypes[9]);
 
     for (size_t i = 0; i < types.size(); i++) {
         for (int j = 0; j < cardCount[i]; j++) {
@@ -68,10 +69,7 @@ Game::Game(int nbPlayers, std::array<Type*, 10> actionCardTypes)
     this->currentPlayer= &players[0];
     this->currentPlayer->startTurn();
 }
-Game::~Game()
-{
-    for (Type* t : types) delete t;
-}
+
 void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cancelable )
 {
     for (Player &p : players)
@@ -191,4 +189,13 @@ void Game::checkEndGame(){
         endGame = true;
     };
 
+}
+
+void Game::save() {
+    Json::Value root;
+    root["nbPlayers"] = players.size();
+    root["curPlayerId"] = curPlayerId;
+
+    std::cout << root;
+    
 }

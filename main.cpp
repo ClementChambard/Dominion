@@ -9,14 +9,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vector>
-#include "CardsType/ActionSimple.hpp"
 #include "Game.hpp"
-#include "CardsType/Witch.hpp"
-#include "CardsType/CouncilRoom.hpp"
-#include "CardsType/Chancelor.hpp"
-#include "CardsType/Feast.hpp"
-#include "CardsType/Mine.hpp"
-#include "CardsType/Moat.hpp"
 #include "Card.hpp"
 #include "CardPile.hpp"
 #include "CardFan.hpp"
@@ -70,22 +63,10 @@ int main() {
     Mouse::setInvPV(glm::inverse(projection * view));
     Mouse::setCamPos(glm::vec3{0.f, -1.f, 5.f});
 
+    ActionCards::InitActionCardTypes();
 
     // TODO: Menu to choose the cards
-    Game game {2, {
-        new ActionSimple(0,0,0,3,"Smithy",4,{4.f/7.f,0.f,5/7.f,0.2f}),
-        new ActionSimple(2,0,0,1,"Village",3,{4.f/7.f,0.6f,5/7.f,0.8f}),
-        new ActionSimple(1,0,0,2,"Laboratory",5,{3.f/7.f,0.4f,4/7.f,0.6f}),
-        new ActionSimple(1,1,1,1,"Market",5,{1/7.f,0.6f,2/7.f,0.8f}),
-        new Moat(),
-        new ActionSimple(0,1,2,0,"Woodcutter",3,{5.f/7.f,0.8f,6/7.f,1.0f}),
-        new Witch(),
-        new CouncilRoom(),
-        new Chancelor(),
-        new Feast()
-        
-
-    }};
+    Game game {2, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
 
     // TEST
     CardFan testMain;
@@ -113,7 +94,7 @@ int main() {
     bool b = false;
     bool h = false;
     // END TEST
-
+    game.save();
 
     bool running = true;
     SDL_Event event;
@@ -231,7 +212,7 @@ int main() {
 
         batch->render(textButtons);
 
-        spriteFont.renderText(game.getTopStr(), {0,0.9f}, {0.05,0.1});
+        spriteFont.renderText(game.getTopStr() , {0,0.9f}, {0.05,0.1});
         spriteFont.renderAllText();
         
 
@@ -244,6 +225,8 @@ int main() {
     delete shader;
     delete textureBG;
     delete textureCard;
+    ActionCards::CleanupActionCardTypes();
+
     if (cardInMouse) delete cardInMouse;
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);

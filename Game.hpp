@@ -3,6 +3,7 @@
 #include <map>
 #include <array>
 #include "CardsType/Type.hpp"
+#include "CardsType/ActionCards.hpp"
 #include <functional>
 #ifndef GAME_H
 #define GAME_H
@@ -53,8 +54,8 @@ private:
     bool endGame=false;
 
 public:
-    Game(int nbPlayers, std::array<Type*, 10> actionCardTypes);
-    ~Game();
+    Game(int nbPlayers, std::array<int, 10> actionCardTypes);
+  
     void start();
     void DistributeCard(Player* player,CardPileType cardType, PlayerCards pile);
     void DistributeCard(Player* player,int cardPileId, PlayerCards pile) { DistributeCard(player, (CardPileType) cardPileId, pile); }
@@ -71,6 +72,8 @@ public:
     void onRenderUI(VertexBatch *batch);
     void onTick();
     void render_piles(VertexBatch* batch);
+
+    void save();
 
     void next_player();
 
