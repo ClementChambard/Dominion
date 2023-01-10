@@ -49,7 +49,11 @@ private:
     std::vector<CardPile> piles;
     std::vector<Type*> types;
     int curPlayerId = 0;
+<<<<<<< HEAD
+    std::string phaseName = "Action phase";
+=======
     bool endGame=false;
+>>>>>>> main
 
 public:
     Game(int nbPlayers, std::array<Type*, 10> actionCardTypes);
@@ -75,7 +79,15 @@ public:
 
     int getHoveredPileId();
     void highlightPiles(Type::CardType t, int price);
+<<<<<<< HEAD
+
+    void setPhaseName(std::string const& phn) { phaseName = phn; }
+    std::string getTopStr() { return "Player " + std::to_string(curPlayerId+1) + " : " + phaseName; }
+
+
+=======
     
+>>>>>>> main
     void getWinner();
     std::vector<Player> getPlayers(){
         return players;

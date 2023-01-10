@@ -23,6 +23,7 @@
 #include "CardBoard.hpp"
 #include "Mouse.hpp"
 #include "Button.hpp"
+#include "SpriteFont.hpp"
 
 const int WINDOW_WIDTH = 1500;
 const int WINDOW_HEIGHT = 900;
@@ -56,8 +57,10 @@ int main() {
     Texture* textureBG = new Texture("textures/stage05a.png");
     Texture* textureCard = new Texture("textures/Carte.png");
     Texture* textButtons = new Texture("textures/buttons.png");
-    
+    Texture* textFont = new Texture("textures/ascii_18_1280.png");
+
     VertexBatch* batch = new VertexBatch();
+    SpriteFont spriteFont(textFont, 18, 18, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_ abcdefghijklmnopqrstuvwxyz{|}~ ");
 
     GLuint projMatrixLocation = shader->getUniformLocation("projectionMatrix");
     GLuint viewMatrixLocation = shader->getUniformLocation("viewMatrix");
@@ -83,7 +86,6 @@ int main() {
         
 
     }};
-
 
     // TEST
     CardFan testMain;
@@ -229,8 +231,8 @@ int main() {
 
         batch->render(textButtons);
 
-
-
+        spriteFont.renderText(game.getTopStr(), {0,0.9f}, {0.05,0.1});
+        spriteFont.renderAllText();
         
 
         shader->unuse();

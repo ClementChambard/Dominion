@@ -73,12 +73,14 @@ void Player::startTurn() {
     ActionMultiplier = 1;
     for (const PlayerState* ps : states_to_cleanup) delete ps;
     states_to_cleanup.clear();
+    game->setPhaseName("Action phase");
     set_state(new PlayerStateActions(this, nullptr)) 
         ->then([](Player* p, PlayerStateResult*) {
-            std::cout << "actions done\n";
+            //std::cout << "actions done\n";
+            p->getGame()->setPhaseName("Buy phase");
             p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys))
                 ->then([](Player* p, PlayerStateResult*) {
-                    std::cout << "buys done\n";
+                    //std::cout << "buys done\n";
                     p->endTurn();
                 });
         });
