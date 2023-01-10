@@ -34,7 +34,7 @@ class ActionCards {
         static void CleanupActionCardTypes();
         static Type* GetActionCardTypes(int i) { return actionCards[i]; }
         static int GetActionCardTypeId(Type* type) { return std::find(actionCards.begin(), actionCards.end(), type) - actionCards.begin();}
-    
+        
     private:
         static std::vector<Type*> actionCards;
 };
