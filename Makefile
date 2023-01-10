@@ -7,7 +7,7 @@ CARDTYPEOBJECT = CardsType/ActionSimple.o CardsType/Bureaucrat.o CardsType/Chanc
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-dominion: main.o Shader.o Texture.o VertexBatch.o Game.o Player.o Card.o CardPile.o CardFan.o CardBoard.o Mouse.o $(PLAYERSTATEOBJECT) $(CARDTYPEOBJECT) Button.o
+dominion: main.o Shader.o Texture.o VertexBatch.o SpriteFont.o Game.o Player.o Card.o CardPile.o CardFan.o CardBoard.o Mouse.o $(PLAYERSTATEOBJECT) $(CARDTYPEOBJECT) Button.o
 	$(CXX) $^ -o $@ $(LIBFLAGS)
 
 .PHONY: run clean
