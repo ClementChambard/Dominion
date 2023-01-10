@@ -79,7 +79,9 @@ class Player {
         this->ActionMultiplier=multiplier;
     }
     int getActionMultiplier() const { return ActionMultiplier; }
-    
+    int getVictory () const{
+        return Victorypoints;
+    }
     
 };
 
