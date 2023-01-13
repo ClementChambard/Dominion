@@ -6,14 +6,6 @@
 void PlayerStateBuyCards::on_entry() {
     // highlight can buy piles
     player()->getGame()->highlightPiles(m_typeRestriction, m_money);
-    for (size_t i = 0; i < player()->getHand().size(); i++) {
-        if (player()->getHand().get(i)->getType()->isType(Type::CardType::TREASURE))
-        {
-            player()->getBoard().Add(player()->getHand().get(i));
-            player()->getHand().remove(i);
-            i--;
-        }
-    }
 }
 
 void PlayerStateBuyCards::on_exit() const {

@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "CardsType/Victoire.hpp"
 #include "CardsType/Tresor.hpp"
-#include <jsoncpp/json/json.h> 
+#include <json/json.h> 
 
 const int cardCount[] = {
     30, 24, 12, 12,

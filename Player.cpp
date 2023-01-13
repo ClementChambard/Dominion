@@ -78,6 +78,14 @@ void Player::startTurn() {
         ->then([](Player* p, PlayerStateResult*) {
             //std::cout << "actions done\n";
             p->getGame()->setPhaseName("Buy phase");
+            for (size_t i = 0; i < p->getHand().size(); i++) {
+                if (p->getHand().get(i)->getType()->isType(Type::CardType::TREASURE))
+                {
+                    p->getBoard().Add(p->getHand().get(i));
+                    p->getHand().remove(i);
+                    i--;
+                }
+            }
             p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys))
                 ->then([](Player* p, PlayerStateResult*) {
                     //std::cout << "buys done\n";

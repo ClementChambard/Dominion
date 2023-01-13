@@ -11,6 +11,7 @@ void PlayerStateActions::on_exit() const {
 }
 
 void PlayerStateActions::on_tick() {
+    std::cout << "tick " << player()->getActions() << "\n";
     // check nb of actions left
     if (player()->getActions() <= 0) { exit_state(nullptr); return; }
     // check if player has action cards in hand
@@ -40,7 +41,6 @@ void PlayerStateActions::on_render(VertexBatch* batch) {
     render_piles(batch);
     render_played(batch);
     player()->getHand().on_render(batch, true);
-    // special render hand
 }
 
 void PlayerStateActions::on_renderUI(VertexBatch* batch) {

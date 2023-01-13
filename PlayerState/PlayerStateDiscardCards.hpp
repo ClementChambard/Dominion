@@ -3,6 +3,7 @@
 
 #include "PlayerState.hpp"
 #include "../CardsType/Type.hpp"
+#include <vector>
 
 class PlayerStateDiscardCards : public PlayerState {
     public:
@@ -10,20 +11,22 @@ class PlayerStateDiscardCards : public PlayerState {
         int discardsMin, int discardsMax, Type::CardType typeRestriction = Type::CardType::NONE) :
             PlayerState(p, previousState), m_discardsMin(discardsMin), m_discardsMax(discardsMax), m_typeRestriction(typeRestriction) { on_entry(); }
 
-        void on_entry() override {}
-        void on_exit() const override {}
+        void on_entry() override;
+        void on_exit() const override;
         void on_tick() override;
         void on_render(VertexBatch* batch) override;
         void on_renderUI(VertexBatch* batch) override;
 
         struct Result : PlayerStateResult {
-            int nb_card_discarded;
-            std::vector<Type*> types_discarded;
+            int nb_card_discarded = 0;
+            std::vector<Type*> types_discarded{};
         };
 
     private:
         int m_discardsMin;
         int m_discardsMax;
+        Result m_res{};
+        Type::CardType m_prevRestriction;
         Type::CardType m_typeRestriction;
 };
 
