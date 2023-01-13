@@ -35,7 +35,7 @@ void PlayerStateDiscardCards::on_tick() {
         }
     }
 
-    if (m_button.isHovered() && Mouse::press() && m_res.nb_card_discarded > m_discardsMin) { exit_state(&m_res); return; }
+    if (m_button.isHovered() && Mouse::press() && m_res.nb_card_discarded >= m_discardsMin) { exit_state(&m_res); return; }
 }
 
 void PlayerStateDiscardCards::on_render(VertexBatch* batch) {
