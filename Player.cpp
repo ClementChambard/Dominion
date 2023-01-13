@@ -82,6 +82,7 @@ void Player::startTurn() {
                 ->then([](Player* p, PlayerStateResult*) {
                     //std::cout << "buys done\n";
                     p->endTurn();
+                    
                 });
         });
 }
@@ -100,6 +101,7 @@ void Player::endTurn()
     }
     coins = 0;
     draw(5);
+    game->save();
     game->next_player();
     //startTurn();
 }

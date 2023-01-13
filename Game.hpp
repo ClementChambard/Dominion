@@ -3,7 +3,7 @@
 #include <map>
 #include <array>
 #include "CardsType/Type.hpp"
-#include "CardsType/ActionCards.hpp"
+#include "CardsType/GameCards.hpp"
 #include <functional>
 #ifndef GAME_H
 #define GAME_H
@@ -54,7 +54,7 @@ private:
     bool endGame=false;
 
 public:
-    Game(int nbPlayers, std::array<int, 10> actionCardTypes);
+    Game(int nbPlayers, std::array<int, 10> actionCardTypes );
   
     void start();
     void DistributeCard(Player* player,CardPileType cardType, PlayerCards pile);
@@ -83,7 +83,7 @@ public:
     void setPhaseName(std::string const& phn) { phaseName = phn; }
     std::string getTopStr() { return "Player " + std::to_string(curPlayerId+1) + " : " + phaseName; }
 
-
+    void loadGame();
     
     void getWinner();
     std::vector<Player> getPlayers(){
@@ -93,6 +93,7 @@ public:
         return endGame;
     }
     void checkEndGame();
+    void setCardCount(int cardCount_[]);
 };
 
 #endif // GAME_HS

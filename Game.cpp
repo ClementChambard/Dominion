@@ -2,36 +2,50 @@
 #include "CardsType/Victoire.hpp"
 #include "CardsType/Tresor.hpp"
 #include <jsoncpp/json/json.h> 
+#include <fstream>
+#include "CardsType/Type.hpp"
 
-const int cardCount[] = {
+int cardCount[] = {
     30, 24, 12, 12,
     60, 40, 30,
     10, 10, 10, 10, 10,
     10, 10, 10, 10, 10
 };
 
-Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes)
+void Game::setCardCount(int cardCount_[])
+{
+    for (size_t i = 0; i < 17; i++)
+    {
+        cardCount[i] = cardCount_[i];
+    }
+}
+    
+
+
+
+Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
 {
     types.resize(static_cast<int>(CardPileType::LENGTH), nullptr);
     piles.resize(static_cast<int>(CardPileType::LENGTH), true);
 
-    types[static_cast<int>(CardPileType::CURSE   )] = new Victoire(-1, "Curse"   , 0, { 2/7.f, 0.2f, 3/7.f, 0.4f });
-    types[static_cast<int>(CardPileType::ESTATE  )] = new Victoire( 1, "Estate"  , 2, { 0/7.f, 0.4f, 1/7.f, 0.6f });
-    types[static_cast<int>(CardPileType::DUCHY   )] = new Victoire( 3, "Duchy"   , 5, { 4/7.f, 0.2f, 5/7.f, 0.4f });
-    types[static_cast<int>(CardPileType::PROVINCE)] = new Victoire( 6, "Province", 8, { 3/7.f, 0.2f, 4/7.f, 0.4f });
-    types[static_cast<int>(CardPileType::COPPER  )] = new Tresor   (1, "Copper"  , 0, { 2/7.f, 0.0f, 3/7.f, 0.2f });
-    types[static_cast<int>(CardPileType::SILVER  )] = new Tresor   (2, "Silver"  , 3, { 1/7.f, 0.0f, 2/7.f, 0.2f });
-    types[static_cast<int>(CardPileType::GOLD    )] = new Tresor   (3, "Gold"    , 6, { 1/7.f, 0.4f, 2/7.f, 0.6f });
-    types[static_cast<int>(CardPileType::ACTION1 )] = ActionCards::GetActionCardTypes(actionCardTypes[0]);
-    types[static_cast<int>(CardPileType::ACTION2 )] = ActionCards::GetActionCardTypes(actionCardTypes[1]);
-    types[static_cast<int>(CardPileType::ACTION3 )] = ActionCards::GetActionCardTypes(actionCardTypes[2]);
-    types[static_cast<int>(CardPileType::ACTION4 )] = ActionCards::GetActionCardTypes(actionCardTypes[3]);
-    types[static_cast<int>(CardPileType::ACTION5 )] = ActionCards::GetActionCardTypes(actionCardTypes[4]);
-    types[static_cast<int>(CardPileType::ACTION6 )] = ActionCards::GetActionCardTypes(actionCardTypes[5]);
-    types[static_cast<int>(CardPileType::ACTION7 )] = ActionCards::GetActionCardTypes(actionCardTypes[6]);
-    types[static_cast<int>(CardPileType::ACTION8 )] = ActionCards::GetActionCardTypes(actionCardTypes[7]);
-    types[static_cast<int>(CardPileType::ACTION9 )] = ActionCards::GetActionCardTypes(actionCardTypes[8]);
-    types[static_cast<int>(CardPileType::ACTION10)] = ActionCards::GetActionCardTypes(actionCardTypes[9]);
+    types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(26);
+    types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(27);
+    types[static_cast<int>(CardPileType::DUCHY   )] = GameCards::GetGameCardsTypes(28);
+    types[static_cast<int>(CardPileType::PROVINCE)] = GameCards::GetGameCardsTypes(29);
+    types[static_cast<int>(CardPileType::COPPER  )] = GameCards::GetGameCardsTypes(30);
+    types[static_cast<int>(CardPileType::SILVER  )] = GameCards::GetGameCardsTypes(31);
+    types[static_cast<int>(CardPileType::GOLD    )] = GameCards::GetGameCardsTypes(32);
+
+    types[static_cast<int>(CardPileType::ACTION1 )] = GameCards::GetGameCardsTypes(actionCardTypes[0]);
+    types[static_cast<int>(CardPileType::ACTION2 )] = GameCards::GetGameCardsTypes(actionCardTypes[1]);
+    types[static_cast<int>(CardPileType::ACTION3 )] = GameCards::GetGameCardsTypes(actionCardTypes[2]);
+    types[static_cast<int>(CardPileType::ACTION4 )] = GameCards::GetGameCardsTypes(actionCardTypes[3]);
+    types[static_cast<int>(CardPileType::ACTION5 )] = GameCards::GetGameCardsTypes(actionCardTypes[4]);
+    types[static_cast<int>(CardPileType::ACTION6 )] = GameCards::GetGameCardsTypes(actionCardTypes[5]);
+    types[static_cast<int>(CardPileType::ACTION7 )] = GameCards::GetGameCardsTypes(actionCardTypes[6]);
+    types[static_cast<int>(CardPileType::ACTION8 )] = GameCards::GetGameCardsTypes(actionCardTypes[7]);
+    types[static_cast<int>(CardPileType::ACTION9 )] = GameCards::GetGameCardsTypes(actionCardTypes[8]);
+    types[static_cast<int>(CardPileType::ACTION10)] = GameCards::GetGameCardsTypes(actionCardTypes[9]);
 
     for (size_t i = 0; i < types.size(); i++) {
         for (int j = 0; j < cardCount[i]; j++) {
@@ -68,6 +82,13 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes)
     this->players.resize(nbPlayers, this);
     this->currentPlayer= &players[0];
     this->currentPlayer->startTurn();
+    int cardCount_l[] = {
+    30, 24, 12, 12,
+    60, 40, 30,
+    10, 10, 10, 10, 10,
+    10, 10, 10, 10, 10
+    };
+    setCardCount(cardCount_l);
 }
 
 void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cancelable )
@@ -193,9 +214,103 @@ void Game::checkEndGame(){
 
 void Game::save() {
     Json::Value root;
-    root["nbPlayers"] = players.size();
     root["curPlayerId"] = curPlayerId;
+    root["nextPlayerId"] = (curPlayerId + 1) % players.size();
+    Json::Value pile;
+    for (size_t i = 0; i < types.size(); i++) {
+        pile["id"] = GameCards::GetGameCardsTypeID(types[i]);
+        pile["size"] = piles[i].size();
+        pile["Name"] = types[i]->getName();
+        root["Game"].append(pile);
+    }
+    for (size_t i = 0; i < players.size(); i++) {
+        Json::Value player; // on enregistre les donnee de chaque joueur
+        player["id"] = i;
+        CardPile playerDiscard= players[i].getDiscard();  
+        Json::Value discard;
+        for ( auto card : playerDiscard){
+            discard["id"] = GameCards::GetGameCardsTypeID(card->getType());
+            discard["Name"] = card->getType()->getName();
+            player["discard"].append(discard);
+        }
+        CardFan playerHand = players[i].getHand();
+        Json::Value hand;
+        for ( auto card : playerHand){
+            hand["id"] = GameCards::GetGameCardsTypeID(card->getType());
+            hand["Name"] = card->getType()->getName();
+            player["hand"].append(hand);
+        }
+        CardPile playerDeck = players[i].getDeck();
+        Json::Value deck;
+        for ( auto card : playerDeck){
+            deck["id"] = GameCards::GetGameCardsTypeID(card->getType());
+            deck["Name"] = card->getType()->getName();
+            player["deck"].append(deck);
+        }
+        root["players"].append(player);
+    }
+    std::ofstream jsonFile("Game.json");
 
-    std::cout << root;
-    
+    // Serialize the JSON object to the file
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "\t";  // Use tabs for indentation
+    std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+    writer->write(root, &jsonFile);
+
+    // Close the file
+    jsonFile.close();
 }
+void Game::loadGame(){
+    std::ifstream jsonFile("Game.json");
+    Json::Value root;
+    Json::CharReaderBuilder builder;
+    std::string errs;
+    bool ok = Json::parseFromStream(builder, jsonFile, &root, &errs);
+    if (!ok) {
+        std::cout << errs << std::endl;
+    }
+    curPlayerId = root["curPlayerId"].asInt();
+    currentPlayer = &players[curPlayerId];
+    &players[curPlayerId];
+
+    int playerSize = root["players"].size();
+    std::vector<int> cardCount;
+    int cardCount_l[] = {
+    30, 24, 12, 12,
+    60, 40, 30,
+    10, 10, 10, 10, 10,
+    10, 10, 10, 10, 10
+    };
+    std::array<int, 10> actionCardTypes ={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    
+    for ( int i =0 ; i < root["Game"].size(); i++){
+        cardCount_l[i]=root["Game"][i]["size"].asInt();
+        if (i >=7){
+            actionCardTypes[i]=root["Game"][i]["id"].asInt();
+        }
+    }
+    GameCards::InitGameCardsTypes();
+    Game game {playerSize,actionCardTypes};
+    for (auto a : game.players){
+        a.getDeck().clear();
+        a.getHand().clear();
+        a.getDiscard().clear();
+    }
+    for (auto a : root["players"]){
+        int id = a["id"].asInt();
+        if (id == curPlayerId){
+            game.currentPlayer = &players[id];
+        }
+        for (auto b : a["deck"]){
+        //     game.players[id].getDeck().AddOnTop(&Card(GameCards::GetGameCardsTypes(b["id"].asInt())));
+        //     game.players[id].getHand().Add(&Card(GameCards::GetGameCardsTypes(b["id"].asInt())));
+        //     game.players[id].getDiscard().AddOnTop(&Card(GameCards::GetGameCardsTypes(b["id"].asInt())));
+        }
+    }
+    
+   
+
+}
+
+
+

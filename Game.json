@@ -1,0 +1,233 @@
+{
+	"Game" : 
+	[
+		{
+			"Name" : "Curse",
+			"id" : 26,
+			"size" : 30
+		},
+		{
+			"Name" : "Estate",
+			"id" : 27,
+			"size" : 21
+		},
+		{
+			"Name" : "Duchy",
+			"id" : 28,
+			"size" : 12
+		},
+		{
+			"Name" : "Province",
+			"id" : 29,
+			"size" : 12
+		},
+		{
+			"Name" : "Copper",
+			"id" : 30,
+			"size" : 53
+		},
+		{
+			"Name" : "Silver",
+			"id" : 31,
+			"size" : 40
+		},
+		{
+			"Name" : "Gold",
+			"id" : 32,
+			"size" : 30
+		},
+		{
+			"Name" : "WorkShop",
+			"id" : 0,
+			"size" : 10
+		},
+		{
+			"Name" : "Woodcutter",
+			"id" : 1,
+			"size" : 10
+		},
+		{
+			"Name" : "Cellar",
+			"id" : 2,
+			"size" : 10
+		},
+		{
+			"Name" : "Chapel",
+			"id" : 3,
+			"size" : 10
+		},
+		{
+			"Name" : "Smithy",
+			"id" : 4,
+			"size" : 10
+		},
+		{
+			"Name" : "Market",
+			"id" : 5,
+			"size" : 10
+		},
+		{
+			"Name" : "Mine",
+			"id" : 6,
+			"size" : 10
+		},
+		{
+			"Name" : "Remodel",
+			"id" : 7,
+			"size" : 10
+		},
+		{
+			"Name" : "Witch",
+			"id" : 8,
+			"size" : 10
+		},
+		{
+			"Name" : "Village",
+			"id" : 9,
+			"size" : 0
+		}
+	],
+	"curPlayerId" : 1,
+	"nextPlayerId" : 0,
+	"players" : 
+	[
+		{
+			"deck" : 
+			[
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				}
+			],
+			"hand" : 
+			[
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				}
+			],
+			"id" : 0
+		},
+		{
+			"deck" : 
+			[
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				}
+			],
+			"hand" : 
+			[
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				}
+			],
+			"id" : 1
+		}
+	]
+}
