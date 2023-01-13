@@ -31,6 +31,7 @@ class CardFan {
         auto begin() { return m_data.begin(); }
         auto end() { return m_data.end(); }
         auto size() const { return m_data.size(); }
+        auto clear() { m_data.clear(); }
 
     private:
         bool m_inAnim = false;

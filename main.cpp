@@ -62,7 +62,7 @@ int main() {
     Mouse::setInvPV(glm::inverse(projection * view));
     Mouse::setCamPos(glm::vec3{0.f, -1.f, 5.f});
 
-    ActionCards::InitActionCardTypes();
+    GameCards::InitGameCardsTypes();
 
     // TODO: Menu to choose the cards
     Game game {2, { 0, 1, 2, 3, 4, 5, 6, 7, 12, 9}};
@@ -93,7 +93,8 @@ int main() {
     bool b = false;
     bool h = false;
     // END TEST
-    game.save();
+    
+    bool pressedCtrol = false;
 
     bool running = true;
     SDL_Event event;
@@ -105,13 +106,15 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         Mouse::resetState();
-
         while(SDL_PollEvent(&event))
         {
             switch (event.type)
             {
                 case SDL_QUIT:
                     running = false;
+                    break;
+                case SDL_KEYUP:
+                    if (event.key.keysym.sym == SDLK_LCTRL) pressedCtrol = false;
                     break;
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_o) {
@@ -148,6 +151,13 @@ int main() {
                         testMain.Add(testDeck.getOnTop());
                         testDeck.removeOnTop();
                     }
+                    if (event.key.keysym.sym == SDLK_LCTRL) {
+                        pressedCtrol = true;
+                    }
+                    if (event.key.keysym.sym == SDLK_l && pressedCtrol) {
+                        game.loadGame();
+                    }
+                    
                     if (event.key.keysym.sym == SDLK_l) {
                         if (cardInMouse) testDiscard.AddOnTop(cardInMouse);
                         if (!testDeck.getOnTop()) {
@@ -226,7 +236,7 @@ int main() {
     delete shader;
     delete textureBG;
     delete textureCard;
-    ActionCards::CleanupActionCardTypes();
+    GameCards::CleanupGameCardsTypes();
 
     if (cardInMouse) delete cardInMouse;
     SDL_GL_DeleteContext(context);

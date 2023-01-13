@@ -1,5 +1,5 @@
-#ifndef ACTIONCARDS_H
-#define ACTIONCARDS_H
+#ifndef GameCards_H
+#define GameCards_H
 
 #include "Chapel.hpp"        
 #include "Mine.hpp"         
@@ -27,15 +27,15 @@
 #include <vector>
 #include <algorithm>
 
-class ActionCards {
+class GameCards {
     public:
-        ActionCards() = delete;
-        static void InitActionCardTypes();
-        static void CleanupActionCardTypes();
-        static Type* GetActionCardTypes(int i) { return actionCards[i]; }
-        static int GetActionCardTypeId(Type* type) { return std::find(actionCards.begin(), actionCards.end(), type) - actionCards.begin();}
+        GameCards() = delete;
+        static void InitGameCardsTypes();
+        static void CleanupGameCardsTypes();
+        static Type* GetGameCardsTypes(int i) { return gameCards[i]; }
+        static int GetGameCardsTypeID(Type* type) { return std::find(gameCards.begin(), gameCards.end(), type) - gameCards.begin();}
         
     private:
-        static std::vector<Type*> actionCards;
+        static std::vector<Type*> gameCards;
 };
 #endif
