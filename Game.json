@@ -9,7 +9,7 @@
 		{
 			"Name" : "Estate",
 			"id" : 27,
-			"size" : 21
+			"size" : 18
 		},
 		{
 			"Name" : "Duchy",
@@ -24,7 +24,7 @@
 		{
 			"Name" : "Copper",
 			"id" : 30,
-			"size" : 53
+			"size" : 46
 		},
 		{
 			"Name" : "Silver",
@@ -49,7 +49,7 @@
 		{
 			"Name" : "Cellar",
 			"id" : 2,
-			"size" : 10
+			"size" : 9
 		},
 		{
 			"Name" : "Chapel",
@@ -95,35 +95,32 @@
 			"deck" : 
 			[
 				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				}
-			],
-			"discard" : 
-			[
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
 					"Name" : "Village",
 					"id" : 9
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
 				}
 			],
 			"hand" : 
@@ -133,20 +130,20 @@
 					"id" : 30
 				},
 				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
+					"Name" : "Village",
+					"id" : 9
 				},
 				{
 					"Name" : "Estate",
 					"id" : 27
 				},
 				{
-					"Name" : "Village",
-					"id" : 9
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Copper",
+					"id" : 30
 				}
 			],
 			"id" : 0
@@ -155,9 +152,12 @@
 			"deck" : 
 			[
 				{
-					"Name" : "Estate",
-					"id" : 27
-				},
+					"Name" : "Village",
+					"id" : 9
+				}
+			],
+			"discard" : 
+			[
 				{
 					"Name" : "Village",
 					"id" : 9
@@ -175,12 +175,16 @@
 					"id" : 30
 				},
 				{
-					"Name" : "Copper",
-					"id" : 30
+					"Name" : "Cellar",
+					"id" : 2
 				},
 				{
-					"Name" : "Copper",
-					"id" : 30
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
 				}
 			],
 			"hand" : 
@@ -198,12 +202,12 @@
 					"id" : 27
 				},
 				{
-					"Name" : "Estate",
-					"id" : 27
+					"Name" : "Copper",
+					"id" : 30
 				},
 				{
-					"Name" : "Village",
-					"id" : 9
+					"Name" : "Copper",
+					"id" : 30
 				}
 			],
 			"id" : 1

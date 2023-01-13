@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "CardsType/Victoire.hpp"
 #include "CardsType/Tresor.hpp"
-#include <jsoncpp/json/json.h> 
+#include <jsoncpp/json/json.h>
 #include <fstream>
 #include "CardsType/Type.hpp"
 
@@ -15,7 +15,7 @@ int cardCount[] = {
 };
 
 
-    
+
 
 
 
@@ -91,9 +91,9 @@ void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cance
             bool cancled = false;
             if (cancelable) {
                 for  ( Card* c : p.getHand() ){
-                    if (c->getType()->onReact(&p)){ 
+                    if (c->getType()->onReact(&p)){
                         cancled = true;
-                    }   
+                    }
                 }
             }
             if (!cancled) {
@@ -164,7 +164,7 @@ void Game::onTick(){
     if (currentPlayer) currentPlayer->update();
 }
 
-void Game::next_player() { 
+void Game::next_player() {
     checkEndGame();
     curPlayerId = (curPlayerId + 1) % players.size();
     currentPlayer = &players[curPlayerId];
@@ -221,7 +221,7 @@ void Game::save() {
     for (size_t i = 0; i < players.size(); i++) {
         Json::Value player; // on enregistre les donnee de chaque joueur
         player["id"] = i;
-        CardPile playerDiscard= players[i].getDiscard();  
+        CardPile playerDiscard= players[i].getDiscard();
         Json::Value discard;
         for ( auto card : playerDiscard){
             discard["id"] = GameCards::GetGameCardsTypeID(card->getType());
@@ -274,9 +274,10 @@ void Game::loadGame(){
     if (!ok) {
         std::cout << errs << std::endl;
     }
-   
-    
 
+
+    allCards.clear();
+    highlightPiles(Type::CardType::NONE, 999);
 
     types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::CURSE   )]["id"].asInt());
     types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ESTATE  )]["id"].asInt());
@@ -308,7 +309,7 @@ void Game::loadGame(){
         piles[i].clear();
         for (int j = 1; j <= cardCount[i]; j++) {
             piles[i].AddOnTop(&allCards[n++]);
-            
+
         }
     }
     int i =0;
@@ -316,8 +317,8 @@ void Game::loadGame(){
     players.clear();
     for ( size_t i=0; i < root["players"].size();i++){
         players.emplace_back(this, false);
-    } 
-        
+    }
+
     for ( auto a : root["players"]){
         for (auto carte : a["deck"]){
             DistributeCard(&players[i],globalToLocalId(carte["id"].asInt(),root),PlayerCards::DECK);
@@ -330,9 +331,9 @@ void Game::loadGame(){
             DistributeCard(&players[i],globalToLocalId(carte["id"].asInt(),root),PlayerCards::HAND);
         }
         i++;
-        
+
     }
-    
+
 
 
     curPlayerId = root["curPlayerId"].asInt();
@@ -341,9 +342,9 @@ void Game::loadGame(){
 
 
 
-    
-    
-   
+
+
+
 
 }
-    
+
