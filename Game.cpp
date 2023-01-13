@@ -308,7 +308,6 @@ void Game::loadGame(){
         piles[i].clear();
         for (int j = 1; j <= cardCount[i]; j++) {
             piles[i].AddOnTop(&allCards[n++]);
-            if  ( i==7)std::cout<< "hello world" << std::endl;
             
         }
     }

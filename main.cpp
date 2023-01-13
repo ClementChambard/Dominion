@@ -65,7 +65,7 @@ int main() {
     GameCards::InitGameCardsTypes();
 
     // TODO: Menu to choose the cards
-    Game game {2, { 0, 1, 2, 3, 4, 5, 6, 7, 12, 9}};
+    Game game {2, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
 
     // TEST
     CardFan testMain;
