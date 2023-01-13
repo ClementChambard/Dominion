@@ -71,7 +71,7 @@ public:
     void onDraw(VertexBatch *batch);
     void onRenderUI(VertexBatch *batch);
     void onTick();
-    void render_piles(VertexBatch* batch);
+    void render_piles(VertexBatch* batch, bool hov = false);
 
     void save();
 

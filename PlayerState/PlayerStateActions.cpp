@@ -1,6 +1,7 @@
 #include "PlayerStateActions.hpp"
 #include "../Player.hpp"
 #include "../Mouse.hpp"
+#include "../SpriteFont.hpp"
 
 void PlayerStateActions::on_entry() {
     player()->getHand().highlightCard(Type::CardType::ACTION);
@@ -11,7 +12,6 @@ void PlayerStateActions::on_exit() const {
 }
 
 void PlayerStateActions::on_tick() {
-    std::cout << "tick " << player()->getActions() << "\n";
     // check nb of actions left
     if (player()->getActions() <= 0) { exit_state(nullptr); return; }
     // check if player has action cards in hand
@@ -45,4 +45,5 @@ void PlayerStateActions::on_render(VertexBatch* batch) {
 
 void PlayerStateActions::on_renderUI(VertexBatch* batch) {
     m_button.onUpdate(batch);
+    SpriteFont::last_created_instance->renderText("End actions", m_button.getPos()+glm::vec2{0.015,0}, {0.5f, 0.6f});
 }

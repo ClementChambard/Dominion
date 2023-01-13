@@ -50,10 +50,9 @@ int main() {
     Texture* textureBG = new Texture("textures/stage05a.png");
     Texture* textureCard = new Texture("textures/Carte.png");
     Texture* textButtons = new Texture("textures/buttons.png");
-    Texture* textFont = new Texture("textures/ascii_18_1280.png");
 
     VertexBatch* batch = new VertexBatch();
-    SpriteFont spriteFont(textFont, 18, 18, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_ abcdefghijklmnopqrstuvwxyz{|}~ ");
+    SpriteFont spriteFont("font.fnt");
 
     GLuint projMatrixLocation = shader->getUniformLocation("projectionMatrix");
     GLuint viewMatrixLocation = shader->getUniformLocation("viewMatrix");
@@ -98,6 +97,7 @@ int main() {
 
     bool running = true;
     SDL_Event event;
+    float t;
     while (running && !game.getEndGame()) {
 
         glClearColor(0.3f, 0.6f, 0.1f, 1.f);
@@ -212,13 +212,14 @@ int main() {
 
         batch->render(textButtons);
 
-        spriteFont.renderText(game.getTopStr() , {0,0.9f}, {0.05,0.1});
+        spriteFont.renderText(game.getTopStr(), {0,0.9f}, {1.f,1.f});
         spriteFont.renderAllText();
 
 
         shader->unuse();
 
         SDL_GL_SwapWindow(window);
+        t += 0.05f;
     }
     delete batch;
     delete texture;

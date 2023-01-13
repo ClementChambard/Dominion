@@ -1,6 +1,7 @@
 #include "PlayerStateTrashCards.hpp"
 #include "../Player.hpp"
 #include "../Mouse.hpp"
+#include "../SpriteFont.hpp"
 
 void PlayerStateTrashCards::on_entry() {
     m_prevRestriction = player()->getHand().getHighlight();
@@ -49,4 +50,6 @@ void PlayerStateTrashCards::on_render(VertexBatch* batch) {
 
 void PlayerStateTrashCards::on_renderUI(VertexBatch* batch) {
     PlayerState::m_button.onUpdate(batch);
+    int darkness = (m_res.nb_card_trashed >= m_trashsMin) ? 255 : 128;
+    SpriteFont::last_created_instance->renderText("End trashs", m_button.getPos()+glm::vec2{0.015,0}, {0.5f, 0.6f}, {darkness, darkness, darkness, 255});
 }

@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <random>
 #include <algorithm>
+#include "SpriteFont.hpp"
 
 #define CARD_PILE_HEIGHT_INCREASE 0.01f
 #define CARD_PILE_HEIGHT_INCREASE_SCALE_FACTOR_MIN 10
@@ -32,12 +33,16 @@ void CardPile::on_tick() {
         c->on_tick();
         h += hInc;
     }
+    if (isHovered() && !m_lowlighted && m_data.size() > 0) m_data.back()->set_hovered(true);
+    else if (m_data.size() > 0) m_data.back()->set_hovered(false);
 }
 
-void CardPile::on_render(VertexBatch* batch) {
-    for (Card* c : m_data) {
-        c->on_render(batch, false, m_lowlighted);
+void CardPile::on_render(VertexBatch* batch, bool h) {
+    for (size_t i = 0; i < m_data.size(); i++) {
+        Card* c = m_data[i];
+        if ((h && !isHovered()) || !h || m_lowlighted || i != m_data.size()-1) c->on_render(batch, h && !m_lowlighted && isHovered() && (i == m_data.size() - 1), m_lowlighted);
     }
+    if (isHovered()) SpriteFont::last_created_instance->renderText(std::to_string(m_data.size()), Mouse::getposNormalized()+glm::vec2{0.05f, -0.05f}, {0.5f, 0.5f}, {0,255,0,255});
 }
 
 bool CardPile::isHovered() const {

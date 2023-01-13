@@ -3,7 +3,7 @@
 #include "CardsType/Tresor.hpp"
 #include <json/json.h> 
 
-const int cardCount[] = {
+int cardCount[] = {
     30, 24, 12, 12,
     60, 40, 30,
     10, 10, 10, 10, 10,
@@ -14,6 +14,8 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes)
 {
     types.resize(static_cast<int>(CardPileType::LENGTH), nullptr);
     piles.resize(static_cast<int>(CardPileType::LENGTH), true);
+
+    if (nbPlayers < 3) cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
 
     types[static_cast<int>(CardPileType::CURSE   )] = new Victoire(-1, "Curse"   , 0, { 2/7.f, 0.2f, 3/7.f, 0.4f });
     types[static_cast<int>(CardPileType::ESTATE  )] = new Victoire( 1, "Estate"  , 2, { 0/7.f, 0.4f, 1/7.f, 0.6f });
@@ -128,11 +130,14 @@ void Game::highlightPiles(Type::CardType t, int price) {
     }
 }
 
-void Game::render_piles(VertexBatch* batch) {
+void Game::render_piles(VertexBatch* batch, bool hov) {
+    Card* hoveredCard = nullptr;
     for (size_t i = 0; i < piles.size(); i++)
     {
-        piles[i].on_render(batch);
+        piles[i].on_render(batch, hov);
+        if (hov && piles[i].isHovered() && piles[i].isHighlighted()) hoveredCard = piles[i].getOnTop();
     }
+    if (hoveredCard) hoveredCard->on_render(batch, true);
 }
 
 void Game::onDraw(VertexBatch* batch)
@@ -145,16 +150,15 @@ void Game::onRenderUI(VertexBatch *batch){
 }
 
 void Game::onTick(){
+    for (auto p : piles) p.on_tick();
     if (currentPlayer) currentPlayer->update();
 }
 
 void Game::next_player() { 
-
     checkEndGame();
     curPlayerId = (curPlayerId + 1) % players.size();
-     currentPlayer = &players[curPlayerId]; 
-     currentPlayer->startTurn();
-      std::cout << "Player " << curPlayerId << "\n"; 
+    currentPlayer = &players[curPlayerId];
+    currentPlayer->startTurn();
 }
 
 void printWinner(std::vector<Player> const& players) {
@@ -167,9 +171,11 @@ void printWinner(std::vector<Player> const& players) {
             winnerId = i;
         }
     }
-    std::cout << "Player " << winnerId << " wins with " << maxScore << " points\n";
+    std::cout << "Player " << winnerId+1 << " wins!\nScores : \n";
+    for (size_t i = 0; i < players.size(); i++) {
+        std::cout << " - Player " << i+1 << " : " << players[i].getVictory() << "\n";
+    }
 }
-
 void Game::checkEndGame(){
     if (piles[static_cast<int>(CardPileType::PROVINCE)].size() <= 0) {
         std::cout << "Game Over\n";
