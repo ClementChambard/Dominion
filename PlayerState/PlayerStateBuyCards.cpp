@@ -45,5 +45,5 @@ void PlayerStateBuyCards::on_render(VertexBatch* batch) {
 
 void PlayerStateBuyCards::on_renderUI(VertexBatch* batch) {
    PlayerState::m_button.onUpdate(batch);
-   SpriteFont::last_created_instance->renderText("End buys", m_button.getPos()+glm::vec2{0.02,0}, {0.6f, 0.6f});
+   SpriteFont::last_created_instance->renderText("End buys", m_button.getPos(), {0.6f, 0.6f});
 }

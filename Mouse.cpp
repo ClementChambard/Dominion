@@ -24,12 +24,16 @@ void Mouse::processEvent(SDL_Event &event)
             m_screenY = event.motion.y;
             break;
         case SDL_MOUSEBUTTONDOWN:
-            m_leftDown = true;
-            m_leftPressed = true;
+            if (event.button.button == SDL_BUTTON_LEFT) {
+                m_leftDown = true;
+                m_leftPressed = true;
+            }
             break;
         case SDL_MOUSEBUTTONUP:
-            m_leftDown = false;
-            m_leftReleased = true;
+            if (event.button.button == SDL_BUTTON_LEFT) {
+                m_leftDown = false;
+                m_leftReleased = true;
+            }
             break;
     }
 }

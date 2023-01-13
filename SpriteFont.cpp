@@ -48,6 +48,8 @@ void SpriteFont::renderText(std::string text, glm::vec2 pos, glm::vec2 charSize,
     charSize.y *= (ws.x/ws.y);
     float totalWidth = calcTextSize(text, glyphs, charSize.x);
     float x = pos.x -totalWidth / 2.f;
+    std::vector<Glyph>::iterator G;
+    if (text.size() > 0) if ((G = std::find_if(glyphs.begin(), glyphs.end(), [text](Glyph g){ return g.c == text[0]; })) != glyphs.end()) x += G->size.x/2.f*charSize.x;
     float pc = 0.f;
     for (char c : text) {
         auto G = std::find_if(glyphs.begin(), glyphs.end(), [c](Glyph g){ return g.c == c; });

@@ -15,7 +15,7 @@ void PlayerStateDiscardCards::on_exit() const {
 void PlayerStateDiscardCards::on_tick() {
     // check nb of discard left
     if (m_res.nb_card_discarded == m_discardsMax) { exit_state(&m_res); return; }
-    
+
     // check if player has discardable cards in hand
     //bool hasAction = false;
     //for (auto c : player()->getHand()) if (c->getType()->isType(Type::CardType::ACTION)) hasAction = true;
@@ -49,5 +49,5 @@ void PlayerStateDiscardCards::on_render(VertexBatch* batch) {
 void PlayerStateDiscardCards::on_renderUI(VertexBatch* batch) {
     PlayerState::m_button.onUpdate(batch);
     int darkness = (m_res.nb_card_discarded >= m_discardsMin) ? 255 : 128;
-    SpriteFont::last_created_instance->renderText("End discard", m_button.getPos()+glm::vec2{0.015,0}, {0.5f, 0.6f}, {darkness, darkness, darkness, 255});
+    SpriteFont::last_created_instance->renderText("End discard", m_button.getPos(), {0.5f, 0.6f}, {darkness, darkness, darkness, 255});
 }

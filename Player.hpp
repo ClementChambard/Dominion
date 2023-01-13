@@ -15,12 +15,13 @@
 class Game;
 
 class Player {
-    int actions; 
-    int buys; 
-    int coins; 
-    int Victorypoints; 
+    int actions;
+    int buys;
+    int coins;
+    int Victorypoints;
     int NumberToDiscard;
     int ActionMultiplier;
+    bool multAltered;
 
 
     Game* game;
@@ -32,7 +33,7 @@ class Player {
     CardBoard board;
 
     std::vector<const PlayerState*> states_to_cleanup;
-    
+
     public:
     Player(Game* game);
     ~Player();
@@ -48,7 +49,7 @@ class Player {
     CardPile& getDiscard() { return discard; }
     CardFan& getHand() { return hand; }
     CardBoard& getBoard() { return board; }
-   
+
     PlayerState* set_state(PlayerState* playerState) { return state = playerState; }
     PlayerState* get_state() const { return state; }
     Game* getGame(){
@@ -76,13 +77,14 @@ class Player {
     int getNumberCards() const { return deck.size() + hand.size() + board.size(); }
 
     void setActionMultiplier (int multiplier){
+        multAltered = true;
         this->ActionMultiplier=multiplier;
     }
     int getActionMultiplier() const { return ActionMultiplier; }
     int getVictory () const{
         return Victorypoints;
     }
-    
+
 };
 
 

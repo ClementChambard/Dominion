@@ -45,5 +45,5 @@ void PlayerStateActions::on_render(VertexBatch* batch) {
 
 void PlayerStateActions::on_renderUI(VertexBatch* batch) {
     m_button.onUpdate(batch);
-    SpriteFont::last_created_instance->renderText("End actions", m_button.getPos()+glm::vec2{0.015,0}, {0.5f, 0.6f});
+    SpriteFont::last_created_instance->renderText("End actions", m_button.getPos(), {0.5f, 0.6f});
 }
