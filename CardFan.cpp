@@ -42,7 +42,7 @@ void CardFan::on_tick()
         m_data[i]->rotateZTo(ang_fst);
         m_inAnim = m_inAnim || m_data[i]->isInAnim();
         if (mouseInRange && mouseAngle > ang_fst - ang_between/2.f && mouseAngle < ang_fst + ang_between/2.f) {
-            m_data[i]->set_hovered(true);
+            if (m_data[i]->getType()->isType(m_highlighted)) m_data[i]->set_hovered(true);
             m_hovered = i;
         } else m_data[i]->set_hovered(false);
         ang_fst -= ang_between;
@@ -71,6 +71,7 @@ void CardFan::fixPos()
 
 void CardFan::on_render(VertexBatch* batch, bool renderHovered)
 {
+    renderHovered = renderHovered && m_hovered >= 0 && m_data[m_hovered]->getType()->isType(m_highlighted);
     for (int i = m_data.size()-1; i >= 0; i--)
     {
         if (renderHovered && i == m_hovered) continue;

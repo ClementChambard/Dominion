@@ -8,20 +8,20 @@
 
 
 Player::Player(Game* game) : game(game), deck(false), discard(true)
-{   
+{
     actions = 1;
     buys = 1;
     coins = 0;
     Victorypoints = 0;
     glm::vec2 winSize = Mouse::getWindowSize();
-  
+
     this->hand.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y, -0.5f));
 
     this->deck.setPos(Mouse::toWorld(130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f));
 
     this->discard.setPos(Mouse::toWorld(winSize.x-130.f*winSize.x/1500.f, winSize.y-150.f*winSize.y/900.f, -1.5f));
     this->discard.fixPos();
-    
+
     this->board.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y/2.f+100.f, -1.f));
     this->board.fixPos();
 
@@ -45,9 +45,11 @@ Player::Player(Game* game) : game(game), deck(false), discard(true)
 Player::~Player(){}
 
 void Player::playCard(Card* c) {
+    multAltered = false;
     for (int i = 0; i < ActionMultiplier; i++) {
         c->getType()->onPlay(this);
     }
+    if (!multAltered) ActionMultiplier = 1;
     actions--;
 }
 
@@ -74,10 +76,18 @@ void Player::startTurn() {
     for (const PlayerState* ps : states_to_cleanup) delete ps;
     states_to_cleanup.clear();
     game->setPhaseName("Action phase");
-    set_state(new PlayerStateActions(this, nullptr)) 
+    set_state(new PlayerStateActions(this, nullptr))
         ->then([](Player* p, PlayerStateResult*) {
             //std::cout << "actions done\n";
             p->getGame()->setPhaseName("Buy phase");
+            for (size_t i = 0; i < p->getHand().size(); i++) {
+                if (p->getHand().get(i)->getType()->isType(Type::CardType::TREASURE))
+                {
+                    p->getBoard().Add(p->getHand().get(i));
+                    p->getHand().remove(i);
+                    i--;
+                }
+            }
             p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys))
                 ->then([](Player* p, PlayerStateResult*) {
                     //std::cout << "buys done\n";
@@ -124,7 +134,7 @@ void Player::trashCard(Card* card){
             }
         }
 
-        
+
     }
 
 void Player::update(){

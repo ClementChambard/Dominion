@@ -1,6 +1,7 @@
 #include "PlayerStateActions.hpp"
 #include "../Player.hpp"
 #include "../Mouse.hpp"
+#include "../SpriteFont.hpp"
 
 void PlayerStateActions::on_entry() {
     player()->getHand().highlightCard(Type::CardType::ACTION);
@@ -40,9 +41,9 @@ void PlayerStateActions::on_render(VertexBatch* batch) {
     render_piles(batch);
     render_played(batch);
     player()->getHand().on_render(batch, true);
-    // special render hand
 }
 
 void PlayerStateActions::on_renderUI(VertexBatch* batch) {
     m_button.onUpdate(batch);
+    SpriteFont::last_created_instance->renderText("End actions", m_button.getPos(), {0.5f, 0.6f});
 }

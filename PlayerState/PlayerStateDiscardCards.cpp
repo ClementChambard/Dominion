@@ -1,11 +1,41 @@
 #include "PlayerStateDiscardCards.hpp"
+#include "../Player.hpp"
+#include "../Mouse.hpp"
+#include "../SpriteFont.hpp"
+
+void PlayerStateDiscardCards::on_entry() {
+    m_prevRestriction = player()->getHand().getHighlight();
+    player()->getHand().highlightCard(m_typeRestriction);
+}
+
+void PlayerStateDiscardCards::on_exit() const {
+    player()->getHand().highlightCard(m_prevRestriction);
+}
 
 void PlayerStateDiscardCards::on_tick() {
-    // check click on card in hand
+    // check nb of discard left
+    if (m_res.nb_card_discarded == m_discardsMax) { exit_state(&m_res); return; }
 
-    // check press on end discards button
-    // then
-    // exit_state() -> return is types of card trashed & nb trashed
+    // check if player has discardable cards in hand
+    //bool hasAction = false;
+    //for (auto c : player()->getHand()) if (c->getType()->isType(Type::CardType::ACTION)) hasAction = true;
+    //if (!hasAction) { exit_state(nullptr); return; }
+
+    // check click on card in hand
+    int hoveredCard = player()->getHand().getHoveredId();
+    if (hoveredCard >= 0) {
+        Card* c = player()->getHand().get(hoveredCard);
+        if (Mouse::press() && c->getType()->isType(m_typeRestriction))
+        {
+            player()->getHand().remove(hoveredCard);
+            player()->getDiscard().AddOnTop(c);
+            c->getType()->onDiscard(player());
+            m_res.nb_card_discarded++;
+            m_res.types_discarded.push_back(c->getType());
+        }
+    }
+
+    if (m_button.isHovered() && Mouse::press() && m_res.nb_card_discarded >= m_discardsMin) { exit_state(&m_res); return; }
 }
 
 void PlayerStateDiscardCards::on_render(VertexBatch* batch) {
@@ -13,9 +43,11 @@ void PlayerStateDiscardCards::on_render(VertexBatch* batch) {
     render_discard(batch);
     render_played(batch);
     render_piles(batch);
-    // Special render hand for hover & discardable
+    player()->getHand().on_render(batch, true);
 }
 
 void PlayerStateDiscardCards::on_renderUI(VertexBatch* batch) {
     PlayerState::m_button.onUpdate(batch);
+    int darkness = (m_res.nb_card_discarded >= m_discardsMin) ? 255 : 128;
+    SpriteFont::last_created_instance->renderText("End discard", m_button.getPos(), {0.5f, 0.6f}, {darkness, darkness, darkness, 255});
 }

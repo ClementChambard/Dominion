@@ -16,6 +16,7 @@ class CardFan {
         int getHoveredId() { return m_hovered; }
 
         void highlightCard(Type::CardType type) { m_highlighted = type; }
+        Type::CardType getHighlight() const { return m_highlighted; }
 
         void move(glm::vec3 const& pos) { m_targetPos = pos;}
         void setPos(glm::vec3 const& pos) { m_targetPos = m_pos = pos; }

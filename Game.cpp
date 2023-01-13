@@ -5,6 +5,7 @@
 #include <fstream>
 #include "CardsType/Type.hpp"
 
+
 int cardCount[] = {
     30, 24, 12, 12,
     60, 40, 30,
@@ -28,6 +29,7 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
     types.resize(static_cast<int>(CardPileType::LENGTH), nullptr);
     piles.resize(static_cast<int>(CardPileType::LENGTH), true);
 
+
     types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(26);
     types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(27);
     types[static_cast<int>(CardPileType::DUCHY   )] = GameCards::GetGameCardsTypes(28);
@@ -46,6 +48,27 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
     types[static_cast<int>(CardPileType::ACTION8 )] = GameCards::GetGameCardsTypes(actionCardTypes[7]);
     types[static_cast<int>(CardPileType::ACTION9 )] = GameCards::GetGameCardsTypes(actionCardTypes[8]);
     types[static_cast<int>(CardPileType::ACTION10)] = GameCards::GetGameCardsTypes(actionCardTypes[9]);
+
+    if (nbPlayers < 3) cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
+
+    types[static_cast<int>(CardPileType::CURSE   )] = new Victoire(-1, "Curse"   , 0, { 2/7.f, 0.2f, 3/7.f, 0.4f });
+    types[static_cast<int>(CardPileType::ESTATE  )] = new Victoire( 1, "Estate"  , 2, { 0/7.f, 0.4f, 1/7.f, 0.6f });
+    types[static_cast<int>(CardPileType::DUCHY   )] = new Victoire( 3, "Duchy"   , 5, { 4/7.f, 0.2f, 5/7.f, 0.4f });
+    types[static_cast<int>(CardPileType::PROVINCE)] = new Victoire( 6, "Province", 8, { 3/7.f, 0.2f, 4/7.f, 0.4f });
+    types[static_cast<int>(CardPileType::COPPER  )] = new Tresor   (1, "Copper"  , 0, { 2/7.f, 0.0f, 3/7.f, 0.2f });
+    types[static_cast<int>(CardPileType::SILVER  )] = new Tresor   (2, "Silver"  , 3, { 1/7.f, 0.0f, 2/7.f, 0.2f });
+    types[static_cast<int>(CardPileType::GOLD    )] = new Tresor   (3, "Gold"    , 6, { 1/7.f, 0.4f, 2/7.f, 0.6f });
+    types[static_cast<int>(CardPileType::ACTION1 )] = ActionCards::GetActionCardTypes(actionCardTypes[0]);
+    types[static_cast<int>(CardPileType::ACTION2 )] = ActionCards::GetActionCardTypes(actionCardTypes[1]);
+    types[static_cast<int>(CardPileType::ACTION3 )] = ActionCards::GetActionCardTypes(actionCardTypes[2]);
+    types[static_cast<int>(CardPileType::ACTION4 )] = ActionCards::GetActionCardTypes(actionCardTypes[3]);
+    types[static_cast<int>(CardPileType::ACTION5 )] = ActionCards::GetActionCardTypes(actionCardTypes[4]);
+    types[static_cast<int>(CardPileType::ACTION6 )] = ActionCards::GetActionCardTypes(actionCardTypes[5]);
+    types[static_cast<int>(CardPileType::ACTION7 )] = ActionCards::GetActionCardTypes(actionCardTypes[6]);
+    types[static_cast<int>(CardPileType::ACTION8 )] = ActionCards::GetActionCardTypes(actionCardTypes[7]);
+    types[static_cast<int>(CardPileType::ACTION9 )] = ActionCards::GetActionCardTypes(actionCardTypes[8]);
+    types[static_cast<int>(CardPileType::ACTION10)] = ActionCards::GetActionCardTypes(actionCardTypes[9]);
+
 
     for (size_t i = 0; i < types.size(); i++) {
         for (int j = 0; j < cardCount[i]; j++) {
@@ -149,11 +172,14 @@ void Game::highlightPiles(Type::CardType t, int price) {
     }
 }
 
-void Game::render_piles(VertexBatch* batch) {
+void Game::render_piles(VertexBatch* batch, bool hov) {
+    Card* hoveredCard = nullptr;
     for (size_t i = 0; i < piles.size(); i++)
     {
-        piles[i].on_render(batch);
+        piles[i].on_render(batch, hov);
+        if (hov && piles[i].isHovered() && piles[i].isHighlighted()) hoveredCard = piles[i].getOnTop();
     }
+    if (hoveredCard) hoveredCard->on_render(batch, true);
 }
 
 void Game::onDraw(VertexBatch* batch)
@@ -166,16 +192,15 @@ void Game::onRenderUI(VertexBatch *batch){
 }
 
 void Game::onTick(){
+    for (auto p : piles) p.on_tick();
     if (currentPlayer) currentPlayer->update();
 }
 
 void Game::next_player() { 
-
     checkEndGame();
     curPlayerId = (curPlayerId + 1) % players.size();
-     currentPlayer = &players[curPlayerId]; 
-     currentPlayer->startTurn();
-      std::cout << "Player " << curPlayerId << "\n"; 
+    currentPlayer = &players[curPlayerId];
+    currentPlayer->startTurn();
 }
 
 void printWinner(std::vector<Player> const& players) {
@@ -188,9 +213,11 @@ void printWinner(std::vector<Player> const& players) {
             winnerId = i;
         }
     }
-    std::cout << "Player " << winnerId << " wins with " << maxScore << " points\n";
+    std::cout << "Player " << winnerId+1 << " wins!\nScores : \n";
+    for (size_t i = 0; i < players.size(); i++) {
+        std::cout << " - Player " << i+1 << " : " << players[i].getVictory() << "\n";
+    }
 }
-
 void Game::checkEndGame(){
     if (piles[static_cast<int>(CardPileType::PROVINCE)].size() <= 0) {
         std::cout << "Game Over\n";
@@ -260,6 +287,16 @@ void Game::save() {
     // Close the file
     jsonFile.close();
 }
+int globalToLocalId(int id , Json::Value root ){
+    int i = 0;
+    for ( auto a : root["Game"]){
+        if ( a["id"].asInt() == id ){
+            return i;
+        }
+        i++;
+    }
+    return 0;
+}
 void Game::loadGame(){
     std::ifstream jsonFile("Game.json");
     Json::Value root;
@@ -269,48 +306,79 @@ void Game::loadGame(){
     if (!ok) {
         std::cout << errs << std::endl;
     }
+    
+    
+    
+    
+
+
+    types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::CURSE   )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ESTATE  )]["id"].asInt());
+    types[static_cast<int>(CardPileType::DUCHY   )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::DUCHY   )]["id"].asInt());
+    types[static_cast<int>(CardPileType::PROVINCE)] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::PROVINCE   )]["id"].asInt());
+    types[static_cast<int>(CardPileType::COPPER  )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::COPPER   )]["id"].asInt());
+    types[static_cast<int>(CardPileType::SILVER  )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::SILVER   )]["id"].asInt());
+    types[static_cast<int>(CardPileType::GOLD    )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::GOLD   )]["id"].asInt());
+
+    types[static_cast<int>(CardPileType::ACTION1 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION1    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION2 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION2    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION3 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION3    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION4 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION4    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION5 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION5    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION6 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION6    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION7 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION7    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION8 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION8    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION9 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION9    )]["id"].asInt());
+    types[static_cast<int>(CardPileType::ACTION10)] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION10   )]["id"].asInt());
+
+    for (size_t i = 0; i < types.size(); i++) {
+        for (int j = 0; j < cardCount[i]; j++) {
+            allCards.emplace_back(types[i]);
+        }
+    }
+
+    int n = 0;
+    for (size_t i = 0; i < piles.size(); i++) {
+        piles[i].clear();
+        for (int j = 1; j <= cardCount[i]; j++) {
+            piles[i].AddOnTop(&allCards[n++]);
+            if  ( i==7)std::cout<< "hello world" << std::endl;
+            
+        }
+    }
+    int i =0;
+    //std::vector<Player> players
+    players.clear();
+    for ( size_t i=0; i < root["players"].size();i++){
+        players.emplace_back(this);
+    } 
+        
+    for ( auto a : root["players"]){
+        for (auto carte : a["deck"]){
+            DistributeCard(&players[i],globalToLocalId(carte["id"].asInt(),root),PlayerCards::DECK);
+        }
+        for (auto carte : a["discard"]){
+            DistributeCard(&players[i],globalToLocalId(carte["id"].asInt(),root),PlayerCards::DISCARD);
+
+        }
+        for (auto carte : a["hand"]){
+            DistributeCard(&players[i],globalToLocalId(carte["id"].asInt(),root),PlayerCards::HAND);
+        }
+        i++;
+        
+    }
+    
+
+
     curPlayerId = root["curPlayerId"].asInt();
     currentPlayer = &players[curPlayerId];
-    &players[curPlayerId];
+    currentPlayer->startTurn();
 
-    int playerSize = root["players"].size();
-    std::vector<int> cardCount;
-    int cardCount_l[] = {
-    30, 24, 12, 12,
-    60, 40, 30,
-    10, 10, 10, 10, 10,
-    10, 10, 10, 10, 10
-    };
-    std::array<int, 10> actionCardTypes ={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+
     
-    for ( int i =0 ; i < root["Game"].size(); i++){
-        cardCount_l[i]=root["Game"][i]["size"].asInt();
-        if (i >=7){
-            actionCardTypes[i]=root["Game"][i]["id"].asInt();
-        }
-    }
-    GameCards::InitGameCardsTypes();
-    Game game {playerSize,actionCardTypes};
-    for (auto a : game.players){
-        a.getDeck().clear();
-        a.getHand().clear();
-        a.getDiscard().clear();
-    }
-    for (auto a : root["players"]){
-        int id = a["id"].asInt();
-        if (id == curPlayerId){
-            game.currentPlayer = &players[id];
-        }
-        for (auto b : a["deck"]){
-        //     game.players[id].getDeck().AddOnTop(&Card(GameCards::GetGameCardsTypes(b["id"].asInt())));
-        //     game.players[id].getHand().Add(&Card(GameCards::GetGameCardsTypes(b["id"].asInt())));
-        //     game.players[id].getDiscard().AddOnTop(&Card(GameCards::GetGameCardsTypes(b["id"].asInt())));
-        }
-    }
     
    
 
 }
-
-
-
+    

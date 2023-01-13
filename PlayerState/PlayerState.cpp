@@ -13,7 +13,6 @@ void PlayerState::exit_state(PlayerStateResult *result) const
 
 }
 
-// TODO: default renders
 void PlayerState::render_deck(VertexBatch* batch) const {
     m_p->getDeck().on_render(batch);
 }

@@ -16,6 +16,7 @@ public:
     void onUpdate(VertexBatch* batch);
     bool isHovered();
 
+    glm::vec2 getPos() const { return pos; }
   
 };
 

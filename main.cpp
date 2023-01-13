@@ -50,10 +50,9 @@ int main() {
     Texture* textureBG = new Texture("textures/stage05a.png");
     Texture* textureCard = new Texture("textures/Carte.png");
     Texture* textButtons = new Texture("textures/buttons.png");
-    Texture* textFont = new Texture("textures/ascii_18_1280.png");
 
     VertexBatch* batch = new VertexBatch();
-    SpriteFont spriteFont(textFont, 18, 18, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_ abcdefghijklmnopqrstuvwxyz{|}~ ");
+    SpriteFont spriteFont("font.fnt");
 
     GLuint projMatrixLocation = shader->getUniformLocation("projectionMatrix");
     GLuint viewMatrixLocation = shader->getUniformLocation("viewMatrix");
@@ -66,7 +65,7 @@ int main() {
     GameCards::InitGameCardsTypes();
 
     // TODO: Menu to choose the cards
-    Game game {2, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
+    Game game {2, { 0, 1, 2, 3, 4, 5, 6, 7, 12, 9}};
 
     // TEST
     CardFan testMain;
@@ -99,6 +98,7 @@ int main() {
 
     bool running = true;
     SDL_Event event;
+    float t;
     while (running && !game.getEndGame()) {
 
         glClearColor(0.3f, 0.6f, 0.1f, 1.f);
@@ -192,8 +192,8 @@ int main() {
         // Draw
         batch->clear_vertices(); // premiere etapes pour draw un rectangle
         shader->use();
-        batch->draw_rectangle(0, 0, 0, 8, 6);  // deuxieme etape 
-        batch->finish_adding(); // troisieme etape 
+        batch->draw_rectangle(0, 0, 0, 8, 6);  // deuxieme etape
+        batch->finish_adding(); // troisieme etape
 
         shader->loadMat4(projMatrixLocation, projection);
         shader->loadMat4(viewMatrixLocation, view);
@@ -207,12 +207,12 @@ int main() {
         // testMain.on_render(batch, true);
         game.onDraw(batch);
         // if (cardInMouse) cardInMouse->on_render(batch);
-        
+
 
         batch->finish_adding();
         batch->render(textureCard);
         batch->clear_vertices();
-        
+
         game.onRenderUI(batch);
 
         batch->finish_adding();
@@ -222,13 +222,14 @@ int main() {
 
         batch->render(textButtons);
 
-        spriteFont.renderText(game.getTopStr() , {0,0.9f}, {0.05,0.1});
+        spriteFont.renderText(game.getTopStr(), {0,0.9f}, {1.f,1.f});
         spriteFont.renderAllText();
-        
+
 
         shader->unuse();
 
         SDL_GL_SwapWindow(window);
+        t += 0.05f;
     }
     delete batch;
     delete texture;

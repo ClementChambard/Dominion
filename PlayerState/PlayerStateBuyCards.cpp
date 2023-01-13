@@ -2,18 +2,11 @@
 #include "../Player.hpp"
 #include "../Game.hpp"
 #include "../Mouse.hpp"
+#include "../SpriteFont.hpp"
 
 void PlayerStateBuyCards::on_entry() {
     // highlight can buy piles
     player()->getGame()->highlightPiles(m_typeRestriction, m_money);
-    for (size_t i = 0; i < player()->getHand().size(); i++) {
-        if (player()->getHand().get(i)->getType()->isType(Type::CardType::TREASURE))
-        {
-            player()->getBoard().Add(player()->getHand().get(i));
-            player()->getHand().remove(i);
-            i--;
-        }
-    }
 }
 
 void PlayerStateBuyCards::on_exit() const {
@@ -45,12 +38,12 @@ void PlayerStateBuyCards::on_tick() {
 void PlayerStateBuyCards::on_render(VertexBatch* batch) {
     render_deck(batch);
     render_discard(batch);
-    render_piles(batch);
-    // Special render piles for hovered ?
+    player()->getGame()->render_piles(batch, true);
     render_played(batch);
     render_hand(batch);
 }
 
 void PlayerStateBuyCards::on_renderUI(VertexBatch* batch) {
    PlayerState::m_button.onUpdate(batch);
+   SpriteFont::last_created_instance->renderText("End buys", m_button.getPos(), {0.6f, 0.6f});
 }
