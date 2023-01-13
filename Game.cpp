@@ -7,19 +7,14 @@
 
 
 int cardCount[] = {
+
     30, 24, 12, 12,
     60, 40, 30,
     10, 10, 10, 10, 10,
     10, 10, 10, 10, 10
 };
 
-void Game::setCardCount(int cardCount_[])
-{
-    for (size_t i = 0; i < 17; i++)
-    {
-        cardCount[i] = cardCount_[i];
-    }
-}
+
     
 
 
@@ -105,13 +100,6 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
     this->players.resize(nbPlayers, this);
     this->currentPlayer= &players[0];
     this->currentPlayer->startTurn();
-    int cardCount_l[] = {
-    30, 24, 12, 12,
-    60, 40, 30,
-    10, 10, 10, 10, 10,
-    10, 10, 10, 10, 10
-    };
-    setCardCount(cardCount_l);
 }
 
 void Game::Attack(Player* player,std::function<void(Player*)> attack, bool cancelable )
@@ -306,9 +294,19 @@ void Game::loadGame(){
     if (!ok) {
         std::cout << errs << std::endl;
     }
-    
-    
-    
+    curPlayerId = root["curPlayerId"].asInt();
+    currentPlayer = &players[curPlayerId];
+    &players[curPlayerId];
+
+    int playerSize = root["players"].size();
+    std::vector<int> cardCount;
+    int cardCount_l[] = {
+    30, 24, 12, 12,
+    60, 40, 30,
+    10, 10, 10, 10, 10,
+    10, 10, 10, 10, 10
+    };
+    std::array<int, 10> actionCardTypes ={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
 
 
