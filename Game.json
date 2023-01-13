@@ -9,7 +9,7 @@
 		{
 			"Name" : "Estate",
 			"id" : 27,
-			"size" : 12
+			"size" : 21
 		},
 		{
 			"Name" : "Duchy",
@@ -19,12 +19,12 @@
 		{
 			"Name" : "Province",
 			"id" : 29,
-			"size" : 12
+			"size" : 8
 		},
 		{
 			"Name" : "Copper",
 			"id" : 30,
-			"size" : 32
+			"size" : 53
 		},
 		{
 			"Name" : "Silver",
@@ -77,8 +77,8 @@
 			"size" : 10
 		},
 		{
-			"Name" : "Witch",
-			"id" : 8,
+			"Name" : "Throne Room",
+			"id" : 12,
 			"size" : 10
 		},
 		{
@@ -87,33 +87,13 @@
 			"size" : 6
 		}
 	],
-	"curPlayerId" : 0,
-	"nextPlayerId" : 1,
+	"curPlayerId" : 1,
+	"nextPlayerId" : 0,
 	"players" : 
 	[
 		{
 			"deck" : 
 			[
-				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
-				},
 				{
 					"Name" : "Estate",
 					"id" : 27
@@ -144,26 +124,6 @@
 				{
 					"Name" : "Village",
 					"id" : 9
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
 				}
 			],
 			"hand" : 
@@ -177,16 +137,16 @@
 					"id" : 30
 				},
 				{
+					"Name" : "Copper",
+					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
 					"Name" : "Village",
 					"id" : 9
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
 				}
 			],
 			"id" : 0
@@ -195,26 +155,6 @@
 			"deck" : 
 			[
 				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
 					"Name" : "Estate",
 					"id" : 27
 				},
@@ -223,26 +163,6 @@
 					"id" : 9
 				},
 				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
 					"Name" : "Copper",
 					"id" : 30
 				},
@@ -259,8 +179,8 @@
 					"id" : 30
 				},
 				{
-					"Name" : "Estate",
-					"id" : 27
+					"Name" : "Copper",
+					"id" : 30
 				}
 			],
 			"hand" : 
@@ -270,16 +190,16 @@
 					"id" : 30
 				},
 				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
-				},
-				{
 					"Name" : "Copper",
 					"id" : 30
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
+				},
+				{
+					"Name" : "Estate",
+					"id" : 27
 				},
 				{
 					"Name" : "Village",
