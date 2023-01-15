@@ -88,7 +88,7 @@ void Player::startTurn() {
                     i--;
                 }
             }
-            p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys))
+            p->set_state(new PlayerStateBuyCards(p, nullptr, p->coins, p->buys, Type::CardType::NONE, true))
                 ->then([](Player* p, PlayerStateResult*) {
                     //std::cout << "buys done\n";
                     p->endTurn();

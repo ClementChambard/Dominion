@@ -27,6 +27,7 @@ void PlayerStateBuyCards::on_tick() {
         {
             m_buys--;
             m_money -= type->getCost();
+            if (m_updatePlayerMoney) { player()->addBuys(-1); player()->addCoins(-type->getCost()); }
             player()->getGame()->DistributeCard(player(), hoveredPile, PlayerCards::BOARD);
             player()->getGame()->highlightPiles(m_typeRestriction, m_money);
         }

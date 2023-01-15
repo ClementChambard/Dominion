@@ -221,8 +221,6 @@ int main() {
         shader->loadMat4(viewMatrixLocation, glm::mat4(1.f));
 
         batch->render(textButtons);
-
-        spriteFont.renderText(game.getTopStr(), {0,0.9f}, {1.f,1.f});
         spriteFont.renderAllText();
 
 

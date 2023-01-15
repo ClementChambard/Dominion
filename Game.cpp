@@ -3,7 +3,9 @@
 #include "CardsType/Tresor.hpp"
 #include <jsoncpp/json/json.h>
 #include <fstream>
+#include <string>
 #include "CardsType/Type.hpp"
+#include "SpriteFont.hpp"
 
 
 int cardCount[] = {
@@ -157,6 +159,15 @@ void Game::onDraw(VertexBatch* batch)
 
 void Game::onRenderUI(VertexBatch *batch){
     if (currentPlayer && currentPlayer->get_state()) currentPlayer->get_state()->on_renderUI(batch);
+    //batch->draw_rectangle(0, 0.9f, 0, 2, 0.2f, glm::mat4(1.f), {144/600.f, 15/500.f, 336/600.f, 137/500.f});
+    // draw action, buys, victory and coin icons
+    batch->draw_rectangle(-0.8f, -0.1f, 0, 0.4, 0.2, glm::mat4(1.f), {124/600.f, 142/500.f, 360/600.f, 209/500.f});
+    batch->draw_rectangle(-0.9f, -0.3f, 0, 0.12f, 0.15, glm::mat4(1.f), {174/600.f, 212/500.f, 235/600.f, 275/500.f});
+    SpriteFont::last_created_instance->renderText(std::to_string(currentPlayer->getVictory()), {-0.9f, -0.3f}, {1.2f, 1.2f});
+    SpriteFont::last_created_instance->renderText(std::to_string(currentPlayer->getActions()), {-0.942f, -0.105f}, {1.2f, 1.2f});
+    SpriteFont::last_created_instance->renderText(std::to_string(currentPlayer->getBuys()), {-0.828f, -0.105f}, {1.2f, 1.2f});
+    SpriteFont::last_created_instance->renderText(std::to_string(currentPlayer->getCoins()), {-0.712f, -0.105f}, {1.2f, 1.2f});
+    SpriteFont::last_created_instance->renderText(getTopStr(), {0,0.9f}, {1.f,1.f});
 }
 
 void Game::onTick(){
