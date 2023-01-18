@@ -26,7 +26,6 @@ void GameCards::InitGameCardsTypes() {
     gameCards.push_back(new Militia());
     gameCards.push_back(new MoneyLender());
     gameCards.push_back(new Gardens());
-    gameCards.push_back(new Moat());
     gameCards.push_back(new Spy());
     gameCards.push_back(new Thief());
     gameCards.push_back(new Bureaucrat());

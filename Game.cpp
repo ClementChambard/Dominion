@@ -9,7 +9,6 @@
 
 
 int cardCount[] = {
-
     30, 24, 12, 12,
     60, 40, 30,
     10, 10, 10, 10, 10,
@@ -27,13 +26,15 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
     piles.resize(static_cast<int>(CardPileType::LENGTH), true);
 
     if (nbPlayers < 3) cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
-    types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(26);
-    types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(27);
-    types[static_cast<int>(CardPileType::DUCHY   )] = GameCards::GetGameCardsTypes(28);
-    types[static_cast<int>(CardPileType::PROVINCE)] = GameCards::GetGameCardsTypes(29);
-    types[static_cast<int>(CardPileType::COPPER  )] = GameCards::GetGameCardsTypes(30);
-    types[static_cast<int>(CardPileType::SILVER  )] = GameCards::GetGameCardsTypes(31);
-    types[static_cast<int>(CardPileType::GOLD    )] = GameCards::GetGameCardsTypes(32);
+    else cardCount[static_cast<int>(CardPileType::PROVINCE)] = 12;
+
+    types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(25);
+    types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(26);
+    types[static_cast<int>(CardPileType::DUCHY   )] = GameCards::GetGameCardsTypes(27);
+    types[static_cast<int>(CardPileType::PROVINCE)] = GameCards::GetGameCardsTypes(28);
+    types[static_cast<int>(CardPileType::COPPER  )] = GameCards::GetGameCardsTypes(29);
+    types[static_cast<int>(CardPileType::SILVER  )] = GameCards::GetGameCardsTypes(30);
+    types[static_cast<int>(CardPileType::GOLD    )] = GameCards::GetGameCardsTypes(31);
 
     types[static_cast<int>(CardPileType::ACTION1 )] = GameCards::GetGameCardsTypes(actionCardTypes[0]);
     types[static_cast<int>(CardPileType::ACTION2 )] = GameCards::GetGameCardsTypes(actionCardTypes[1]);
@@ -278,6 +279,7 @@ int globalToLocalId(int id , Json::Value root ){
 }
 void Game::loadGame(){
     std::ifstream jsonFile("Game.json");
+    if (jsonFile.fail()) return;
     Json::Value root;
     Json::CharReaderBuilder builder;
     std::string errs;
@@ -289,6 +291,9 @@ void Game::loadGame(){
 
     allCards.clear();
     highlightPiles(Type::CardType::NONE, 999);
+
+    if (root["players"].size() < 3) cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
+    else cardCount[static_cast<int>(CardPileType::PROVINCE)] = 12;
 
     types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::CURSE   )]["id"].asInt());
     types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ESTATE  )]["id"].asInt());

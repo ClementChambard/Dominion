@@ -7,30 +7,35 @@ Library::Library() : Type("Library", 5, glm::vec4(2/7.f, 0.6f, 3/7.0f, 0.8f),{Ty
 
 void Library::onPlay(Player* player) const 
 {
-    CardPile deck = player->getDeck();
-    while (player->getHand().size() < 7)
-    {
-        if (!deck.getOnTop()) {
-            deck.transmitFrom(player->getDiscard());
-            deck.shuffle();
+    std::function<void()> action;
+    action = [player, &action] () {
+        CardPile& deck = player->getDeck();
+        while (player->getHand().size() < 7)
+        {
+            if (!deck.getOnTop()) {
+                deck.transmitFrom(player->getDiscard());
+                deck.shuffle();
+            }
+            Card* newCard = deck.getOnTop();
+            deck.removeOnTop();
+            if ( newCard->getType()->isType(Type::CardType::ACTION) ) {
+                player->set_state(new PlayerStateBool(player, nullptr, "Do you want to keep the card " + newCard->getType()->getName() + "?"))
+                    ->then([&action, player, newCard](Player* p, PlayerStateResult* result) {
+                        PlayerStateBool::Result* cast_res = dynamic_cast<PlayerStateBool::Result*>(result);
+                        if (cast_res->res) {
+                            p->getHand().Add(newCard);
+                            newCard->getType()->onDraw(player);
+                        } else {
+                            p->getDiscard().AddOnTop(newCard);
+                        }
+                        //action();
+                    });
+                break;
+            } else {
+                player->getHand().Add(newCard);
+                newCard->getType()->onDraw(player);
+            }
         }
-        Card* newCard = deck.getOnTop();
-        deck.removeOnTop();
-        if ( newCard->getType()->isType(Type::CardType::ACTION) ) {
-            player->set_state(new PlayerStateBool(player, nullptr, "Do you want to keep the card " + newCard->getType()->getName() + "?"))
-                ->then([player, newCard](Player* p, PlayerStateResult* result) {
-                    PlayerStateBool::Result* cast_res = dynamic_cast<PlayerStateBool::Result*>(result);
-                    if (cast_res->res) {
-                        p->getHand().Add(newCard);
-                    } else {
-                        p->getDiscard().AddOnTop(newCard);
-                    }
-                });
-        } else {
-            player->getHand().Add(newCard);
-        }
-        
-
-        
-    }
+    };
+    action();
 }

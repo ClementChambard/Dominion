@@ -3,37 +3,37 @@
 	[
 		{
 			"Name" : "Curse",
-			"id" : 26,
+			"id" : 25,
 			"size" : 30
 		},
 		{
 			"Name" : "Estate",
-			"id" : 27,
+			"id" : 26,
 			"size" : 21
 		},
 		{
 			"Name" : "Duchy",
-			"id" : 28,
+			"id" : 27,
 			"size" : 12
 		},
 		{
 			"Name" : "Province",
-			"id" : 29,
+			"id" : 28,
 			"size" : 8
 		},
 		{
 			"Name" : "Copper",
-			"id" : 30,
+			"id" : 29,
 			"size" : 53
 		},
 		{
 			"Name" : "Silver",
-			"id" : 31,
-			"size" : 40
+			"id" : 30,
+			"size" : 33
 		},
 		{
 			"Name" : "Gold",
-			"id" : 32,
+			"id" : 31,
 			"size" : 30
 		},
 		{
@@ -77,14 +77,14 @@
 			"size" : 10
 		},
 		{
-			"Name" : "Witch",
-			"id" : 8,
-			"size" : 10
-		},
-		{
 			"Name" : "Village",
 			"id" : 9,
-			"size" : 6
+			"size" : 4
+		},
+		{
+			"Name" : "Spy",
+			"id" : 22,
+			"size" : 7
 		}
 	],
 	"curPlayerId" : 0,
@@ -95,55 +95,79 @@
 			"deck" : 
 			[
 				{
-					"Name" : "Estate",
-					"id" : 27
+					"Name" : "Spy",
+					"id" : 22
+				},
+				{
+					"Name" : "Silver",
+					"id" : 30
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
 				},
 				{
 					"Name" : "Village",
 					"id" : 9
 				},
 				{
-					"Name" : "Copper",
+					"Name" : "Silver",
 					"id" : 30
 				},
 				{
 					"Name" : "Copper",
-					"id" : 30
+					"id" : 29
 				},
 				{
 					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Estate",
-					"id" : 27
+					"id" : 29
 				},
 				{
 					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Silver",
 					"id" : 30
+				},
+				{
+					"Name" : "Spy",
+					"id" : 22
 				}
 			],
 			"hand" : 
 			[
 				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
 					"Name" : "Estate",
-					"id" : 27
+					"id" : 26
 				},
 				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
+					"Name" : "Estate",
+					"id" : 26
 				},
 				{
 					"Name" : "Village",
 					"id" : 9
 				},
 				{
-					"Name" : "Copper",
-					"id" : 30
+					"Name" : "Estate",
+					"id" : 26
 				}
 			],
 			"id" : 0
@@ -152,31 +176,55 @@
 			"deck" : 
 			[
 				{
-					"Name" : "Village",
-					"id" : 9
-				},
-				{
-					"Name" : "Copper",
+					"Name" : "Silver",
 					"id" : 30
 				},
 				{
 					"Name" : "Estate",
-					"id" : 27
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
+					"id" : 26
 				},
 				{
 					"Name" : "Village",
 					"id" : 9
 				},
 				{
-					"Name" : "Estate",
-					"id" : 27
+					"Name" : "Copper",
+					"id" : 29
 				},
 				{
 					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Spy",
+					"id" : 22
+				},
+				{
+					"Name" : "Estate",
+					"id" : 26
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Silver",
+					"id" : 30
+				},
+				{
+					"Name" : "Silver",
 					"id" : 30
 				}
 			],
@@ -184,23 +232,23 @@
 			[
 				{
 					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 30
+					"id" : 29
 				},
 				{
 					"Name" : "Estate",
-					"id" : 27
+					"id" : 26
+				},
+				{
+					"Name" : "Silver",
+					"id" : 30
 				},
 				{
 					"Name" : "Copper",
-					"id" : 30
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
 				}
 			],
 			"id" : 1
