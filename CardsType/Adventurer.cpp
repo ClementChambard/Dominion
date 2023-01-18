@@ -7,19 +7,17 @@ Adventurer::Adventurer() : Type("Adventurer", 6, glm::vec4( 6/7.0f, 0.2f, 7/7.0f
 
 void Adventurer::onPlay(Player* player) const 
 {
-    CardPile deck = player->getDeck();
-    CardPile discard= player->getDiscard();
-    CardFan hand= player->getHand();
     int nbTreasure = 0;
     
-    while (nbTreasure < 2 && deck.size() != 0) {
-        Card* card = deck.getOnTop();
-        deck.removeOnTop();
+    while (nbTreasure < 2 && player->getDeck().size() != 0) {
+        Card* card = player->getDeck().getOnTop();
+        player->getDeck().removeOnTop();
         if (card->getType()->isType(CardType::TREASURE)) {
             nbTreasure++;
-            hand.Add(card);
+            player->getHand().Add(card);
+            card->getType()->onDraw(player);
         } else {
-            discard.AddOnTop(card);
+            player->getDiscard().AddOnTop(card);
         }
     }
 }

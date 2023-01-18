@@ -9,7 +9,7 @@
 		{
 			"Name" : "Estate",
 			"id" : 26,
-			"size" : 21
+			"size" : 18
 		},
 		{
 			"Name" : "Duchy",
@@ -19,22 +19,22 @@
 		{
 			"Name" : "Province",
 			"id" : 28,
-			"size" : 8
+			"size" : 7
 		},
 		{
 			"Name" : "Copper",
 			"id" : 29,
-			"size" : 53
+			"size" : 46
 		},
 		{
 			"Name" : "Silver",
 			"id" : 30,
-			"size" : 33
+			"size" : 32
 		},
 		{
 			"Name" : "Gold",
 			"id" : 31,
-			"size" : 30
+			"size" : 28
 		},
 		{
 			"Name" : "WorkShop",
@@ -79,72 +79,76 @@
 		{
 			"Name" : "Village",
 			"id" : 9,
-			"size" : 4
+			"size" : 3
 		},
 		{
-			"Name" : "Spy",
-			"id" : 22,
-			"size" : 7
+			"Name" : "Adventurer",
+			"id" : 15,
+			"size" : 9
 		}
 	],
-	"curPlayerId" : 0,
-	"nextPlayerId" : 1,
+	"curPlayerId" : 1,
+	"nextPlayerId" : 0,
 	"players" : 
 	[
 		{
-			"deck" : 
+			"discard" : 
 			[
 				{
-					"Name" : "Spy",
-					"id" : 22
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
 				},
 				{
 					"Name" : "Silver",
 					"id" : 30
 				},
 				{
-					"Name" : "Copper",
-					"id" : 29
+					"Name" : "Estate",
+					"id" : 26
 				},
 				{
-					"Name" : "Copper",
-					"id" : 29
+					"Name" : "Estate",
+					"id" : 26
 				},
 				{
 					"Name" : "Village",
 					"id" : 9
 				},
 				{
-					"Name" : "Silver",
-					"id" : 30
-				},
-				{
-					"Name" : "Copper",
-					"id" : 29
-				},
-				{
-					"Name" : "Copper",
-					"id" : 29
-				},
-				{
-					"Name" : "Copper",
-					"id" : 29
-				},
-				{
-					"Name" : "Copper",
-					"id" : 29
+					"Name" : "Village",
+					"id" : 9
 				},
 				{
 					"Name" : "Village",
 					"id" : 9
 				},
 				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
 					"Name" : "Silver",
 					"id" : 30
 				},
 				{
-					"Name" : "Spy",
-					"id" : 22
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Gold",
+					"id" : 31
 				}
 			],
 			"hand" : 
@@ -154,20 +158,20 @@
 					"id" : 29
 				},
 				{
-					"Name" : "Estate",
-					"id" : 26
-				},
-				{
-					"Name" : "Estate",
-					"id" : 26
-				},
-				{
 					"Name" : "Village",
 					"id" : 9
 				},
 				{
+					"Name" : "Silver",
+					"id" : 30
+				},
+				{
 					"Name" : "Estate",
 					"id" : 26
+				},
+				{
+					"Name" : "Silver",
+					"id" : 30
 				}
 			],
 			"id" : 0
@@ -176,9 +180,28 @@
 			"deck" : 
 			[
 				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
 					"Name" : "Silver",
 					"id" : 30
 				},
+				{
+					"Name" : "Silver",
+					"id" : 30
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
+				},
+				{
+					"Name" : "Estate",
+					"id" : 26
+				}
+			],
+			"discard" : 
+			[
 				{
 					"Name" : "Estate",
 					"id" : 26
@@ -188,44 +211,36 @@
 					"id" : 9
 				},
 				{
-					"Name" : "Copper",
-					"id" : 29
+					"Name" : "Adventurer",
+					"id" : 15
 				},
 				{
 					"Name" : "Copper",
 					"id" : 29
-				},
-				{
-					"Name" : "Copper",
-					"id" : 29
-				},
-				{
-					"Name" : "Village",
-					"id" : 9
-				},
-				{
-					"Name" : "Copper",
-					"id" : 29
-				},
-				{
-					"Name" : "Spy",
-					"id" : 22
-				},
-				{
-					"Name" : "Estate",
-					"id" : 26
-				},
-				{
-					"Name" : "Village",
-					"id" : 9
 				},
 				{
 					"Name" : "Silver",
 					"id" : 30
 				},
 				{
-					"Name" : "Silver",
-					"id" : 30
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Copper",
+					"id" : 29
+				},
+				{
+					"Name" : "Gold",
+					"id" : 31
+				},
+				{
+					"Name" : "Village",
+					"id" : 9
 				}
 			],
 			"hand" : 
@@ -235,10 +250,6 @@
 					"id" : 29
 				},
 				{
-					"Name" : "Estate",
-					"id" : 26
-				},
-				{
 					"Name" : "Silver",
 					"id" : 30
 				},
@@ -247,8 +258,12 @@
 					"id" : 29
 				},
 				{
-					"Name" : "Copper",
-					"id" : 29
+					"Name" : "Estate",
+					"id" : 26
+				},
+				{
+					"Name" : "Province",
+					"id" : 28
 				}
 			],
 			"id" : 1
