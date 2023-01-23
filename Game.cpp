@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "CardsType/Victoire.hpp"
 #include "CardsType/Tresor.hpp"
+#include <cstddef>
 #include <jsoncpp/json/json.h>
 #include <fstream>
 #include <string>
@@ -15,18 +16,20 @@ int cardCount[] = {
     10, 10, 10, 10, 10
 };
 
-
-
-
-
-
 Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
 {
     types.resize(static_cast<int>(CardPileType::LENGTH), nullptr);
     piles.resize(static_cast<int>(CardPileType::LENGTH), true);
 
-    if (nbPlayers < 3) cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
-    else cardCount[static_cast<int>(CardPileType::PROVINCE)] = 12;
+    if (nbPlayers < 3) {
+        cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
+        cardCount[static_cast<int>(CardPileType::DUCHY)] = 8;
+        cardCount[static_cast<int>(CardPileType::ESTATE)] = 8+nbPlayers*3;
+    }else {
+        cardCount[static_cast<int>(CardPileType::PROVINCE)] = 12;
+        cardCount[static_cast<int>(CardPileType::DUCHY)] = 12;
+        cardCount[static_cast<int>(CardPileType::ESTATE)] = 12+nbPlayers*3;
+    } cardCount[static_cast<int>(CardPileType::CURSE)] = 10 * (nbPlayers-1);
 
     types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(25);
     types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(26);
@@ -47,6 +50,11 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
     types[static_cast<int>(CardPileType::ACTION9 )] = GameCards::GetGameCardsTypes(actionCardTypes[8]);
     types[static_cast<int>(CardPileType::ACTION10)] = GameCards::GetGameCardsTypes(actionCardTypes[9]);
 
+    for (size_t i = static_cast<size_t>(CardPileType::ACTION1); i < types.size(); i++)
+    {
+        if (types[i]->isType(Type::CardType::VICTORY)) cardCount[i] = (nbPlayers > 2 ? 12 : 8);
+        else cardCount[i] = 10;
+    }
 
     for (size_t i = 0; i < types.size(); i++) {
         for (int j = 0; j < cardCount[i]; j++) {
@@ -81,6 +89,21 @@ Game::Game(int nbPlayers, std::array<int, 10> actionCardTypes )
     for (size_t i = 0; i < piles.size(); i++) piles[i].fixPos();
 
     this->players.resize(nbPlayers, this);
+    for (int i = 0; i < nbPlayers; i++) {
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::COPPER, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::ESTATE, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::ESTATE, PlayerCards::DECK);
+        DistributeCard(&players[i], CardPileType::ESTATE, PlayerCards::DECK);
+        players[i].getDeck().shuffle();
+        players[i].getDeck().fixPos();
+        players[i].draw(5);
+    }
     this->currentPlayer= &players[0];
     this->currentPlayer->startTurn();
 }
@@ -292,8 +315,16 @@ void Game::loadGame(){
     allCards.clear();
     highlightPiles(Type::CardType::NONE, 999);
 
-    if (root["players"].size() < 3) cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
-    else cardCount[static_cast<int>(CardPileType::PROVINCE)] = 12;
+    size_t nbPlayers = root["players"].size();
+    if (nbPlayers < 3) {
+        cardCount[static_cast<int>(CardPileType::PROVINCE)] = 8;
+        cardCount[static_cast<int>(CardPileType::DUCHY)] = 8;
+        cardCount[static_cast<int>(CardPileType::ESTATE)] = 8+nbPlayers*3;
+    }else {
+        cardCount[static_cast<int>(CardPileType::PROVINCE)] = 12;
+        cardCount[static_cast<int>(CardPileType::DUCHY)] = 12;
+        cardCount[static_cast<int>(CardPileType::ESTATE)] = 12+nbPlayers*3;
+    } cardCount[static_cast<int>(CardPileType::CURSE)] = 10 * (nbPlayers-1);
 
     types[static_cast<int>(CardPileType::CURSE   )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::CURSE   )]["id"].asInt());
     types[static_cast<int>(CardPileType::ESTATE  )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ESTATE  )]["id"].asInt());
@@ -314,6 +345,12 @@ void Game::loadGame(){
     types[static_cast<int>(CardPileType::ACTION9 )] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION9    )]["id"].asInt());
     types[static_cast<int>(CardPileType::ACTION10)] = GameCards::GetGameCardsTypes(root["Game"][static_cast<int>(CardPileType::ACTION10   )]["id"].asInt());
 
+    for (size_t i = static_cast<size_t>(CardPileType::ACTION1); i < types.size(); i++)
+    {
+        if (types[i]->isType(Type::CardType::VICTORY)) cardCount[i] = (nbPlayers > 2 ? 12 : 8);
+        else cardCount[i] = 10;
+    }
+
     for (size_t i = 0; i < types.size(); i++) {
         for (int j = 0; j < cardCount[i]; j++) {
             allCards.emplace_back(types[i]);
@@ -331,8 +368,8 @@ void Game::loadGame(){
     int i =0;
     //std::vector<Player> players
     players.clear();
-    for ( size_t i=0; i < root["players"].size();i++){
-        players.emplace_back(this, false);
+    for ( size_t i=0; i < nbPlayers; i++){
+        players.emplace_back(this);
     }
 
     for ( auto a : root["players"]){

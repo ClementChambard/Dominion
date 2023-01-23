@@ -7,7 +7,7 @@
 #include <algorithm>
 
 
-Player::Player(Game* game , bool drawstart) : game(game), deck(false), discard(true)
+Player::Player(Game* game) : game(game), deck(false), discard(true)
 {
     actions = 1;
     buys = 1;
@@ -24,21 +24,6 @@ Player::Player(Game* game , bool drawstart) : game(game), deck(false), discard(t
 
     this->board.setPos(Mouse::toWorld(winSize.x/2.f, winSize.y/2.f+100.f, -1.f));
     this->board.fixPos();
-    if (drawstart ){
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::COPPER, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::ESTATE, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::ESTATE, PlayerCards::DECK);
-        this->game->DistributeCard(this, CardPileType::ESTATE, PlayerCards::DECK);
-        this->deck.shuffle();
-        this->deck.fixPos();
-        draw(5);
-    }
     this->hand.fixPos();
 }
 

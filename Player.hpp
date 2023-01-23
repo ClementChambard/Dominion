@@ -35,7 +35,7 @@ class Player {
     std::vector<const PlayerState*> states_to_cleanup;
 
     public:
-    Player(Game* game, bool drawstart = true);
+    Player(Game* game);
     ~Player();
     void draw(int numcards );
     void update();
