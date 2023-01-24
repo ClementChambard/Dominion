@@ -98,7 +98,6 @@ void Player::endTurn()
     draw(5);
     
     game->next_player();
-    game->save();
     //startTurn();
 }
 

@@ -201,6 +201,7 @@ void Game::onTick(){
 
 void Game::next_player() {
     checkEndGame();
+    if (!endGame) save();
     curPlayerId = (curPlayerId + 1) % players.size();
     currentPlayer = &players[curPlayerId];
     currentPlayer->startTurn();
@@ -243,6 +244,7 @@ void Game::checkEndGame(){
 }
 
 void Game::save() {
+
     Json::Value root;
     root["curPlayerId"] = curPlayerId;
     root["nextPlayerId"] = (curPlayerId + 1) % players.size();
@@ -387,6 +389,14 @@ void Game::loadGame(){
 
     }
 
+     for (size_t i = 0; i < piles.size(); i++) {
+       while ( static_cast<int>(piles[i].size())> root["Game"][static_cast<int>(i)]["size"].asInt() ){
+            piles[i].removeOnTop();
+        }
+        
+
+
+     }
 
 
     curPlayerId = root["curPlayerId"].asInt();
